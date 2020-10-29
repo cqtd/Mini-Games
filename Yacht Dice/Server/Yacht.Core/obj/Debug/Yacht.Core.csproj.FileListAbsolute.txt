@@ -1,0 +1,7 @@
+C:\Github\Unity Projects\Mini Games\Yacht Dice\Assets\Plugins\Yacht.Core.dll
+C:\Github\Unity Projects\Mini Games\Yacht Dice\Assets\Plugins\Yacht.Core.pdb
+C:\Github\Unity Projects\Mini Games\Yacht Dice\Server\Yacht.Core\obj\Debug\Yacht.Core.csprojAssemblyReference.cache
+C:\Github\Unity Projects\Mini Games\Yacht Dice\Server\Yacht.Core\obj\Debug\Yacht.Core.csproj.CoreCompileInputs.cache
+C:\Github\Unity Projects\Mini Games\Yacht Dice\Server\Yacht.Core\obj\Debug\Yacht.Core.dll
+C:\Github\Unity Projects\Mini Games\Yacht Dice\Server\Yacht.Core\obj\Debug\Yacht.Core.pdb
+C:\Github\Unity Projects\Mini Games\Yacht Dice\Server\Yacht.Core\obj\Debug\Yacht.Core.csproj.CopyComplete

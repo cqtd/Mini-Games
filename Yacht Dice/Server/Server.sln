@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yacht.Core", "Yacht.Core\Yacht.Core.csproj", "{04DFECFC-DD1B-4C54-AE12-8ACB6608BC53}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CQ.Library", "CQ.Library\CQ.Library.csproj", "{17299ED6-4ADD-4E87-948F-3EF30F6C7062}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yacht.Server", "Yacht.Server\Yacht.Server.csproj", "{B81DFD77-39D8-4B41-9D7C-2B4FE1D74C5A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{04DFECFC-DD1B-4C54-AE12-8ACB6608BC53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04DFECFC-DD1B-4C54-AE12-8ACB6608BC53}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04DFECFC-DD1B-4C54-AE12-8ACB6608BC53}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04DFECFC-DD1B-4C54-AE12-8ACB6608BC53}.Release|Any CPU.Build.0 = Release|Any CPU
+		{17299ED6-4ADD-4E87-948F-3EF30F6C7062}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17299ED6-4ADD-4E87-948F-3EF30F6C7062}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17299ED6-4ADD-4E87-948F-3EF30F6C7062}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17299ED6-4ADD-4E87-948F-3EF30F6C7062}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B81DFD77-39D8-4B41-9D7C-2B4FE1D74C5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B81DFD77-39D8-4B41-9D7C-2B4FE1D74C5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B81DFD77-39D8-4B41-9D7C-2B4FE1D74C5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B81DFD77-39D8-4B41-9D7C-2B4FE1D74C5A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

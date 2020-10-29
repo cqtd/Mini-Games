@@ -1,0 +1,6 @@
+C:\Github\Unity Projects\Mini Games\Yacht Dice\Server\CQ.Library\bin\Debug\CQ.Library.dll
+C:\Github\Unity Projects\Mini Games\Yacht Dice\Server\CQ.Library\bin\Debug\CQ.Library.pdb
+C:\Github\Unity Projects\Mini Games\Yacht Dice\Server\CQ.Library\obj\Debug\CQ.Library.csprojAssemblyReference.cache
+C:\Github\Unity Projects\Mini Games\Yacht Dice\Server\CQ.Library\obj\Debug\CQ.Library.csproj.CoreCompileInputs.cache
+C:\Github\Unity Projects\Mini Games\Yacht Dice\Server\CQ.Library\obj\Debug\CQ.Library.dll
+C:\Github\Unity Projects\Mini Games\Yacht Dice\Server\CQ.Library\obj\Debug\CQ.Library.pdb

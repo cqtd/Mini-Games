@@ -1,0 +1,6 @@
+C:\Github\Unity Projects\Mini Games\Yacht Dice\Server\Yacht.Server\bin\Debug\Yacht.Server.exe
+C:\Github\Unity Projects\Mini Games\Yacht Dice\Server\Yacht.Server\bin\Debug\Yacht.Server.pdb
+C:\Github\Unity Projects\Mini Games\Yacht Dice\Server\Yacht.Server\obj\Debug\Yacht.Server.csprojAssemblyReference.cache
+C:\Github\Unity Projects\Mini Games\Yacht Dice\Server\Yacht.Server\obj\Debug\Yacht.Server.csproj.CoreCompileInputs.cache
+C:\Github\Unity Projects\Mini Games\Yacht Dice\Server\Yacht.Server\obj\Debug\Yacht.Server.exe
+C:\Github\Unity Projects\Mini Games\Yacht Dice\Server\Yacht.Server\obj\Debug\Yacht.Server.pdb

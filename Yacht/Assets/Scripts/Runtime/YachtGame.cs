@@ -16,6 +16,8 @@ namespace CQ.MiniGames
 		
 		void Start()
 		{
+			Application.targetFrameRate = 60;
+			
 			dice = new Dice();
 		}
 
