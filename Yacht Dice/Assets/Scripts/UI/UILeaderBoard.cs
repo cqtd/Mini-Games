@@ -44,6 +44,7 @@ namespace CQ.MiniGames.UI
 		public virtual void Start()
 		{
 			DiceSet.instance.onRoll += PreviewScore;
+			playerName.SetText(game.name);
 			
 			buttonMap = new Dictionary<EScoreSlot, ScoreButton>
 			{

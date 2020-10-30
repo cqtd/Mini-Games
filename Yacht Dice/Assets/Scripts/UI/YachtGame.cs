@@ -34,16 +34,11 @@ namespace CQ.MiniGames
 		void Awake()
 		{
 			sprites = new Sprite[6];
-			for (int i = 1; i < 6; i++)
-			{
-				// sprites = Resources.LoadAll<Sprite>("Sprite/Dice");
-			}
-			
 			sprites = Resources.LoadAll<Sprite>("Sprite/Dice");
 			
 			player1 = new Score();
-			
 			dices = new DiceSet();
+			
 			for (int i = 0; i < DiceSet.DICE_COUNT; i++)
 			{
 				diceButtons[i].Init(dices[i]);
@@ -53,8 +48,6 @@ namespace CQ.MiniGames
 			rollButton.onClick.AddListener(StartGame);
 
 			buttonText.SetText("게임 시작");
-
-			StartCoroutine(Session());
 		}
 #if UNITY_EDITOR
 		[SerializeField]
@@ -120,12 +113,6 @@ namespace CQ.MiniGames
 			chanceToRoll = maxChanceToRoll;
 		}
 
-		IEnumerator Session()
-		{
-			yield return null;
-			
-		}
-		
 		[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
 		static void ResetDomain()
 		{
