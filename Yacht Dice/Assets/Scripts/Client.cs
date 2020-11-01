@@ -10,6 +10,8 @@ namespace CQ.MiniGames
 {
 	public class Client : MonoBehaviour
 	{
+
+		string a => "ABC";
 		string cmd;
 
 		Queue<string> queue;

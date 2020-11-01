@@ -64,16 +64,6 @@ namespace CQ.MiniGames.UI
 			
 			Repaint();
 
-			// // 텍스트 비우기
-			// foreach (EScoreSlot type in Enum.GetValues(typeof(EScoreSlot)))
-			// {
-			// 	buttonMap[type].SetText("");
-			// }
-			//
-			// subTotalScore.SetText($"{game.player1.SubTotal}/63");
-			// bonusScore.SetText(game.player1.SubTotal >= 63 ? "35" : "");
-			// totalScore.SetText(game.player1.Total.ToString());
-
 			// 클릭 이벤트 바인딩
 			foreach (EScoreSlot slot in Enum.GetValues(typeof(EScoreSlot)))
 			{
