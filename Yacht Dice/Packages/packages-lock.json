@@ -1,5 +1,21 @@
 {
   "dependencies": {
+    "com.cqtd.lib": {
+      "version": "1.0.0",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://packages.unity.com"
+    },
+    "com.cqtd.ui": {
+      "version": "1.0.1",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.cqtd.lib": "1.0.0"
+      },
+      "url": "https://packages.unity.com"
+    },
     "com.michsky.ui": {
       "version": "2.2.6",
       "depth": 0,
@@ -24,6 +40,13 @@
     },
     "com.unity.demigant.dotween": {
       "version": "1.0.0",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.device-simulator": {
+      "version": "2.2.3-preview",
       "depth": 0,
       "source": "registry",
       "dependencies": {},
