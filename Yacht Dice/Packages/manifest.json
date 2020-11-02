@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.cqtd.ui":"1.0.1",
     "com.trinary.mec": "1.0.0",
     "com.unity.demigant.dotween": "1.0.0",
     "com.michsky.ui": "2.2.6",
