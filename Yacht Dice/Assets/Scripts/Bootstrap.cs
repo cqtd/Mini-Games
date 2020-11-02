@@ -20,6 +20,7 @@ namespace CQ.MiniGames
 		public CanvasGroup logoGroup = default;
 		public CanvasGroup buttonGroup = default;
 		public TextMeshProUGUI progressText = default;
+		public DiceLoadingUI loading = default;
 		
 		[Header("Data")]
 		public LoadingContext[] contexts = default;
@@ -44,6 +45,7 @@ namespace CQ.MiniGames
 			Timing.CallDelayed(startUpInterval, () =>
 			{
 				logoGroup.DOFade(1.0f, 1.0f);
+				loading.BeginLoading();
 			});
 
 			StartCoroutine(UpdateLoadingContext());
@@ -63,15 +65,18 @@ namespace CQ.MiniGames
 			
 			progressText.SetText("로딩 끝...");
 			yield return new WaitForSeconds(startUpInterval);
+			loading.EndLoading();
 
 			progressText.DOFade(0.0f, 1.0f);
 			progressText.raycastTarget = false;
+			
+			yield return new WaitForSeconds(startUpInterval);
 
 			var tweener = buttonGroup.DOFade(1.0f, 1.0f);
 			tweener.OnComplete(() =>
 			{
-				buttonGroup.interactable = false;
-				buttonGroup.blocksRaycasts = false;
+				buttonGroup.interactable = true;
+				buttonGroup.blocksRaycasts = true;
 			});
 		}
 	}
