@@ -1,6 +1,5 @@
 {
   "dependencies": {
-    "com.cqtd.ui": "1.0.1",
     "com.michsky.ui": "2.2.6",
     "com.trinary.mec": "1.0.0",
     "com.unity.2d.sprite": "1.0.0",

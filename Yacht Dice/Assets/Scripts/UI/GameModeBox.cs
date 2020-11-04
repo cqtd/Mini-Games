@@ -21,12 +21,12 @@ namespace CQ.MiniGames
 
 		public void Show()
 		{
-			transform.DOMove(showPos, 0.4f);
+			transform.DOMove(showPos, Duration.VeryFast);
 		}
 
 		public void Hide()
 		{
-			transform.DOMove(hidePos, 0.4f);
+			transform.DOMove(hidePos, Duration.VeryFast);
 		}
 	}
 }

@@ -8,19 +8,19 @@ namespace CQ.MiniGames
 		public GameModeBox right = default;
 		
 		
-		public void InitComponent()
+		public override void InitComponent()
 		{
 			left.InitComponent();
 			right.InitComponent();
 		}
 
-		public void Open()
+		public override void Open()
 		{
 			left.Show();
 			right.Show();
 		}
 
-		public void Close()
+		public override void Close()
 		{
 			left.Hide();
 			right.Hide();
