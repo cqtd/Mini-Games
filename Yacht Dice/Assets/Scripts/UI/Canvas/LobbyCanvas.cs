@@ -71,8 +71,6 @@ namespace CQ.MiniGames
 				blurGroup.interactable = false;
 				blurButton.image.raycastTarget = false;
 			});
-
-			CharacterController controller;
 		}
 		
 		protected override void InitComponent()
