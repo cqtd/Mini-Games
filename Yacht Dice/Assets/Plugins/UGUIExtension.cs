@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public static class UGUIExtension
 {
-	public static void SetAlpha(this Image image, float alpha)
+	public static void SetAlpha(this Graphic image, float alpha)
 	{
 		Color color = image.color;
 		color.a = alpha;

@@ -7,13 +7,9 @@ namespace CQ.MiniGames
 	{
 		public int targetFramerate = 60;
 
-		// public GameObject character;
-
 		void Awake()
 		{
 			Application.targetFrameRate = targetFramerate;
-			// var a = character.GetComponent<Image>();
-			
 		}
 	}
 }

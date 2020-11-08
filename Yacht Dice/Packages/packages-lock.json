@@ -21,6 +21,13 @@
         "com.cqtd.lib": "1.0.0"
       }
     },
+    "com.google.external-dependency-manager": {
+      "version": "1.2.161",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://unityregistry-pa.googleapis.com"
+    },
     "com.michsky.ui": {
       "version": "2.2.6",
       "depth": 0,
