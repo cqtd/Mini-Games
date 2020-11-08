@@ -69,7 +69,7 @@ namespace CQ.MiniGames.UI
 			{
 				buttonMap[slot].onClick.AddListener(() =>
 				{
-					game.ConfirmScoreTo(slot);
+					game.Assign(slot);
 					
 					buttonMap[slot].interactable = false;
 					buttonMap[slot].SetColor(confirmedTextColor);

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,25 +14,36 @@ namespace CQ.MiniGames
 		[SerializeField] Button rollButton = default;
 		[SerializeField] TextMeshProUGUI buttonText = default;
 		[SerializeField] TextMeshProUGUI chanceText = default;
-		
-		const string spritePath = "Sprite/Dice_{0}";
-		
-		DiceSet dices;
 
-		public Score player1;
+
+		[NonSerialized] public static Sprite[] sprites = default;
 		
-		[NonSerialized] public static Sprite[] sprites; 
+		[NonSerialized] DiceSet dices = default;
+		[NonSerialized] public Score player1 = default;
 		
-		public void ConfirmScoreTo(EScoreSlot slot)
-		{
-			player1.ConfirmTo(slot, dices.GetEstimatedScore(slot));
-			OnSelect();
-		}
+		const int MAX_CHANCE_TO_ROLL = 3;
+		const int MAX_GAME_ROUND = 12;
+
+		int chanceToRoll = -1;
+		int currentGameRound = -1;
+
+		const string SPRITE_PATH = "Sprite/Dice";
+		const string GAME_START = "게임 시작";
+		const string GAME_END = "게임 종료";
+		const string ROLL_DICE = "굴리기";
+		const string PICK_SCORE = "점수를 선택하세요.";
+		const string LEFT_MSG = "{0}/{1} Left";
 
 		void Awake()
 		{
-			sprites = new Sprite[6];
-			sprites = Resources.LoadAll<Sprite>("Sprite/Dice");
+			InitComponent();
+			RegisterEvent();
+			SetInitialValue();
+		}
+
+		void InitComponent()
+		{
+			sprites = Resources.LoadAll<Sprite>(SPRITE_PATH);
 			
 			player1 = new Score();
 			dices = new DiceSet();
@@ -44,37 +53,28 @@ namespace CQ.MiniGames
 				diceButtons[i].Init(dices[i]);
 				dices[i].SetEmpty();
 			}
-			
-			rollButton.onClick.AddListener(StartGame);
-
-			buttonText.SetText("게임 시작");
 		}
-#if UNITY_EDITOR
-		[SerializeField]
-#else
-		const
-#endif
-		int maxChanceToRoll = 3;
-		int chanceToRoll = -1;
 
-#if UNITY_EDITOR
-		[SerializeField]
-#else
-		const
-#endif 
-		int maxRound = 12;
-		int currentRound = -1;
+		void RegisterEvent()
+		{
+			rollButton.onClick.AddListener(LaunchGame);
+		}
 
-		void StartGame()
+		void SetInitialValue()
+		{
+			buttonText.SetText(GAME_START);
+		}
+
+		void LaunchGame()
 		{
 			rollButton.onClick.RemoveAllListeners();
 			rollButton.onClick.AddListener(Roll);
 
-			chanceToRoll = maxChanceToRoll;
-			currentRound = 1;
+			chanceToRoll = MAX_CHANCE_TO_ROLL;
+			currentGameRound = 1;
 			
 			rollButton.interactable = true;
-			buttonText.SetText("굴리기");
+			buttonText.SetText(ROLL_DICE);
 		}
 
 		void Roll()
@@ -85,10 +85,10 @@ namespace CQ.MiniGames
 			if (chanceToRoll < 1)
 			{
 				rollButton.interactable = false;
-				buttonText.SetText("점수를 선택하세요.");
+				buttonText.SetText(PICK_SCORE);
 			}
-			
-			chanceText.SetText($"{chanceToRoll}/{maxChanceToRoll} Left");
+
+			chanceText.SetText(string.Format(LEFT_MSG, chanceToRoll, MAX_CHANCE_TO_ROLL));
 		}
 
 		void OnSelect()
@@ -100,23 +100,23 @@ namespace CQ.MiniGames
 			}
 			
 			rollButton.interactable = true;
-			buttonText.SetText("굴리기");
+			buttonText.SetText(ROLL_DICE);
 
-			currentRound += 1;
+			currentGameRound += 1;
 
-			if (currentRound > maxRound)
+			if (currentGameRound > MAX_GAME_ROUND)
 			{
 				rollButton.interactable = false;
-				buttonText.SetText("게임 종료");
+				buttonText.SetText(GAME_END);
 			}
 
-			chanceToRoll = maxChanceToRoll;
+			chanceToRoll = MAX_CHANCE_TO_ROLL;
 		}
-
-		[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-		static void ResetDomain()
+		
+		public void Assign(EScoreSlot slot)
 		{
-			
+			player1.ConfirmTo(slot, dices.GetEstimatedScore(slot));
+			OnSelect();
 		}
 	}
 }

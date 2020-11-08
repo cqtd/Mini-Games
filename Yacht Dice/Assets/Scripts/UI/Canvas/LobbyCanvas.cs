@@ -28,26 +28,15 @@ namespace CQ.MiniGames
 
 		[NonSerialized] Button blurButton;
 
-		[Header("슬라이드 메뉴")]
+		[Header("하위 윈도우")] 
+		public TopWindow topWindow = default;
+		public GameSelectWindow gameSelectWindow = default;
+		public BottomWindow bottomWindow;
 		public SlideWindow slideWindow = default;
-		
+
 		[Header("게임 메뉴")]
 		public Button gameStartButton = default;
-		public GameSelectWindow gameSelectWindow = default;
-
-		[Header("하단 메뉴")] 
-		public BottomWindow bottomWindow;
-		public Button dashboard = default;
-		public Button profile = default;
-		public Button leaderboard = default;
-		public Button strategy = default;
-
-		[Header("상단 메뉴")] 
-		public Button shop = default;
-		public Button events = default;
-		public Button notice = default;
-		
-		public Button slide = default;
+		// public Button slide = default;
 		
 		[NonSerialized] ELobbyState current = ELobbyState.NONE;
 		[NonSerialized] public Action<ELobbyState> onStateChanged = default;
@@ -83,21 +72,15 @@ namespace CQ.MiniGames
 			
 			gameSelectWindow.InitComponent();
 			slideWindow.InitComponent();
+			topWindow.InitComponent();
+			bottomWindow.InitComponent();
 			
 			gameStartButton.onClick.AddListener(OnClick_GameStart);
 			
 			SetState(ELobbyState.MAIN);
 			
-			dashboard.onClick.AddListener(OnClick_Dashboard);
-			profile.onClick.AddListener(OnClick_Profile);
-			leaderboard.onClick.AddListener(OnClick_Leadeboard);
-			strategy.onClick.AddListener(OnClick_Strategy);
-			
-			shop.onClick.AddListener(OnClick_Shop);
-			events.onClick.AddListener(OnClick_Events);
-			notice.onClick.AddListener(OnClick_Notice);
-			
-			slide.onClick.AddListener(OnClick_Slide);
+			// topWindow.slide.onClick.AddListener(OnClick_Slide);
+			topWindow.onSlideBegin.AddListener(OnClick_Slide);
 		}
 
 		void SetState(ELobbyState state)
@@ -133,41 +116,6 @@ namespace CQ.MiniGames
 			SetState(ELobbyState.GAME_SELECT);
 		}
 
-		public void OnClick_Dashboard()
-		{
-			
-		}
-
-		public void OnClick_Profile()
-		{
-			
-		}
-
-		public void OnClick_Leadeboard()
-		{
-			
-		}
-
-		public void OnClick_Strategy()
-		{
-			
-		}
-
-		public void OnClick_Shop()
-		{
-			
-		}
-
-		public void OnClick_Events()
-		{
-			
-		}
-
-		public void OnClick_Notice()
-		{
-			
-		}
-		
 		void OnClick_Slide()
 		{
 			if (current == ELobbyState.SLIDE)
