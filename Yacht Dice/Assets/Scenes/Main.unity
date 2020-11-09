@@ -8731,6 +8731,9 @@ MonoBehaviour:
   events: {fileID: 1493473442}
   notice: {fileID: 449730492}
   slide: {fileID: 8309954871029736191}
+  onSlideBegin:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &2062151577
 GameObject:
   m_ObjectHideFlags: 0

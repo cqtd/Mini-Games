@@ -1,5 +1,4 @@
-﻿using System;
-using CQ.UI;
+﻿using CQ.UI;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
