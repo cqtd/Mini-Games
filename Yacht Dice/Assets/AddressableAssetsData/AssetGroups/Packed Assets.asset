@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Packed Assets
+  m_EditorClassIdentifier: 
+  m_GroupName: Packed Assets
+  m_Data:
+    m_SerializedData: []
+  m_GUID: fc43e1c13026fa4478d7df6578ad17af
+  m_SerializeEntries:
+  - m_GUID: 798857f913d083548bd608ad0fb623ae
+    m_Address: Assets/Sprites/Mockups/Orono Noguchi 1.png
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Sprite
+    m_MainAsset: {fileID: 0}
+    m_TargetAsset: {fileID: 0}
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 649dea4014a391740a78683488704db5, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: c84692ec9dafe42428c68b654eacfd48, type: 2}
+    - {fileID: 11400000, guid: e4633868f1c0ac14fa45733da6c38bb7, type: 2}
