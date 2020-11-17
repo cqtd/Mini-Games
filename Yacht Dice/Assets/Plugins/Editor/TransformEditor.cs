@@ -10,6 +10,8 @@ namespace CQ.MiniGames.Editor
 	{
 		public override void OnInspectorGUI()
 		{
+			serializedObject.Update();
+			
 			Transform t = (Transform) target;
 
 
@@ -168,25 +170,25 @@ namespace CQ.MiniGames.Editor
 			EditorGUIUtility.fieldWidth = 0;
 			EditorGUIUtility.labelWidth = 0;
 
-			GUILayout.Space(10);
-			using (new EditorGUILayout.HorizontalScope())
-			{
-				if (GUILayout.Button("Reset Local", new GUILayoutOption[] {GUILayout.Height(36)}))
-				{
-					Undo.RegisterCompleteObjectUndo(t, "Reset Local Transforms " + t.name);
-					t.transform.localPosition = Vector3.zero;
-					t.transform.localRotation = Quaternion.identity;
-					t.transform.localScale = Vector3.one;
-				}
-
-				if (GUILayout.Button("Reset World", new GUILayoutOption[] {GUILayout.Height(36)}))
-				{
-					Undo.RegisterCompleteObjectUndo(t, "Reset World Transforms " + t.name);
-					t.transform.position = Vector3.zero;
-					t.transform.rotation = Quaternion.identity;
-					t.transform.localScale = Vector3.one;
-				}
-			}
+			// GUILayout.Space(10);
+			// using (new EditorGUILayout.HorizontalScope())
+			// {
+			// 	if (GUILayout.Button("Reset Local", new GUILayoutOption[] {GUILayout.Height(36)}))
+			// 	{
+			// 		Undo.RegisterCompleteObjectUndo(t, "Reset Local Transforms " + t.name);
+			// 		t.localPosition = Vector3.zero;
+			// 		t.localRotation = Quaternion.identity;
+			// 		t.localScale = Vector3.one;
+			// 	}
+			//
+			// 	if (GUILayout.Button("Reset World", new GUILayoutOption[] {GUILayout.Height(36)}))
+			// 	{
+			// 		Undo.RegisterCompleteObjectUndo(t, "Reset World Transforms " + t.name);
+			// 		t.position = Vector3.zero;
+			// 		t.rotation = Quaternion.identity;
+			// 		t.localScale = Vector3.one;
+			// 	}
+			// }
 
 
 			if (GUI.changed)
@@ -196,6 +198,8 @@ namespace CQ.MiniGames.Editor
 				t.localEulerAngles = FixIfNaN(eulerAngles);
 				t.localScale = FixIfNaN(scale);
 			}
+
+			serializedObject.ApplyModifiedProperties();
 		}
 
 		private Vector3 FixIfNaN(Vector3 v)
