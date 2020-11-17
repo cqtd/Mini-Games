@@ -1,10 +1,27 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using DG.Tweening;
+using MEC;
+using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace CQ.MiniGames
 {
 	public class DiceRollTest : MonoBehaviour
 	{
-		public GameObject dicePrefab = default;
+		enum EDiceState
+		{
+			NONE = 0,
+			
+			FREE,
+			SELECT,
+			LOCKED,
+			
+			COUNT,
+		}
+		
+		public Rigidbody dicePrefab = default;
 		public Transform startPosMarker = default;
 
 		public float minOffset = -1;
@@ -16,17 +33,29 @@ namespace CQ.MiniGames
 		public float minAngular = 0;
 		public float maxAnguler = 360;
 
-		GameObject[] dices;
+		Rigidbody[] dices;
+		EDiceState[] states;
+
+		public Transform[] lockedPosition;
+
+		List<Tweener> tweens;
 		
 		void Awake()
 		{
-			dices = new GameObject[5];
+			tweens = new List<Tweener>();
+			
+			dices = new Rigidbody[5];
 			for (int i = 0; i < 5; i++)
 			{
-				dices[i] = Instantiate(dicePrefab);
+				dices[i] = Instantiate(dicePrefab, transform);
 			}
 			
 			Roll();
+		}
+
+		void Start()
+		{
+			
 		}
 
 		Vector3 GetRandomOffset(float min, float max)
@@ -37,15 +66,90 @@ namespace CQ.MiniGames
 		[ContextMenu("Roll")]
 		public void Roll()
 		{
-			foreach (GameObject dice in dices)
+			foreach (Tweener tween in tweens)
+			{
+				tween?.Kill(true);
+			}
+
+			int completeCount = 0;
+			
+			foreach (Rigidbody dice in dices)
 			{
 				dice.transform.position = startPosMarker.position + GetRandomOffset(minOffset, maxOffset);
-				var rb = dice.GetComponent<Rigidbody>();
+
+				dice.isKinematic = false;
+				dice.useGravity = true;
+				dice.angularVelocity = GetRandomOffset(minAngular, maxAnguler);
+				dice.velocity = startPosMarker.forward * Random.Range(minForce, maxForce);
 				
-				rb.useGravity = true;
-				rb.angularVelocity = GetRandomOffset(minAngular, maxAnguler);
-				rb.velocity = startPosMarker.forward * Random.Range(minForce, maxForce);
+				dice.GetComponent<DiceCube>().BeginSimulate(() =>
+				{
+					completeCount++;
+					if (dices.Length == completeCount)
+					{
+						Timing.CallDelayed(3.0f, MoveDices);
+						// MoveDices();
+					}
+				});
 			}
+		}
+
+		IEnumerator WaitForStop()
+		{
+			foreach (Rigidbody dice in dices)
+			{
+				if (dice.velocity.sqrMagnitude > 0.01f)
+					yield return null;
+			}
+			
+			yield return new WaitForSeconds(5);
+			
+			MoveDices();
+		}
+
+		void MoveDices()
+		{
+			for (int i = 0; i < dices.Length; i++)
+			{
+				Rigidbody dice = dices[i];
+				
+				dice.useGravity = false;
+				dice.transform.SetParent(lockedPosition[i]);
+				
+				var mover = dice.transform.DOLocalMove(Vector3.zero, 0.4f);
+				var rotater = dice.transform.DOLocalRotate(Vector3.zero, 0.4f);
+				mover.OnComplete(() =>
+				{
+					tweens.Remove(mover);
+				});
+				
+				rotater.OnComplete(() =>
+				{
+					dice.transform.SetParent(transform);
+					tweens.Remove(rotater);
+				});
+				
+				tweens.Add(mover);
+				tweens.Add(rotater);
+				
+				dice.velocity = Vector3.zero;
+				dice.angularVelocity = Vector3.zero;
+				dice.isKinematic = true;
+			}
+		}
+
+		// @TODO 1 :: 애니메이션 베이킹 시스템 구현
+		// @TODO 2 :: 굴리기 애니메이션 - 락인포지션 이동 트윈으로 구현
+		// @TODO 3 :: 락인 구현
+		
+		void Update()
+		{
+			
+		}
+
+		void BeginRecord()
+		{
+			
 		}
 	}
 }
