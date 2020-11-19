@@ -5,14 +5,14 @@ namespace CQ.MiniGames.Yacht
 {
 	public class Scoresheet
 	{
-		readonly Dictionary<Enums.ECategory, int> m_scores = new Dictionary<Enums.ECategory, int>(Constants.NUM_SCORES);
+		readonly Dictionary<Enums.Category, int> m_scores = new Dictionary<Enums.Category, int>(Constants.NUM_SCORES);
 	
-		public bool IsEmpty(Enums.ECategory category)
+		public bool IsEmpty(Enums.Category category)
 		{
 			return !m_scores.ContainsKey(category);
 		}
 		
-		public bool FillScore(Enums.ECategory category, int score)
+		public bool FillScore(Enums.Category category, int score)
 		{
 			if (!IsEmpty(category))
 				return false;
@@ -26,7 +26,7 @@ namespace CQ.MiniGames.Yacht
 			int total = 0;
 			for (int i = 0; i < Constants.NUM_SCORES; i++)
 			{
-				total += m_scores[(Enums.ECategory) i];
+				total += m_scores[(Enums.Category) i];
 			}
 
 			total += GetBonusPoint();
@@ -38,7 +38,7 @@ namespace CQ.MiniGames.Yacht
 			int bonusScore = 0;
 			for (int i = 0; i < 6; i++)
 			{
-				bonusScore += m_scores[(Enums.ECategory) i];
+				bonusScore += m_scores[(Enums.Category) i];
 			}
 
 			return bonusScore >= Constants.BONUS_GOAL ? Constants.BONUS_REWARD : 0;

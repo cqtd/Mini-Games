@@ -1,4 +1,5 @@
 ﻿using System;
+using CQ.MiniGames.Yacht;
 using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
@@ -16,7 +17,7 @@ namespace CQ.MiniGames
 		[SerializeField] Rigidbody m_rigidbody;
 		[SerializeField] Collider m_collider;
 		[SerializeField] MeshRenderer m_renderer;
-		[SerializeField] ReplayEntity m_replay;
+		[SerializeField] public ReplayEntity m_replay;
 		
 		IDisposable positionStream;
 		
@@ -99,10 +100,13 @@ namespace CQ.MiniGames
 
 		public void SetVelocity(Vector3 velocity, Vector3 angular)
 		{
-			m_replay.Record();
-			
 			m_rigidbody.velocity = velocity;
 			m_rigidbody.angularVelocity = angular;
+		}
+
+		public void SetPosition(Vector3 position)
+		{
+			transform.position = position;
 		}
 
 		public void Stop()
@@ -116,32 +120,41 @@ namespace CQ.MiniGames
 			m_replay.Replay(t);
 		}
 
-
 		void ValidateValue()
 		{
 			if (Physics.Raycast(transform.position, transform.up, 1.5f, groundLayer.value))
 			{
 				DiceValue = 5;
+				m_replay.upside = Enums.DiceFace.BOTTOM;
 			}
 			else if (Physics.Raycast(transform.position, -transform.up, 1.5f, groundLayer.value))
 			{
 				DiceValue = 2;
+				m_replay.upside = Enums.DiceFace.TOP;
 			}
 			else if (Physics.Raycast(transform.position, transform.forward, 1.5f, groundLayer.value))
 			{
 				DiceValue = 6;
+				m_replay.upside = Enums.DiceFace.BACKWARD;
 			}
 			else if (Physics.Raycast(transform.position, -transform.forward, 1.5f, groundLayer.value))
 			{
 				DiceValue = 1;
+				m_replay.upside = Enums.DiceFace.FORWARD;
 			}
 			else if (Physics.Raycast(transform.position, transform.right, 1.5f, groundLayer.value))
 			{
 				DiceValue = 4;
+				m_replay.upside = Enums.DiceFace.LEFT;
 			}
 			else if (Physics.Raycast(transform.position, -transform.right, 1.5f, groundLayer.value))
 			{
 				DiceValue = 3;
+				m_replay.upside = Enums.DiceFace.RIGHT;
+			}
+			else
+			{
+				m_replay.upside = Enums.DiceFace.UNDEFINED;
 			}
 		}
 

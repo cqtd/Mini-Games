@@ -1,4 +1,5 @@
 ﻿using System;
+using CQ.MiniGames.Yacht;
 using UnityEngine;
 
 namespace CQ.MiniGames.ReplaySystem
@@ -9,6 +10,7 @@ namespace CQ.MiniGames.ReplaySystem
 		public TimelinedVector3 position;
 		public TimelinedQuaternion rotation;
 		public TimelinedVector3 scale;
+		public Enums.DiceFace upside;
 
 		public RecordData()
 		{
@@ -38,4 +40,5 @@ namespace CQ.MiniGames.ReplaySystem
 			_transform.localScale = scale.Get (_time);
 		}
 	}
+
 }

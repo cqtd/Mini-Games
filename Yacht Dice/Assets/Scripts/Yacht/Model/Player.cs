@@ -7,7 +7,7 @@ namespace CQ.MiniGames.Yacht
 	public class Player
 	{
 		readonly List<Dice> m_dices = new List<Dice>(Constants.NUM_DICES);
-		readonly Dictionary<Enums.ECategory, int> m_scores = new Dictionary<Enums.ECategory, int>(Constants.NUM_SCORES);
+		readonly Dictionary<Enums.Category, int> m_scores = new Dictionary<Enums.Category, int>(Constants.NUM_SCORES);
 
 		Scoresheet m_scoresheet;
 		int m_reroll;
@@ -62,23 +62,23 @@ namespace CQ.MiniGames.Yacht
 		{
 			List<int> diceValues = GetDiceValues();
 			
-			m_scores[Enums.ECategory.ONES] = Scoresheet.GetNumeric(diceValues,1);
-			m_scores[Enums.ECategory.TWOS] = Scoresheet.GetNumeric(diceValues,2);
-			m_scores[Enums.ECategory.THREES] = Scoresheet.GetNumeric(diceValues,3);
-			m_scores[Enums.ECategory.FOURS] = Scoresheet.GetNumeric(diceValues,4);
-			m_scores[Enums.ECategory.FIVES] = Scoresheet.GetNumeric(diceValues,5);
-			m_scores[Enums.ECategory.SIXES] = Scoresheet.GetNumeric(diceValues,6);
+			m_scores[Enums.Category.ONES] = Scoresheet.GetNumeric(diceValues,1);
+			m_scores[Enums.Category.TWOS] = Scoresheet.GetNumeric(diceValues,2);
+			m_scores[Enums.Category.THREES] = Scoresheet.GetNumeric(diceValues,3);
+			m_scores[Enums.Category.FOURS] = Scoresheet.GetNumeric(diceValues,4);
+			m_scores[Enums.Category.FIVES] = Scoresheet.GetNumeric(diceValues,5);
+			m_scores[Enums.Category.SIXES] = Scoresheet.GetNumeric(diceValues,6);
 
-			m_scores[Enums.ECategory.CHOICE] = Scoresheet.GetChoice(diceValues);
-			m_scores[Enums.ECategory.FOUR_OF_A_KIND] = Scoresheet.GetFourCard(diceValues);
-			m_scores[Enums.ECategory.FULL_HOUSE] = Scoresheet.GetFullHouse(diceValues);
-			m_scores[Enums.ECategory.SMALL_STRAIGHT] = Scoresheet.GetSmallStraight(diceValues);
-			m_scores[Enums.ECategory.LARGE_STRAIGHT] = Scoresheet.GetLargeStraight(diceValues);
+			m_scores[Enums.Category.CHOICE] = Scoresheet.GetChoice(diceValues);
+			m_scores[Enums.Category.FOUR_OF_A_KIND] = Scoresheet.GetFourCard(diceValues);
+			m_scores[Enums.Category.FULL_HOUSE] = Scoresheet.GetFullHouse(diceValues);
+			m_scores[Enums.Category.SMALL_STRAIGHT] = Scoresheet.GetSmallStraight(diceValues);
+			m_scores[Enums.Category.LARGE_STRAIGHT] = Scoresheet.GetLargeStraight(diceValues);
 			
-			m_scores[Enums.ECategory.YACHT] = Scoresheet.GetYacht(diceValues);
+			m_scores[Enums.Category.YACHT] = Scoresheet.GetYacht(diceValues);
 		}
 
-		public void FillScoreSheet(Enums.ECategory category)
+		public void FillScoreSheet(Enums.Category category)
 		{
 			var result = m_scoresheet.FillScore(category, m_scores[category]);
 		}

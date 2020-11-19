@@ -1,7 +1,12 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using DG.Tweening;
 using MEC;
 using UnityEngine;
+using UnityEngine.Events;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace CQ.MiniGames
 {
@@ -29,7 +34,7 @@ namespace CQ.MiniGames
 
 		DiceCube[] dices;
 
-		const string pathFormat = "Assets/Animations/Dice {0}/recorded_{1}.asset";
+		public string pathFormat = "Assets/Animations/Dice {0}/recorded_{1}.asset";
 
 		void Awake()
 		{
@@ -41,7 +46,7 @@ namespace CQ.MiniGames
 				dices[i].name = $"(Instance) {dicePrefab.name} {i:00}";
 			}
 			
-			RollDice();
+			// RollDice();
 		}
 
 		Vector3 GetRandomOffset(float min, float max)
@@ -51,6 +56,118 @@ namespace CQ.MiniGames
 
 		float recordStartTime;
 		float recordEndTime;
+
+		[Range(1, 20)] public int animationCount = 10;
+
+		public void CreateAnimations()
+		{
+			StartCoroutine(Sequence());
+		}
+
+		IEnumerator Sequence()
+		{
+			yield return new WaitForSeconds(1f);
+			
+#if UNITY_EDITOR
+			var pack = AssetDatabase.LoadAssetAtPath<RecordedRollPack>("Assets/Animations/RecordedRollPack.asset");
+			for (int i = 1; i <= 5; i++)
+			{
+				var list = new List<RecordedRoll>();
+				
+				yield return null;
+
+				for (int j = 0; j < i; j++)
+				{
+					dices[j].gameObject.SetActive(true);
+				}
+				
+				for (int j = i; j < 5; j++)
+				{
+					dices[j].gameObject.SetActive(false);
+				}
+
+				for (int count = 0; count < animationCount; count++)
+				{
+					recordStartTime = Time.time;
+
+					int complete = 0;
+					float length = 0f;
+
+					for (int diceIndex = 0; diceIndex < i; diceIndex++)
+					{
+						
+						Vector3 velocity = startPosMarker.forward * Random.Range(minForce, maxForce);
+						Vector3 angular = GetRandomOffset(minAngular, maxAnguler);
+						Vector3 position = startPosMarker.position + GetRandomOffset(minOffset, maxOffset);
+						
+						dices[diceIndex].SetCollidable(true);
+						dices[diceIndex].SetSimulatable(true);
+						dices[diceIndex].SetPosition(position);
+						dices[diceIndex].SetVelocity(velocity, angular);
+						
+						dices[diceIndex].m_replay.Record(success =>
+						{
+							if (success)
+							{
+								
+							}
+
+							complete++;
+						});
+					}
+
+					while (complete < i)
+					{
+						yield return null;
+					}
+					
+					recordEndTime = Time.time;
+
+					var recored = ScriptableObject.CreateInstance<RecordedRoll>();
+					recored.datas = new RecordData[i];
+					recored.length = recordEndTime - recordStartTime;
+
+					for (int j = 0; j < i; j++)
+					{
+						recored.datas[j] = dices[j].m_replay.data;
+					}
+					
+					AssetDatabase.CreateAsset(recored, string.Format(pathFormat, i, count));
+					list.Add(recored);
+					
+					yield return new WaitForSeconds(1f);
+				}
+
+				switch (i)
+				{
+					case 1:
+						pack.dice1 = list;
+						break;
+					case 2:
+						pack.dice2 = list;
+						break;
+					case 3:
+						pack.dice3 = list;
+						break;
+					case 4:
+						pack.dice4 = list;
+						break;
+					case 5:
+						pack.dice5 = list;
+						break;
+					default:
+						break;
+				}
+				
+				yield return new WaitForSeconds(1f);
+			}
+			
+			EditorUtility.SetDirty(pack);
+			AssetDatabase.SaveAssets();
+
+			EditorApplication.isPlaying = false;
+#endif
+		}
 
 		public void RollDice()
 		{
@@ -85,15 +202,16 @@ namespace CQ.MiniGames
 				
 				tweener.OnComplete(() =>
 				{
-					dice.GetComponent<ReplayEntity>().Record();
-					
 					recordStartTime = Time.time;
-					
-					// dice.transform.position = startPosMarker.position + GetRandomOffset(minOffset, maxOffset);
 
 					dice.SetCollidable(true);
 					dice.SetSimulatable(true);
 					dice.SetVelocity(velocity, angular);
+					
+					dice.m_replay.Record(success =>
+					{
+						
+					});
 				});
 			}
 		}
@@ -193,9 +311,5 @@ namespace CQ.MiniGames
 		{
 			
 		}
-
-		// @TODO 1 :: 애니메이션 베이킹 시스템 구현
-		// @TODO 2 :: 굴리기 애니메이션 - 락인포지션 이동 트윈으로 구현
-		// @TODO 3 :: 락인 구현
 	}
 }
