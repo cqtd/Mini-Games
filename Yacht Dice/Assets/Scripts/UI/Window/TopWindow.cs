@@ -18,6 +18,10 @@ namespace CQ.MiniGames
 		public override void InitComponent()
 		{
 			slide.onClick.AddListener(OnSlideBegin);
+			
+			Reference.Use(shop);
+			Reference.Use(events);
+			Reference.Use(notice);
 		}
 
 		void OnSlideBegin()

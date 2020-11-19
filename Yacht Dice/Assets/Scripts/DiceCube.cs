@@ -1,5 +1,4 @@
 ﻿using System;
-using CQ.MiniGames.Yacht;
 using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
@@ -7,19 +6,24 @@ using UnityEngine;
 namespace CQ.MiniGames
 {
 	using ReplaySystem;
+	using Yacht;
 	
 	[RequireComponent(typeof(Rigidbody))]
 	public class DiceCube : MonoBehaviour
 	{
 		public float threshold = 0.0001f;
-		public LayerMask groundLayer = default;
-		
-		[SerializeField] Rigidbody m_rigidbody;
-		[SerializeField] Collider m_collider;
-		[SerializeField] MeshRenderer m_renderer;
-		[SerializeField] public ReplayEntity m_replay;
+
+		[SerializeField] Rigidbody m_rigidbody = default;
+		[SerializeField] Collider m_collider = default;
+		[SerializeField] MeshRenderer m_renderer = default;
+		[SerializeField] ReplayEntity m_replay = default;
 		
 		IDisposable positionStream;
+
+		public ReplayEntity GetReplayEntity()
+		{
+			return m_replay;
+		}
 		
 		public bool IsMoving { get; set; }
 		public bool IsSimulating { get; set; }
@@ -30,6 +34,14 @@ namespace CQ.MiniGames
 
 		public event Action<bool> onLockStateChanged;
 		public event Action onMovementStop;
+
+		void Reset()
+		{
+			m_rigidbody = GetComponent<Rigidbody>();
+			m_collider = GetComponent<Collider>();
+			m_renderer = GetComponent<MeshRenderer>();
+			m_replay = GetComponent<ReplayEntity>();
+		}
 
 		void Start()
 		{
@@ -83,13 +95,11 @@ namespace CQ.MiniGames
 			{
 				m_rigidbody.isKinematic = false;
 				m_rigidbody.useGravity = true;
-				// m_collider.enabled = true;
 			}
 			else
 			{
 				m_rigidbody.isKinematic = true;
 				m_rigidbody.useGravity = false;
-				// m_collider.enabled = false;
 			}
 		}
 
@@ -122,40 +132,8 @@ namespace CQ.MiniGames
 
 		void ValidateValue()
 		{
-			if (Physics.Raycast(transform.position, transform.up, 1.5f, groundLayer.value))
-			{
-				DiceValue = 5;
-				m_replay.upside = Enums.DiceFace.BOTTOM;
-			}
-			else if (Physics.Raycast(transform.position, -transform.up, 1.5f, groundLayer.value))
-			{
-				DiceValue = 2;
-				m_replay.upside = Enums.DiceFace.TOP;
-			}
-			else if (Physics.Raycast(transform.position, transform.forward, 1.5f, groundLayer.value))
-			{
-				DiceValue = 6;
-				m_replay.upside = Enums.DiceFace.BACKWARD;
-			}
-			else if (Physics.Raycast(transform.position, -transform.forward, 1.5f, groundLayer.value))
-			{
-				DiceValue = 1;
-				m_replay.upside = Enums.DiceFace.FORWARD;
-			}
-			else if (Physics.Raycast(transform.position, transform.right, 1.5f, groundLayer.value))
-			{
-				DiceValue = 4;
-				m_replay.upside = Enums.DiceFace.LEFT;
-			}
-			else if (Physics.Raycast(transform.position, -transform.right, 1.5f, groundLayer.value))
-			{
-				DiceValue = 3;
-				m_replay.upside = Enums.DiceFace.RIGHT;
-			}
-			else
-			{
-				m_replay.upside = Enums.DiceFace.UNDEFINED;
-			}
+			m_replay.upside = DiceResolver.GetResult(transform, 1.5f);
+			DiceValue = (int) m_replay.upside;
 		}
 
 		void OnDrawGizmos()

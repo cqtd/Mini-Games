@@ -7,9 +7,9 @@ namespace CQ.MiniGames
 	
 	public static class DiceResolver
 	{
-		public static Vector3 GetLocalRotation(this Enums.DiceFace upside, Enums.DiceValue value)
+		public static Vector3 GetLocalRotation(this Enums.DiceFace upperFace, Enums.DiceValue value)
 		{
-			switch (upside)
+			switch (upperFace)
 			{
 				case Enums.DiceFace.FORWARD:
 				{
@@ -147,9 +147,47 @@ namespace CQ.MiniGames
 				}
 					
 				default:
-					throw new ArgumentOutOfRangeException(nameof(upside), upside, null);
+					throw new ArgumentOutOfRangeException(nameof(upperFace), upperFace, null);
 			}
-			return Vector3.zero;
+		}
+
+		public static Enums.DiceFace GetResult(Transform origin, float maxDistance = 1.414f)
+		{
+			if (Physics.Raycast(origin.position, origin.up, 1.5f, Settings.Physics.groundLayer.value))
+			{
+				return Enums.DiceFace.BOTTOM;
+			}
+
+			if (Physics.Raycast(origin.position, -origin.up, 1.5f, Settings.Physics.groundLayer.value))
+			{
+				return Enums.DiceFace.TOP;
+			}
+			
+			if (Physics.Raycast(origin.position, origin.forward, 1.5f, Settings.Physics.groundLayer.value))
+			{
+				return Enums.DiceFace.BACKWARD;
+			}
+			
+			if (Physics.Raycast(origin.position, -origin.forward, 1.5f, Settings.Physics.groundLayer.value))
+			{
+				return Enums.DiceFace.FORWARD;
+			}
+			
+			if (Physics.Raycast(origin.position, origin.right, 1.5f, Settings.Physics.groundLayer.value))
+			{
+				return Enums.DiceFace.LEFT;
+			}
+			
+			if (Physics.Raycast(origin.position, -origin.right, 1.5f, Settings.Physics.groundLayer.value))
+			{
+				return Enums.DiceFace.RIGHT;
+			}
+
+#if UNITY_EDITOR
+			Debug.LogError("This must not be undefined", origin.gameObject);
+#endif
+			
+			return Enums.DiceFace.UNDEFINED;
 		}
 	}
 }

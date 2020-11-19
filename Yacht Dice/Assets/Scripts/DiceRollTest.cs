@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using DG.Tweening;
 using MEC;
 using UnityEngine;
-using UnityEngine.Events;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -61,10 +60,10 @@ namespace CQ.MiniGames
 
 		public void CreateAnimations()
 		{
-			StartCoroutine(Sequence());
+			StartCoroutine(CreatingAnimation());
 		}
 
-		IEnumerator Sequence()
+		IEnumerator CreatingAnimation()
 		{
 			yield return new WaitForSeconds(1f);
 			
@@ -91,7 +90,6 @@ namespace CQ.MiniGames
 					recordStartTime = Time.time;
 
 					int complete = 0;
-					float length = 0f;
 
 					for (int diceIndex = 0; diceIndex < i; diceIndex++)
 					{
@@ -105,7 +103,7 @@ namespace CQ.MiniGames
 						dices[diceIndex].SetPosition(position);
 						dices[diceIndex].SetVelocity(velocity, angular);
 						
-						dices[diceIndex].m_replay.Record(success =>
+						dices[diceIndex].GetReplayEntity().Record(success =>
 						{
 							if (success)
 							{
@@ -129,7 +127,7 @@ namespace CQ.MiniGames
 
 					for (int j = 0; j < i; j++)
 					{
-						recored.datas[j] = dices[j].m_replay.data;
+						recored.datas[j] = dices[j].GetReplayEntity().data;
 					}
 					
 					AssetDatabase.CreateAsset(recored, string.Format(pathFormat, i, count));
@@ -208,7 +206,7 @@ namespace CQ.MiniGames
 					dice.SetSimulatable(true);
 					dice.SetVelocity(velocity, angular);
 					
-					dice.m_replay.Record(success =>
+					dice.GetReplayEntity().Record(success =>
 					{
 						
 					});

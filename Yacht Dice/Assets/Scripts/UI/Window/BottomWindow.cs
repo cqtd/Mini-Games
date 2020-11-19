@@ -16,7 +16,10 @@ namespace CQ.MiniGames
 		
 		public override void InitComponent()
 		{
-			
+			Reference.Use(dashboard);
+			Reference.Use(profile);
+			Reference.Use(leaderboard);
+			Reference.Use(strategy);
 		}
 	}
 }

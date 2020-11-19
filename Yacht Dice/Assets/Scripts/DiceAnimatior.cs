@@ -11,10 +11,10 @@ namespace CQ.MiniGames
 {
 	public class DiceAnimatior : MonoBehaviour
 	{
-		[SerializeField] RecordedRollPack pack;
-		[SerializeField] Transform[] diceRoots;
-		[SerializeField] List<int> diceValues;
-		public LayerMask groundLayer = default;
+		[SerializeField] RecordedRollPack pack = default;
+		[SerializeField] Transform[] diceRoots = default;
+		[SerializeField] List<int> diceValues = default;
+		
 		public float unitTestTimeScale = 5.0f;
 		public bool pause = true;
 
@@ -88,54 +88,23 @@ namespace CQ.MiniGames
 
 					for (int i = 0; i < recorded.datas.Length; i++)
 					{
-						Enums.DiceFace upside = Enums.DiceFace.UNDEFINED;
+						Enums.DiceFace upperFace = DiceResolver.GetResult(diceRoots[i].GetChild(0), 1.5f);
 
-						if (Physics.Raycast(diceRoots[i].GetChild(0).transform.position, diceRoots[i].GetChild(0).transform.up, 1.5f,
-							groundLayer.value))
+						if (upperFace == Enums.DiceFace.UNDEFINED)
 						{
-							upside = Enums.DiceFace.BOTTOM;
-						}
-						else if (Physics.Raycast(diceRoots[i].GetChild(0).transform.position, -diceRoots[i].GetChild(0).transform.up, 1.5f,
-							groundLayer.value))
-						{
-							upside = Enums.DiceFace.TOP;
-						}
-						else if (Physics.Raycast(diceRoots[i].GetChild(0).transform.position, diceRoots[i].GetChild(0).transform.forward, 1.5f,
-							groundLayer.value))
-						{
-							upside = Enums.DiceFace.BACKWARD;
-						}
-						else if (Physics.Raycast(diceRoots[i].GetChild(0).transform.position, -diceRoots[i].GetChild(0).transform.forward, 1.5f,
-							groundLayer.value))
-						{
-							upside = Enums.DiceFace.FORWARD;
-						}
-						else if (Physics.Raycast(diceRoots[i].GetChild(0).transform.position, diceRoots[i].GetChild(0).transform.right, 1.5f,
-							groundLayer.value))
-						{
-							upside = Enums.DiceFace.LEFT;
-						}
-						else if (Physics.Raycast(diceRoots[i].GetChild(0).transform.position, -diceRoots[i].GetChild(0).transform.right, 1.5f,
-							groundLayer.value))
-						{
-							upside = Enums.DiceFace.RIGHT;
-						}
-						else
-						{
-							upside = Enums.DiceFace.UNDEFINED;
-							Debug.LogWarning($"Failed : {index}:{values.Count}:{recorded.name} {upside}!={recorded.datas[i].upside} {values[i]}");
+							Debug.LogWarning($"Failed : {index}:{values.Count}:{recorded.name} {upperFace}!={recorded.datas[i].upside} {values[i]}");
 							UnityEditor.EditorApplication.isPaused = true;
 
 							continue;
 						}
 
-						if ((int)upside == values[i])
+						if ((int)upperFace == values[i])
 						{
-							Debug.Log($"Success : {index}:{values.Count}:{recorded.name} {upside}={recorded.datas[i].upside}, {values[i]}");
+							Debug.Log($"Success : {index}:{values.Count}:{recorded.name} {upperFace}={recorded.datas[i].upside}, {values[i]}");
 						}
 						else
 						{
-							Debug.LogWarning($"Failed : {index} : {i} : {recorded.name} {upside}!={recorded.datas[i].upside} {values[i]}");
+							Debug.LogWarning($"Failed : {index} : {i} : {recorded.name} {upperFace}!={recorded.datas[i].upside} {values[i]}");
 							if (pause)
 							{
 								UnityEditor.Selection.objects = new[] {diceRoots[i].gameObject};

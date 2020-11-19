@@ -7,20 +7,6 @@
       "dependencies": {},
       "hash": "5c54622518b193e917239d66e12fd6e5516db31d"
     },
-    "com.cqtd.lib": {
-      "version": "file:com.cqtd.lib",
-      "depth": 0,
-      "source": "embedded",
-      "dependencies": {}
-    },
-    "com.cqtd.ui": {
-      "version": "file:com.cqtd.ui",
-      "depth": 0,
-      "source": "embedded",
-      "dependencies": {
-        "com.cqtd.lib": "1.0.0"
-      }
-    },
     "com.michsky.ui": {
       "version": "2.2.6",
       "depth": 0,
