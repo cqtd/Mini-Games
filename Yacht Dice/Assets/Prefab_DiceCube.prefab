@@ -506,8 +506,10 @@ GameObject:
   - component: {fileID: 5759974479023861679}
   - component: {fileID: 5759974479023861683}
   - component: {fileID: -4417324273238877377}
+  - component: {fileID: -1639046334834233990}
+  - component: {fileID: -5556938871481384328}
   m_Layer: 0
-  m_Name: Dice
+  m_Name: Prefab_DiceCube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -624,3 +626,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   threshold: 0.0001
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 1024
+  m_rigidbody: {fileID: 5759974479023861683}
+  m_collider: {fileID: 5759974479023861679}
+  m_renderer: {fileID: 5759974479023861680}
+  m_replay: {fileID: -1639046334834233990}
+  m_replay2: {fileID: -5556938871481384328}
+--- !u!114 &-1639046334834233990
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5759974479023861678}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d2d3038e0204be59e4461531a2eb1c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-5556938871481384328
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5759974479023861678}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c383733a97c44f898bd00e8bfdc2a38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

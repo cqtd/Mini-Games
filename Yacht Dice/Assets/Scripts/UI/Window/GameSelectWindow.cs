@@ -1,4 +1,5 @@
 ﻿using CQ.UI;
+using UnityEngine.SceneManagement;
 
 namespace CQ.MiniGames
 {
@@ -24,6 +25,12 @@ namespace CQ.MiniGames
 		{
 			left.Hide();
 			right.Hide();
+		}
+
+		public void OpenGameScene()
+		{
+			SceneManager.LoadScene("Dices");
+			YachtUIManager.Instance.gameObject.SetActive(false);
 		}
 	}
 }

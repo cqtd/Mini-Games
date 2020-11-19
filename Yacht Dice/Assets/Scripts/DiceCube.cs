@@ -5,64 +5,183 @@ using UnityEngine;
 
 namespace CQ.MiniGames
 {
+	using ReplaySystem;
+	
 	[RequireComponent(typeof(Rigidbody))]
 	public class DiceCube : MonoBehaviour
 	{
-		Vector3 previousPosition;
 		public float threshold = 0.0001f;
+		public LayerMask groundLayer = default;
+		
+		[SerializeField] Rigidbody m_rigidbody;
+		[SerializeField] Collider m_collider;
+		[SerializeField] MeshRenderer m_renderer;
+		[SerializeField] ReplayEntity m_replay;
+		
+		IDisposable positionStream;
 		
 		public bool IsMoving { get; set; }
 		public bool IsSimulating { get; set; }
+		public bool IsLocked { get; set; }
+		public Vector3 PlacedPosition { get; set; }
+		public Quaternion PlacedRotation { get; set; }
+		public int DiceValue { get; set; }
 
-		IDisposable positionStream;
-		
+		public event Action<bool> onLockStateChanged;
+		public event Action onMovementStop;
+
 		void Start()
 		{
-			// var mat = new Material(Shader.Find("Standard"));
-			// mat.color = Color.black;
-			//
-			// GetComponent<MeshRenderer>().sharedMaterial = mat;
+			CreateMaterialInstance();
+			CreateVelocityStream();
 		}
 
-		void CreateStream(Action<bool> subscribe)
+		void CreateMaterialInstance()
+		{
+			Material mat = Instantiate(m_renderer.sharedMaterial);
+			mat.color = Color.black;
+			m_renderer.sharedMaterial = mat;
+		}
+
+		void CreateVelocityStream()
 		{
 			positionStream?.Dispose();
-			
-			previousPosition = transform.position;
 			positionStream = transform.UpdateAsObservable()
-				.Select(x => Vector3.SqrMagnitude(transform.position - previousPosition) < threshold)
-				.Where(x =>
-				{
-					previousPosition = transform.position;
-					return true;
-				})
+				.Select(x => m_rigidbody.velocity.sqrMagnitude < threshold && m_rigidbody.angularVelocity.sqrMagnitude < threshold)
 				.DistinctUntilChanged()
-				.Throttle(TimeSpan.FromSeconds(1))
-				// .ThrottleFrame(5)
-				.Subscribe(subscribe);
+				.ThrottleFrame(3)
+				.Subscribe(OnStateChange);
 		}
 
-		void SetState(bool isStopped)
+		void OnStateChange(bool isStopped)
 		{
-			UnityEngine.Debug.Log("SetState");
 			IsMoving = !isStopped;
-			GetComponent<MeshRenderer>().sharedMaterial.color = IsMoving ? Color.black : Color.red;
-		}
+			RefreshColor();
 
-		public void BeginSimulate(Action onCubeStopped)
-		{
-			CreateStream(isStopped =>
+			if (!IsMoving)
 			{
-				if (isStopped)
-				{
-					onCubeStopped?.Invoke();
-				}
-			});
+				m_rigidbody.velocity = Vector3.zero;
+				m_rigidbody.angularVelocity = Vector3.zero;
+				m_rigidbody.isKinematic = true;
+				m_rigidbody.useGravity = false;
+
+				PlacedPosition = transform.position;
+				PlacedRotation = transform.rotation;
+				
+				ValidateValue();
+				
+				m_replay.Abort();
+				
+				onMovementStop?.Invoke();
+			}
 		}
 
-		public void EndSimulate()
+		public void SetSimulatable(bool enable)
 		{
+			if (enable)
+			{
+				m_rigidbody.isKinematic = false;
+				m_rigidbody.useGravity = true;
+				// m_collider.enabled = true;
+			}
+			else
+			{
+				m_rigidbody.isKinematic = true;
+				m_rigidbody.useGravity = false;
+				// m_collider.enabled = false;
+			}
+		}
+
+		public void SetCollidable(bool collidable)
+		{
+			m_collider.enabled = collidable;
+		}
+
+		public void SetVelocity(Vector3 velocity, Vector3 angular)
+		{
+			m_replay.Record();
 			
+			m_rigidbody.velocity = velocity;
+			m_rigidbody.angularVelocity = angular;
+		}
+
+		public void Stop()
+		{
+			m_rigidbody.velocity = Vector3.zero;
+			m_rigidbody.angularVelocity = Vector3.zero;
+		}
+
+		public void Replay(float t)
+		{
+			m_replay.Replay(t);
+		}
+
+
+		void ValidateValue()
+		{
+			if (Physics.Raycast(transform.position, transform.up, 1.5f, groundLayer.value))
+			{
+				DiceValue = 5;
+			}
+			else if (Physics.Raycast(transform.position, -transform.up, 1.5f, groundLayer.value))
+			{
+				DiceValue = 2;
+			}
+			else if (Physics.Raycast(transform.position, transform.forward, 1.5f, groundLayer.value))
+			{
+				DiceValue = 6;
+			}
+			else if (Physics.Raycast(transform.position, -transform.forward, 1.5f, groundLayer.value))
+			{
+				DiceValue = 1;
+			}
+			else if (Physics.Raycast(transform.position, transform.right, 1.5f, groundLayer.value))
+			{
+				DiceValue = 4;
+			}
+			else if (Physics.Raycast(transform.position, -transform.right, 1.5f, groundLayer.value))
+			{
+				DiceValue = 3;
+			}
+		}
+
+		void OnDrawGizmos()
+		{
+			if (!Application.isPlaying)
+			{
+				return;
+			}
+
+			Gizmos.color = Color.red;
+			Gizmos.DrawLine(transform.position, transform.position + m_rigidbody.velocity);
+		}
+
+		void RefreshColor()
+		{
+			if (IsLocked)
+			{
+				m_renderer.sharedMaterial.color = Color.green;
+			}
+			else
+			{
+				if (IsMoving)
+				{
+					m_renderer.sharedMaterial.color = Color.black;
+				}
+				else
+				{
+					m_renderer.sharedMaterial.color = Color.red;
+				}
+			}
+		}
+
+		void OnMouseDown()
+		{
+			Debug.Log("OnMouseDown", this.gameObject);
+			IsLocked = !IsLocked;
+			
+			onLockStateChanged?.Invoke(IsLocked);
+			RefreshColor();
 		}
 	}
 }
