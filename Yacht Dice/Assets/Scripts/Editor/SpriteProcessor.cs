@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 
 namespace CQ.MiniGames.Editor
@@ -20,6 +19,13 @@ namespace CQ.MiniGames.Editor
 				importer.textureType = TextureImporterType.Sprite;
 				importer.spriteImportMode = SpriteImportMode.Single;
 				importer.filterMode = FilterMode.Bilinear;
+			}
+
+			if (assetPath.ToLower().Contains("_n_") || assetPath.ToLower().Contains("_normal"))
+			{
+				TextureImporter importer = (TextureImporter)assetImporter;
+
+				importer.textureType = TextureImporterType.NormalMap;
 			}
 		}
 	}

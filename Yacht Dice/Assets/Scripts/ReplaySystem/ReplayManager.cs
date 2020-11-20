@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace CQ.MiniGames.ReplaySystem
+namespace CQ.MiniGames.Yacht.ReplaySystem
 {
 	public class ReplayManager : MonoBehaviour
 	{

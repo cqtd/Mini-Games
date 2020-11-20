@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace CQ.MiniGames.ReplaySystem
+namespace CQ.MiniGames.Yacht.ReplaySystem
 {
 	[Serializable]
 	public class TimelinedQuaternion

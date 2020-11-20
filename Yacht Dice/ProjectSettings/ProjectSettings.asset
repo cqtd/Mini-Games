@@ -169,7 +169,7 @@ PlayerSettings:
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
-    Android: com.jaybbo.YachtDice
+    Android: com.UnityTestRunner.UnityTestRunner
   buildNumber: {}
   AndroidBundleVersionCode: 6
   AndroidMinSdkVersion: 29

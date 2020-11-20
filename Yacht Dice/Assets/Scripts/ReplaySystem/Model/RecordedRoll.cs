@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace CQ.MiniGames.ReplaySystem
+namespace CQ.MiniGames.Yacht.ReplaySystem
 {
 	public class RecordedRoll : ScriptableObject
 	{

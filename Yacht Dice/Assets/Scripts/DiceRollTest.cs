@@ -9,11 +9,11 @@ using UnityEditor;
 
 namespace CQ.MiniGames
 {
-	using ReplaySystem;
+	using Yacht.ReplaySystem;
 	
 	public class DiceRollTest : MonoBehaviour
 	{
-		public DiceCube dicePrefab = default;
+		public PhysicsDice dicePrefab = default;
 		public Transform startPosMarker = default;
 		
 		public Transform[] viewPosition;
@@ -31,32 +31,49 @@ namespace CQ.MiniGames
 		[Range(-360, 360)] public float minAngular = 0;
 		[Range(-360, 360)] public float maxAnguler = 360;
 
-		DiceCube[] dices;
+		PhysicsDice[] dices;
 
 		public string pathFormat = "Assets/Animations/Dice {0}/recorded_{1}.asset";
 
+		public bool createDices = false;
+		public bool rollDices = false;
+		
+		public bool physicsDiceCreated { get; set; }
+		
+		float recordStartTime;
+		float recordEndTime;
+
+		[Range(1, 20)] public int animationCount = 10;
 		void Awake()
 		{
-			dices = new DiceCube[5];
+			if (createDices)
+			{
+				CreatePhysicsDice();
+
+				if (rollDices)
+				{
+					RollDice();
+				}
+			}
+		}
+
+		void CreatePhysicsDice()
+		{
+			dices = new PhysicsDice[5];
 			for (int i = 0; i < 5; i++)
 			{
 				dices[i] = Instantiate(dicePrefab, transform);
 				dices[i].onLockStateChanged += OnLockStateChanged;
-				dices[i].name = $"(Instance) {dicePrefab.name} {i:00}";
+				dices[i].name = $"(Instance) Physics Dice {i:00}";
 			}
-			
-			// RollDice();
+
+			physicsDiceCreated = true;
 		}
 
 		Vector3 GetRandomOffset(float min, float max)
 		{
 			return new Vector3(Random.Range(min, max), Random.Range(min, max),Random.Range(min, max));
 		}
-
-		float recordStartTime;
-		float recordEndTime;
-
-		[Range(1, 20)] public int animationCount = 10;
 
 		public void CreateAnimations()
 		{
@@ -153,8 +170,6 @@ namespace CQ.MiniGames
 					case 5:
 						pack.dice5 = list;
 						break;
-					default:
-						break;
 				}
 				
 				yield return new WaitForSeconds(1f);
@@ -169,6 +184,11 @@ namespace CQ.MiniGames
 
 		public void RollDice()
 		{
+			if (!physicsDiceCreated)
+			{
+				CreatePhysicsDice();
+			}
+			
 			int doneCount = 0;
 			void OnMovementStop()
 			{
@@ -181,11 +201,10 @@ namespace CQ.MiniGames
 				}
 			}
 			
-			foreach (DiceCube dice in dices)
+			foreach (PhysicsDice dice in dices)
 			{
 				if (dice.IsLocked)
 				{
-					// dice.transform.DOLocalMove(-2 * Vector3.up, 0.4f);
 					continue;
 				}
 				
@@ -206,10 +225,7 @@ namespace CQ.MiniGames
 					dice.SetSimulatable(true);
 					dice.SetVelocity(velocity, angular);
 					
-					dice.GetReplayEntity().Record(success =>
-					{
-						
-					});
+					dice.GetReplayEntity().Record();
 				});
 			}
 		}
@@ -221,7 +237,7 @@ namespace CQ.MiniGames
 				int index = i;
 				Timing.CallDelayed(i * 0.1f, () =>
 				{
-					DiceCube dice = dices[index];
+					PhysicsDice dice = dices[index];
 
 					dice.SetSimulatable(false);
 					dice.Stop();
@@ -231,7 +247,7 @@ namespace CQ.MiniGames
 					Tweener mover = dice.transform.DOLocalMove(Vector3.zero, 0.4f);
 
 					Vector3 rotation = Vector3.zero;
-					switch (dice.GetComponent<DiceCube>().DiceValue)
+					switch (dice.GetComponent<PhysicsDice>().DiceValue)
 					{
 						case 1:
 							rotation = Vector3.up * 180f;
@@ -267,7 +283,7 @@ namespace CQ.MiniGames
 		{
 			for (int i = 0; i < dices.Length; i++)
 			{
-				DiceCube dice = dices[i];
+				PhysicsDice dice = dices[i];
 
 				if (dice.IsLocked)
 					continue;
@@ -289,7 +305,7 @@ namespace CQ.MiniGames
 			while (true)
 			{
 				yield return null;
-				foreach (DiceCube dice in dices)
+				foreach (PhysicsDice dice in dices)
 				{
 					dice.Replay(t);
 				}

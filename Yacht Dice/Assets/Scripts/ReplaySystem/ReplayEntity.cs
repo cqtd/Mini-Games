@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections;
-using CQ.MiniGames.Yacht;
 using MEC;
 using UnityEngine;
 
-namespace CQ.MiniGames.ReplaySystem
+namespace CQ.MiniGames.Yacht.ReplaySystem
 {
 	public class ReplayEntity : MonoBehaviour
 	{

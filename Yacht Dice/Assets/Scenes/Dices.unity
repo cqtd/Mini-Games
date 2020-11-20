@@ -173,6 +173,8 @@ MonoBehaviour:
   minAngular: 0
   maxAnguler: 360
   pathFormat: Assets/Animations/Dice {0}/recorded_{1}.asset
+  createDices: 0
+  rollDices: 0
   animationCount: 5
 --- !u!4 &16165976
 Transform:
@@ -387,7 +389,7 @@ GameObject:
   m_Layer: 0
   m_Name: Marker
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 2800000, guid: ca2f91cc405eb144dad970eb23db2f72, type: 3}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -1062,37 +1064,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 50}
   m_SizeDelta: {x: 0, y: -100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1 &344120957
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 344120958}
-  m_Layer: 0
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &344120958
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 344120957}
-  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: -0.47766727, y: 0.7499988, z: -5.1680703}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 370665328}
-  m_Father: {fileID: 0}
-  m_RootOrder: 10
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &346881042
 GameObject:
   m_ObjectHideFlags: 0
@@ -1241,7 +1212,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &350290998
 Transform:
   m_ObjectHideFlags: 0
@@ -1259,7 +1230,7 @@ Transform:
   - {fileID: 905207660}
   - {fileID: 786885856}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &350290999
 MonoBehaviour:
@@ -1280,14 +1251,9 @@ MonoBehaviour:
   - {fileID: 1601332137}
   - {fileID: 905207660}
   - {fileID: 786885856}
-  diceValues: 010000000200000003000000
+  diceValues: 0600000006000000060000000600000006000000
   unitTestTimeScale: 5
   pause: 1
---- !u!4 &370665328 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5002330618081334922, guid: 7da09d7357cffea45b7b91b32294c30e, type: 3}
-  m_PrefabInstance: {fileID: 1682564204}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &460947753
 GameObject:
   m_ObjectHideFlags: 0
@@ -2501,58 +2467,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 3, z: 1}
   m_Center: {x: 0, y: 1, z: 0}
---- !u!1 &1396697930
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1396697932}
-  - component: {fileID: 1396697931}
-  m_Layer: 0
-  m_Name: ReplayManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1396697931
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1396697930}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e19d1b09e2f44c1af035b96ca714fad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  recordRate: 120
-  isRecording: 0
-  isPlaying: 0
-  _slide: {fileID: 0}
-  _play: {fileID: 0}
-  _replay: {fileID: 0}
-  _pause: {fileID: 0}
-  _timestamp: {fileID: 0}
-  _replayCanvas: {fileID: 0}
---- !u!4 &1396697932
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1396697930}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 8
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1435194441
 GameObject:
   m_ObjectHideFlags: 0
@@ -3290,63 +3204,6 @@ Transform:
   m_Father: {fileID: 1151690230}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 50, y: 239.393, z: 0}
---- !u!1001 &1682564204
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 344120958}
-    m_Modifications:
-    - target: {fileID: 5002330618081334922, guid: 7da09d7357cffea45b7b91b32294c30e, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5002330618081334922, guid: 7da09d7357cffea45b7b91b32294c30e, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5002330618081334922, guid: 7da09d7357cffea45b7b91b32294c30e, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5002330618081334922, guid: 7da09d7357cffea45b7b91b32294c30e, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5002330618081334922, guid: 7da09d7357cffea45b7b91b32294c30e, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5002330618081334922, guid: 7da09d7357cffea45b7b91b32294c30e, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0.7071067
-      objectReference: {fileID: 0}
-    - target: {fileID: 5002330618081334922, guid: 7da09d7357cffea45b7b91b32294c30e, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.70710695
-      objectReference: {fileID: 0}
-    - target: {fileID: 5002330618081334922, guid: 7da09d7357cffea45b7b91b32294c30e, type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5002330618081334922, guid: 7da09d7357cffea45b7b91b32294c30e, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5002330618081334922, guid: 7da09d7357cffea45b7b91b32294c30e, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5002330618081334922, guid: 7da09d7357cffea45b7b91b32294c30e, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: -90
-      objectReference: {fileID: 0}
-    - target: {fileID: 5002330618081334934, guid: 7da09d7357cffea45b7b91b32294c30e, type: 3}
-      propertyPath: m_Name
-      value: SImple Dice 1
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 7da09d7357cffea45b7b91b32294c30e, type: 3}
 --- !u!1 &1697788590
 GameObject:
   m_ObjectHideFlags: 0
@@ -3393,7 +3250,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1700558642
 GameObject:

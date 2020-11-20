@@ -1,0 +1,17 @@
+{
+    "name": "Yacht.Scripts.Editor",
+    "references": [
+        "GUID:fa39d32b1fd987c45a948fb05d21b5a8"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

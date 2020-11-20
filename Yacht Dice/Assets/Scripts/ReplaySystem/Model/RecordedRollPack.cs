@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace CQ.MiniGames.ReplaySystem
+namespace CQ.MiniGames.Yacht.ReplaySystem
 {
 	[CreateAssetMenu(menuName = "Replay/Roll Pack", fileName = "RecordedRollPack", order = 50)]
 	public class RecordedRollPack : ScriptableObject

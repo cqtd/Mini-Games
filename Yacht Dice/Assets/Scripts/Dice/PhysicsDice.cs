@@ -5,26 +5,16 @@ using UnityEngine;
 
 namespace CQ.MiniGames
 {
-	using ReplaySystem;
-	using Yacht;
+	using Yacht.ReplaySystem;
 	
 	[RequireComponent(typeof(Rigidbody))]
-	public class DiceCube : MonoBehaviour
+	public class PhysicsDice : DiceBase
 	{
 		public float threshold = 0.0001f;
-
-		[SerializeField] Rigidbody m_rigidbody = default;
-		[SerializeField] Collider m_collider = default;
-		[SerializeField] MeshRenderer m_renderer = default;
-		[SerializeField] ReplayEntity m_replay = default;
 		
-		IDisposable positionStream;
+		[SerializeField] protected Rigidbody m_rigidbody = default;
+		[SerializeField] protected Collider m_collider = default;
 
-		public ReplayEntity GetReplayEntity()
-		{
-			return m_replay;
-		}
-		
 		public bool IsMoving { get; set; }
 		public bool IsSimulating { get; set; }
 		public bool IsLocked { get; set; }
@@ -35,18 +25,20 @@ namespace CQ.MiniGames
 		public event Action<bool> onLockStateChanged;
 		public event Action onMovementStop;
 
-		void Reset()
+		protected override void Start()
 		{
-			m_rigidbody = GetComponent<Rigidbody>();
-			m_collider = GetComponent<Collider>();
-			m_renderer = GetComponent<MeshRenderer>();
-			m_replay = GetComponent<ReplayEntity>();
-		}
-
-		void Start()
-		{
+			base.Start();
+			
 			CreateMaterialInstance();
 			CreateVelocityStream();
+		}
+
+		protected override void Reset()
+		{
+			base.Reset();
+			
+			m_rigidbody = GetComponent<Rigidbody>();
+			m_collider = GetComponent<Collider>();
 		}
 
 		void CreateMaterialInstance()
@@ -59,8 +51,11 @@ namespace CQ.MiniGames
 		void CreateVelocityStream()
 		{
 			positionStream?.Dispose();
-			positionStream = transform.UpdateAsObservable()
-				.Select(x => m_rigidbody.velocity.sqrMagnitude < threshold && m_rigidbody.angularVelocity.sqrMagnitude < threshold)
+			positionStream = transform
+				.UpdateAsObservable()
+				.Select(x =>
+					m_rigidbody.velocity.sqrMagnitude < threshold &&
+					m_rigidbody.angularVelocity.sqrMagnitude < threshold)
 				.DistinctUntilChanged()
 				.ThrottleFrame(3)
 				.Subscribe(OnStateChange);
@@ -88,7 +83,7 @@ namespace CQ.MiniGames
 				onMovementStop?.Invoke();
 			}
 		}
-
+		
 		public void SetSimulatable(bool enable)
 		{
 			if (enable)
@@ -102,7 +97,7 @@ namespace CQ.MiniGames
 				m_rigidbody.useGravity = false;
 			}
 		}
-
+		
 		public void SetCollidable(bool collidable)
 		{
 			m_collider.enabled = collidable;
@@ -112,11 +107,6 @@ namespace CQ.MiniGames
 		{
 			m_rigidbody.velocity = velocity;
 			m_rigidbody.angularVelocity = angular;
-		}
-
-		public void SetPosition(Vector3 position)
-		{
-			transform.position = position;
 		}
 
 		public void Stop()
