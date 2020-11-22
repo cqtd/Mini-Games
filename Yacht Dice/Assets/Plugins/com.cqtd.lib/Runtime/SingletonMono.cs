@@ -9,7 +9,7 @@ namespace CQ
 		/// </summary>
 		[SerializeField] bool optionDontDestroy = true;
 
-		protected static T _inst;
+		static T _inst;
 
 		/// <summary>
 		/// 싱글턴 인스턴스 접근
@@ -84,6 +84,13 @@ namespace CQ
 		protected virtual void OnDestroy()
 		{
 			Release();
+		}
+
+		public static bool IsValid {
+			get
+			{
+				return _inst != null;
+			}
 		}
 
 		/// <summary>

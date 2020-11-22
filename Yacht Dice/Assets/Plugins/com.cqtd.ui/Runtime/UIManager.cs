@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace CQ.UI
 {
-	public class UIManager<T> : SingletonMono<T> where T : UIManager<T>  
+	public abstract class UIManager<T> : SingletonMono<T> where T : UIManager<T>  
 	{
 		[SerializeField] protected Canvas root = default;
 		[SerializeField] protected CanvasScaler scaler = default;

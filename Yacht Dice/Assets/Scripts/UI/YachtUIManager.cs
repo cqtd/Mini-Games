@@ -1,6 +1,5 @@
 ﻿using System;
 using CQ.UI;
-using DG.Tweening;
 using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
@@ -9,26 +8,29 @@ namespace CQ.MiniGames.UI
 {
 	public class YachtUIManager : UIManager<YachtUIManager>
 	{
-		static event Action<Vector2> OnScreenSizeChangeCallback;
+		[Header("초기 설정")]
+		[Tooltip("이 캔버스가 최초로 열립니다.")]
+		[SerializeField] string initialCanvas = default;
 		
-		public SplashCanvas Splash { get; protected set; }
-		public LobbyCanvas Lobby { get; protected set; }
+		[Header("화면 크기 변경 콜백")]
+		[Tooltip("화면 크기 변경 스트림 유지 제한 프레임 수")]
+		[Range(1,10)] [SerializeField] int throttleFrameCount = 5;
+		[Tooltip("화면 크기 변경 최소 감지 수치")]
+		[SerializeField] float tolerance = 0.1f;
 		
-		IDisposable ScreenSizeChangeCallback { get; set; }
 		
-		const float tolerance = 0.1f;
-		
-		public Vector2 screenSize { get; protected set; } 
-		public Vector2 ratio { get; protected set; }
-		
-		public int throttleFrameCount = 5;
+		public Vector2 ScreenSize { get; protected set; } 
+		public Vector2 Ratio { get; protected set; }
+
+		private static event Action<Vector2> OnScreenSizeChangeCallback;
+		private IDisposable ScreenSizeChangeCallback { get; set; }
 		
 		bool IsScreenSizeChanged
 		{
 			get
 			{
-				return Math.Abs(screenSize.x - Screen.width) > tolerance ||
-				       Math.Abs(screenSize.y - Screen.height) > tolerance;
+				return Math.Abs(ScreenSize.x - Screen.width) > tolerance ||
+				       Math.Abs(ScreenSize.y - Screen.height) > tolerance;
 			}
 		}
 
@@ -37,36 +39,24 @@ namespace CQ.MiniGames.UI
 			base.OnAwake();
 			
 			CreateScreenSizeChangeStream();
-
-			SplashCanvas splashCanvas = Open<SplashCanvas>();
-			splashCanvas.enterButton.onClick.AddListener(OpenGameMenu);
-		}
-
-		public void OpenGameMenu()
-		{
-			Lobby = Open<LobbyCanvas>();
-			Lobby.canvasGroup.alpha = 0;
-
-			Tweener tweener = Lobby.canvasGroup.DOFade(1.0f, Duration.Fast);
-			tweener.OnComplete(() =>
-			{
-				// Splash.gameObject.SetActive(false);
-				Close<SplashCanvas>();
-			});
+			
+			Instance.Open(initialCanvas);
 		}
 
 		public static void RegisterScreenSizeChange(Action<Vector2> callback)
 		{
-			OnScreenSizeChangeCallback += callback;
+			if (!IsValid)
+				return;
 
-			if (_inst)
-			{
-				_inst.OnScreenSizeChanged(true);
-			}
+			OnScreenSizeChangeCallback += callback;
+			Instance.OnScreenSizeChanged(true);
 		}
 
 		public static void UnregisterScreenSizeChange(Action<Vector2> callback)
 		{
+			if (!IsValid)
+				return;
+			
 			OnScreenSizeChangeCallback -= callback;
 		}
 
@@ -87,10 +77,10 @@ namespace CQ.MiniGames.UI
 
 		void OnScreenSizeChanged(bool changed)
 		{
-			screenSize = new Vector2(Screen.width, Screen.height);
-			ratio = new Vector2(scaler.referenceResolution.x / screenSize.x, scaler.referenceResolution.y / screenSize.y);
+			ScreenSize = new Vector2(Screen.width, Screen.height);
+			Ratio = new Vector2(scaler.referenceResolution.x / ScreenSize.x, scaler.referenceResolution.y / ScreenSize.y);
 			
-			OnScreenSizeChangeCallback?.Invoke(screenSize);
+			OnScreenSizeChangeCallback?.Invoke(ScreenSize);
 		}
 	}
 }

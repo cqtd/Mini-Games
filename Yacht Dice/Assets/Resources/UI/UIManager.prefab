@@ -287,3 +287,6 @@ MonoBehaviour:
   optionDontDestroy: 1
   root: {fileID: 4136481302237087440}
   scaler: {fileID: 4136481302237087441}
+  initialCanvas: SplashCanvas
+  throttleFrameCount: 5
+  tolerance: 0.1

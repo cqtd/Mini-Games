@@ -1,22 +1,17 @@
 ﻿using System.Collections;
-#if UNITY_EDITOR
-using UnityEditor;
-using UnityEditor.SceneManagement;
-#endif
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace CQ.MiniGames
 {
 	public class Bootstrap : MonoBehaviour
 	{
-		public int targetFramerate = 60;
+		public ETargetFramerate targetFramerate = ETargetFramerate._60;
 
 		const string USER_INTERFACE_SCENE = "Scenes/UIScene";
 
 		void Awake()
 		{
-			Application.targetFrameRate = targetFramerate;
+			Application.targetFrameRate = (int) targetFramerate;
 
 			StartCoroutine(Initialize());
 		}
@@ -34,6 +29,7 @@ namespace CQ.MiniGames
 		IEnumerator LoadUserInterface()
 		{
 			yield return null;
+			
 			// if (SceneManager.GetSceneByName(USER_INTERFACE_SCENE).isLoaded)
 			// {
 			// 	Debug.LogWarning($"Already [{USER_INTERFACE_SCENE}] Loaded!");
@@ -60,5 +56,24 @@ namespace CQ.MiniGames
 		{
 			yield return null;
 		}
+	}
+
+	public enum ETargetFramerate
+	{
+		_1 = 1,
+		
+		_15 = 15,
+		_24 = 24,
+		_30 = 30,
+		
+		_60 = 60,
+		
+		_75 = 75,
+		
+		_120 = 120,
+		_180 = 180,
+		_240 = 240,
+		
+		LIMITLESS = -1,
 	}
 }

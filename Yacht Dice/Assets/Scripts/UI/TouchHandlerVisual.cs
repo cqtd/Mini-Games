@@ -64,7 +64,7 @@ namespace CQ.MiniGames.UI
 		{
 			Debug.Log($"{resolution.x}, {resolution.y}");
 
-			scaler = YachtUIManager.Instance.ratio;
+			scaler = YachtUIManager.Instance.Ratio;
 		}
 	}
 }

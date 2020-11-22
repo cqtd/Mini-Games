@@ -34,6 +34,8 @@ namespace CQ.MiniGames.UI
 			buttonGroup.blocksRaycasts = false;
 
 			@group = GetComponent<CanvasGroup>();
+
+			enterButton.onClick.AddListener(OpenGameCanvas);
 		}
 
 		public override void Initialize()
@@ -56,7 +58,19 @@ namespace CQ.MiniGames.UI
 
 		public override void Dispose()
 		{
+			enterButton.onClick.RemoveListener(OpenGameCanvas);
+		}
+
+		void OpenGameCanvas()
+		{
+			LobbyCanvas lobbyCanvas = YachtUIManager.Instance.Open<LobbyCanvas>();
+			lobbyCanvas.canvasGroup.alpha = 0;
 			
+			Tweener tweener = lobbyCanvas.canvasGroup.DOFade(1.0f, Duration.Fast);
+			tweener.OnComplete(() =>
+			{
+				YachtUIManager.Instance.Close<SplashCanvas>();
+			});
 		}
 		
 		IEnumerator UpdateLoadingContext()
