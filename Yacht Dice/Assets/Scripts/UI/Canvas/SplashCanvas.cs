@@ -5,8 +5,9 @@ using DG.Tweening;
 using MEC;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
-namespace CQ.MiniGames
+namespace CQ.MiniGames.UI
 {
 	public class SplashCanvas : UICanvas
 	{
@@ -14,6 +15,8 @@ namespace CQ.MiniGames
 		public CanvasGroup buttonGroup = default;
 		public TextMeshProUGUI progressText = default;
 		public DiceLoadingUI loading = default;
+
+		public Button enterButton = default;
 		
 		[Header("Data")]
 		public LoadingContext[] contexts = default;
@@ -36,7 +39,8 @@ namespace CQ.MiniGames
 		public override void Initialize()
 		{
 			base.Initialize();
-			
+			Debug.Log("Init", this.gameObject);
+
 			
 			// 딜레이 콜
 			Timing.CallDelayed(startUpInterval, () =>

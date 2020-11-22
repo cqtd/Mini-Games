@@ -1,4 +1,6 @@
-﻿namespace CQ.UI
+﻿using System;
+
+namespace CQ.UI
 {
 	public abstract class UIWindow : UIElement
 	{
@@ -10,6 +12,16 @@
 		}
 
 		public virtual void Close()
+		{
+			
+		}
+
+		protected virtual void OnEnable()
+		{
+			
+		}
+
+		protected virtual void OnDisable()
 		{
 			
 		}

@@ -1,14 +1,16 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using CQ.UI;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 namespace CQ.MiniGames
 {
 	[RequireComponent(typeof(Image))]
-	public class DiceLoadingUI : UIElement
+	public class DiceLoadingUI : UIElement, IDisposable
 	{
 		public Sprite[] sprites = default;
 		
@@ -83,6 +85,11 @@ namespace CQ.MiniGames
 					image1.SetAlpha(1);
 				});
 			}
+		}
+
+		public void Dispose()
+		{
+			
 		}
 	}
 }

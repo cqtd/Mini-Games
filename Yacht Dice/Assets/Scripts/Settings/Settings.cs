@@ -13,9 +13,9 @@ namespace CQ.MiniGames
 
 		[SerializeField] PhysicsSetting m_physics = default;
 
-		protected override void Awake()
+		protected override void OnAwake()
 		{
-			base.Awake();
+			base.OnAwake();
 			
 			
 		}

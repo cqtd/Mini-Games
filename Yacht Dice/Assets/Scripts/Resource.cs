@@ -7,9 +7,9 @@ namespace CQ.MiniGames
 	{
 		Dictionary<string, Object> map;
 
-		protected override void Awake()
+		protected override void OnAwake()
 		{
-			base.Awake();
+			base.OnAwake();
 			
 			map = new Dictionary<string, Object>();
 		}

@@ -9,7 +9,7 @@ namespace CQ
 		/// </summary>
 		[SerializeField] bool optionDontDestroy = true;
 
-		static T _inst;
+		protected static T _inst;
 
 		/// <summary>
 		/// 싱글턴 인스턴스 접근
@@ -50,17 +50,28 @@ namespace CQ
 		/// <summary>
 		/// DontDestroyOnLoad를 호출해줌
 		/// </summary>
-		protected virtual void Awake()
+		protected void Awake()
 		{
 			if (_inst == null)
 			{
 				_inst = this as T;
+				OnAwake();
+			}
+			else
+			{
+				Debug.LogWarning("There are more than 2 singletons. later one is being destroyed.");
+				Destroy(gameObject);
 			}
 
 			if (optionDontDestroy)
 			{
 				DontDestroyOnLoad(gameObject);
 			}
+		}
+
+		protected virtual void OnAwake()
+		{
+			
 		}
 
 		#region Editor Fast Enter PlayMode

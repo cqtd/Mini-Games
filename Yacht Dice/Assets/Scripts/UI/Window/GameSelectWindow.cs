@@ -1,7 +1,8 @@
-﻿using CQ.UI;
+﻿using System.Collections;
+using CQ.UI;
 using UnityEngine.SceneManagement;
 
-namespace CQ.MiniGames
+namespace CQ.MiniGames.UI
 {
 	public class GameSelectWindow : UIWindow
 	{
@@ -29,8 +30,36 @@ namespace CQ.MiniGames
 
 		public void OpenGameScene()
 		{
-			SceneManager.LoadScene("Dices");
-			YachtUIManager.Instance.gameObject.SetActive(false);
+			// SceneManager.LoadScene("Dices");
+			// YachtUIManager.Instance.gameObject.SetActive(false);
+
+			StartCoroutine(LoadGameScene());
+		}
+
+		void FadeIn()
+		{
+			
+		}
+
+		IEnumerator FadeOut()
+		{
+			yield return null;
+		}
+
+		IEnumerator LoadGameScene()
+		{
+			var operation = SceneManager.LoadSceneAsync("Scenes/Dices");
+			operation.allowSceneActivation = false;
+			
+			yield return FadeOut();
+			operation.allowSceneActivation = true;
+			
+			yield return operation;
+			
+			YachtUIManager.Instance.Close<LobbyCanvas>();
+			YachtUIManager.Instance.Open<DiceTableCanvas>();
+			
+			FadeIn();
 		}
 	}
 }

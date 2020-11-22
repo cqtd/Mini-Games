@@ -40,7 +40,9 @@ namespace CQ.UI
 		void InitializeInternal()
 		{
 			if (!bIsInitialized)
+			{
 				Initialize();
+			}
 		}
 
 		protected abstract void InitComponent();

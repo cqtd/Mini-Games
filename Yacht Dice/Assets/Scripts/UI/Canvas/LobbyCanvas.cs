@@ -4,7 +4,7 @@ using UnityEngine;
 using DG.Tweening;
 using UnityEngine.UI;
 
-namespace CQ.MiniGames
+namespace CQ.MiniGames.UI
 {
 	public enum ELobbyState
 	{
