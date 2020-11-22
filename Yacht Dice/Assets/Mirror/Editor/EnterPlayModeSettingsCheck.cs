@@ -65,7 +65,7 @@ namespace Mirror
             // enabling the checkbox is enough. it controls all the other settings.
             if (EditorSettings.enterPlayModeOptionsEnabled)
             {
-                Debug.LogWarning("Enter Play Mode Options are not supported by Mirror. Please disable 'ProjectSettings -> Editor -> Enter Play Mode Settings (Experimental)'.");
+                // Debug.LogWarning("Enter Play Mode Options are not supported by Mirror. Please disable 'ProjectSettings -> Editor -> Enter Play Mode Settings (Experimental)'.");
                 // EditorApplication.isPlaying = false;
             }
         }

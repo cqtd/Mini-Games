@@ -11,9 +11,8 @@ namespace CQ.MiniGames
 {
 	using Yacht.ReplaySystem;
 	
-	public class DiceRollTest : MonoBehaviour
+	public class PhysicalSimulator : MonoBehaviour
 	{
-		public PhysicsDice dicePrefab = default;
 		public Transform startPosMarker = default;
 		
 		public Transform[] viewPosition;
@@ -62,7 +61,8 @@ namespace CQ.MiniGames
 			dices = new PhysicsDice[5];
 			for (int i = 0; i < 5; i++)
 			{
-				dices[i] = Instantiate(dicePrefab, transform);
+				dices[i] = Resource.Instantiate<PhysicsDice>(Paths.PHYSICS_DICE, transform);
+				// dices[i] = Instantiate(Resources.Load<PhysicsDice>(Paths.PHYSICS_DICE), transform);
 				dices[i].onLockStateChanged += OnLockStateChanged;
 				dices[i].name = $"(Instance) Physics Dice {i:00}";
 			}

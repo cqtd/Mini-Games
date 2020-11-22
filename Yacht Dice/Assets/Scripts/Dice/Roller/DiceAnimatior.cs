@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using CQ.MiniGames.Yacht.ReplaySystem;
-using CQ.MiniGames.Yacht;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace CQ.MiniGames
 {
+	using Yacht;
+	using Yacht.ReplaySystem;
+	
 	public class DiceAnimatior : MonoBehaviour
 	{
 		[SerializeField] public RecordedRollPack pack = default;
-		[SerializeField] public Transform[] diceRoots = default;
+		[SerializeField] public VisualDice[] diceRoots = default;
 		[SerializeField] List<int> diceValues = default;
 		
 		public float unitTestTimeScale = 5.0f;
@@ -19,7 +20,7 @@ namespace CQ.MiniGames
 
 		void Awake()
 		{
-			foreach (Transform diceRoot in diceRoots)
+			foreach (var diceRoot in diceRoots)
 			{
 				diceRoot.gameObject.SetActive(false);
 			}
@@ -70,32 +71,38 @@ namespace CQ.MiniGames
 
 		public IEnumerator Playing(RecordedRoll recorded, List<int> dices, Action callback = null)
 		{
+			// 다이스 비주얼라이즈 온 오프
+			// 다이스 초기 세팅
 			for (int i = 0; i < Constants.NUM_DICES; i++)
 			{
 				if (i >= recorded.datas.Length)
 				{
 					diceRoots[i].gameObject.SetActive(false);
+					diceRoots[i].Hide();
 					continue;
 				}
 				
 				diceRoots[i].gameObject.SetActive(true);
+				diceRoots[i].Show();
 
-				diceRoots[i].GetChild(0).localRotation =
+				diceRoots[i].transform.GetChild(0).localRotation =
 					Quaternion.Euler(recorded.datas[i].upside.GetLocalRotation((Enums.DiceValue) dices[i]));
 					
 			}
 			
+			// 재생 로직
 			float elapsedTime = recorded.length;
 			float t = 0.0f;
 			while (true)
 			{
 				for (int i = 0; i < recorded.datas.Length; i++)
 				{
-					recorded.datas[i].Set(t, diceRoots[i]);
+					recorded.datas[i].Set(t, diceRoots[i].transform);
 				}
 
 				t += Time.deltaTime * Time.timeScale;
 				
+				// 재생 끝
 				if (t > elapsedTime)
 				{
 					Debug.Log($"리플레이 종료");
@@ -105,6 +112,7 @@ namespace CQ.MiniGames
 				yield return null;
 			}
 			
+			// 콜백 호출
 			callback?.Invoke();
 		}
 

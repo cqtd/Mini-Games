@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -30,7 +31,7 @@ namespace CQ.MiniGames.Tests
 			yield return new WaitForSeconds(1.0f);
 
 			animator = Object.FindObjectOfType<DiceAnimatior>();
-			diceRoots = animator.diceRoots;
+			diceRoots = animator.diceRoots.Select(e => e.transform).ToArray();
 			pack = animator.pack;
 
 			List<List<int>> entries = new List<List<int>>();
@@ -58,7 +59,7 @@ namespace CQ.MiniGames.Tests
 			Time.timeScale = unitTestTimeScale;
 			yield return new WaitForSeconds(3);
 
-			Object.FindObjectOfType<DiceRollTest>().gameObject.SetActive(false);
+			Object.FindObjectOfType<PhysicalSimulator>().gameObject.SetActive(false);
 
 			var buttons = Object.FindObjectsOfType<Button>();
 			foreach (Button button in buttons)

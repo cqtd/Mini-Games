@@ -14,6 +14,7 @@ namespace CQ.MiniGames
 		
 		[SerializeField] protected Rigidbody m_rigidbody = default;
 		[SerializeField] protected Collider m_collider = default;
+		[SerializeField] protected ReplayEntity m_replay = default;
 
 		public bool IsMoving { get; set; }
 		public bool IsSimulating { get; set; }
@@ -39,6 +40,7 @@ namespace CQ.MiniGames
 			
 			m_rigidbody = GetComponent<Rigidbody>();
 			m_collider = GetComponent<Collider>();
+			m_replay = GetComponent<ReplayEntity>();
 		}
 
 		void CreateMaterialInstance()
@@ -124,6 +126,11 @@ namespace CQ.MiniGames
 		{
 			m_replay.upside = DiceResolver.GetResult(transform, 1.5f);
 			DiceValue = (int) m_replay.upside;
+		}
+		
+		public ReplayEntity GetReplayEntity()
+		{
+			return m_replay;
 		}
 
 		void OnDrawGizmos()
