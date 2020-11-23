@@ -41,6 +41,9 @@ namespace CQ.MiniGames.UI
 			CreateScreenSizeChangeStream();
 			
 			Instance.Open(initialCanvas);
+			// UnityEditor.DockArea
+			// UnityEditor.EditorWindow
+			// UnityEditor.UnityMainToolbar;
 		}
 
 		public static void RegisterScreenSizeChange(Action<Vector2> callback)
