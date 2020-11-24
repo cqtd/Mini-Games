@@ -41,6 +41,11 @@ namespace CQ.MiniGames.UI
 		public override void Initialize()
 		{
 			base.Initialize();
+
+#if UNITY_EDITOR
+			OpenGameCanvas();
+			return;
+#endif
 			
 			// 딜레이 콜
 			Timing.CallDelayed(startUpInterval, () =>

@@ -6,21 +6,32 @@ namespace CQ.MiniGames.Yacht
 {
 	public class Player
 	{
-		readonly List<Dice> m_dices = new List<Dice>(Constants.NUM_DICES);
-		readonly Dictionary<Enums.Category, int> m_scores = new Dictionary<Enums.Category, int>(Constants.NUM_SCORES);
+		readonly List<Dice> m_dices;
+		readonly Dictionary<Enums.Category, int> m_scores;
 
 		Scoresheet m_scoresheet;
 		int m_reroll;
+
+		public Player()
+		{
+			m_dices = new List<Dice>(Constants.NUM_DICES);
+			m_scores = new Dictionary<Enums.Category, int>(Constants.NUM_SCORES);
+		}
 
 		public void Initialize()
 		{
 			m_scoresheet = new Scoresheet();
 			for (int i = 0; i < Constants.NUM_DICES; i++)
 			{
-				m_dices[i] = new Dice(DateTime.Now.Millisecond * 293 * i % 1000);
+				m_dices.Add(new Dice(DateTime.Now.Millisecond * 293 * i % 1000));
 			}
 
 			m_reroll = 0;
+		}
+
+		public bool CanRoll()
+		{
+			return m_reroll < Constants.NUM_ROLLS;
 		}
 
 		public Scoresheet GetScoresheet()
@@ -39,6 +50,11 @@ namespace CQ.MiniGames.Yacht
 			{
 				m_dices[i].SetValue(diceValues[i]);
 			}
+		}
+
+		public int GetEstimatedScore(Enums.Category category)
+		{
+			return m_scores.ContainsKey(category) ? m_scores[category] : 0;
 		}
 
 		public void RollDices(IEnumerable<int> diceIndices)
@@ -81,6 +97,7 @@ namespace CQ.MiniGames.Yacht
 		public void FillScoreSheet(Enums.Category category)
 		{
 			var result = m_scoresheet.FillScore(category, m_scores[category]);
+			m_reroll = 0;
 		}
 	}
 }

@@ -21,16 +21,34 @@ namespace CQ.MiniGames.Yacht
 			return true;
 		}
 
+		public int GetScore(Enums.Category category)
+		{
+			return m_scores.ContainsKey(category) ? m_scores[category] : -1;
+		}
+
 		public int GetTotalScore()
 		{
 			int total = 0;
 			for (int i = 0; i < Constants.NUM_SCORES; i++)
 			{
-				total += m_scores[(Enums.Category) i];
+				if (m_scores.ContainsKey((Enums.Category) i))
+					total += m_scores[(Enums.Category) i];
 			}
 
 			total += GetBonusPoint();
 			return total;
+		}
+
+		public int GetUpperPoint()
+		{
+			int bonusScore = 0;
+			for (int i = 0; i < 6; i++)
+			{
+				if (m_scores.ContainsKey((Enums.Category) i))
+					bonusScore += m_scores[(Enums.Category) i];
+			}
+
+			return bonusScore;
 		}
 
 		public int GetBonusPoint()
@@ -38,7 +56,8 @@ namespace CQ.MiniGames.Yacht
 			int bonusScore = 0;
 			for (int i = 0; i < 6; i++)
 			{
-				bonusScore += m_scores[(Enums.Category) i];
+				if (m_scores.ContainsKey((Enums.Category) i))
+					bonusScore += m_scores[(Enums.Category) i];
 			}
 
 			return bonusScore >= Constants.BONUS_GOAL ? Constants.BONUS_REWARD : 0;
