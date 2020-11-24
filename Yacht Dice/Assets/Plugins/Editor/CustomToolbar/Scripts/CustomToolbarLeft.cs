@@ -29,6 +29,7 @@ namespace UnityToolbarExtender
 		static string[] scenesPath;
 		static string[] scenesBuildPath;
 		static int selectedSceneIndex;
+		static int selectedEnterPlayMode;
 
 		static CustomToolbarLeft() {
 			ToolbarExtender.LeftToolbarGUI.Add(OnToolbarGUI);
@@ -56,6 +57,10 @@ namespace UnityToolbarExtender
 		static void OnToolbarGUI() {
 			GUILayout.FlexibleSpace();
 
+			DrawEnterPlayModeOption();
+			
+			GUILayout.Space(10);
+			
 			DrawSceneDropdown();
 
 			GUILayout.Space(10);
@@ -67,6 +72,37 @@ namespace UnityToolbarExtender
 
 			DrawReloadSceneButton();
 			DrawStartFromFirstSceneButton();
+		}
+
+		static readonly string[] enterPlayModeOption = new[]
+		{
+			"Disabled",
+			"Reload All",
+			"Reload Scene",
+			"Reload Domain",
+			"FastMode",
+		};
+		
+
+		static void DrawEnterPlayModeOption()
+		{
+			if (EditorSettings.enterPlayModeOptionsEnabled)
+			{
+				EnterPlayModeOptions option = EditorSettings.enterPlayModeOptions;
+				selectedEnterPlayMode = (int) option + 1;
+			}
+			else
+			{
+				selectedSceneIndex = 0;
+			}
+			
+			selectedEnterPlayMode = EditorGUILayout.Popup(selectedEnterPlayMode, enterPlayModeOption, GUILayout.Width(150f));
+			
+			if (GUI.changed && 0 <= selectedEnterPlayMode && selectedEnterPlayMode < enterPlayModeOption.Length)
+			{
+				EditorSettings.enterPlayModeOptionsEnabled = selectedEnterPlayMode != 0;
+				EditorSettings.enterPlayModeOptions = (EnterPlayModeOptions) (selectedEnterPlayMode - 1);
+			}
 		}
 
 		private static void LogPlayModeState(PlayModeStateChange state) {

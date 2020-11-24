@@ -41,8 +41,6 @@ namespace CQ.MiniGames.UI
 		public override void Initialize()
 		{
 			base.Initialize();
-			Debug.Log("Init", this.gameObject);
-
 			
 			// 딜레이 콜
 			Timing.CallDelayed(startUpInterval, () =>

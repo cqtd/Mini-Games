@@ -75,7 +75,7 @@ namespace CQ.MiniGames
 			if (Input.GetMouseButtonDown(0))
 			{
 				m_isMouseDown = true;
-				Debug.Log($"Touch Began : {Input.mousePosition.x}, {Input.mousePosition.y}");
+				// Debug.Log($"Touch Began : {Input.mousePosition.x}, {Input.mousePosition.y}");
 				
 				onTouchBegan?.Invoke(Input.mousePosition);
 			}
@@ -83,7 +83,7 @@ namespace CQ.MiniGames
 			if (Input.GetMouseButtonUp(0))
 			{
 				m_isMouseDown = false;
-				Debug.Log($"Touch Ended : {Input.mousePosition.x}, {Input.mousePosition.y}");
+				// Debug.Log($"Touch Ended : {Input.mousePosition.x}, {Input.mousePosition.y}");
 				
 				onTouchEnded?.Invoke(Input.mousePosition);
 			}
@@ -101,7 +101,7 @@ namespace CQ.MiniGames
 			onTouchBegan?.Invoke(touchBeganPositionMap[index]);
 			StartCoroutine(ForceFeedback());
 			
-			Debug.Log($"Touch Began : {touchBeganPositionMap[index].x}, {touchBeganPositionMap[index].y}");
+			// Debug.Log($"Touch Began : {touchBeganPositionMap[index].x}, {touchBeganPositionMap[index].y}");
 		}
 
 		void OnTouchEnded(Touch touch, int index)
@@ -113,7 +113,7 @@ namespace CQ.MiniGames
 
 			m_isForcingFeedback = false;
 			
-			Debug.Log($"Touch Ended : {touchEndedPositionMap[index].x}, {touchEndedPositionMap[index].y}");
+			// Debug.Log($"Touch Ended : {touchEndedPositionMap[index].x}, {touchEndedPositionMap[index].y}");
 		}
 
 		void OnTouchStay(Touch touch, int index)
