@@ -41,7 +41,7 @@ namespace CQ.MiniGames.UI
 		public override void Initialize()
 		{
 			base.Initialize();
-
+#pragma warning disable CS0162
 #if UNITY_EDITOR
 			OpenGameCanvas();
 			return;
@@ -59,6 +59,8 @@ namespace CQ.MiniGames.UI
 			StartCoroutine(UpdateLoadingContext());
 		}
 
+#pragma warning restore CS0162
+		
 		public override void Dispose()
 		{
 			enterButton.onClick.RemoveListener(OpenGameCanvas);

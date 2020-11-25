@@ -7,7 +7,7 @@ using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
-namespace CQ.MiniGames
+namespace CQ.MiniGames.UI
 {
 	[RequireComponent(typeof(Image))]
 	public class DiceLoadingUI : UIElement, IDisposable

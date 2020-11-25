@@ -3,10 +3,8 @@ using CQ.UI;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace CQ.MiniGames
+namespace CQ.MiniGames.UI
 {
-	using UI;
-	
 	public class BottomWindow : UIWindow
 	{
 		[SerializeField] BottomTabButton dashboard = default;

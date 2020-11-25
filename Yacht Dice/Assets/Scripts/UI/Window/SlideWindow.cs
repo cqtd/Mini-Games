@@ -6,7 +6,7 @@ using UnityEngine.AddressableAssets.ResourceLocators;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.UI;
 
-namespace CQ.MiniGames
+namespace CQ.MiniGames.UI
 {
 	public class SlideWindow : UIWindow
 	{

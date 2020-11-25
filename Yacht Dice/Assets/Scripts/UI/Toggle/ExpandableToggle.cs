@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace CQ.MiniGames
+namespace CQ.MiniGames.UI
 {
 	[RequireComponent(typeof(Toggle))]
 	public class ExpandableToggle : MonoBehaviour

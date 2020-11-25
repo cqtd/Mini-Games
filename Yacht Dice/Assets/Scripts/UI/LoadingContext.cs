@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CQ.MiniGames
+namespace CQ.MiniGames.UI
 {
 	[Serializable]
 	public struct LoadingContext

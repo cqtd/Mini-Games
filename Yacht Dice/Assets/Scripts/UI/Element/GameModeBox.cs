@@ -2,7 +2,7 @@
 using DG.Tweening;
 using UnityEngine;
 
-namespace CQ.MiniGames
+namespace CQ.MiniGames.UI
 {
 	public class GameModeBox : UIElement
 	{

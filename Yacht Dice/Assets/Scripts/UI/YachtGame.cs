@@ -3,9 +3,8 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace CQ.MiniGames
+namespace CQ.MiniGames.UI
 {
-	using UI;
 	using Core;
 	
 	public class YachtGame : MonoBehaviour
