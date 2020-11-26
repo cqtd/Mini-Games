@@ -41,6 +41,7 @@ namespace CQ.MiniGames.UI
 		public override void Initialize()
 		{
 			base.Initialize();
+			
 #pragma warning disable CS0162
 #if UNITY_EDITOR
 			OpenGameCanvas();
