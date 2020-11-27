@@ -29,17 +29,6 @@ namespace CQ.MiniGames
 		IEnumerator LoadUserInterface()
 		{
 			yield return null;
-			
-			// if (SceneManager.GetSceneByName(USER_INTERFACE_SCENE).isLoaded)
-			// {
-			// 	Debug.LogWarning($"Already [{USER_INTERFACE_SCENE}] Loaded!");
-			// 	yield break;
-			// }
-			//
-			// AsyncOperation operation = SceneManager.LoadSceneAsync(USER_INTERFACE_SCENE, LoadSceneMode.Additive);
-			// yield return operation;
-			//
-			// Debug.Log($"Successfully [{USER_INTERFACE_SCENE}] Loaded!");
 		}
 
 		IEnumerator InitializeAssetManager()
