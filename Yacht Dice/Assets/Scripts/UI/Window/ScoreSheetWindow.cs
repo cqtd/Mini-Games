@@ -101,7 +101,7 @@ namespace CQ.MiniGames.UI
 			else
 			{
 				m_rightSide[category - 6].SetValue(score);
-				m_leftSide[category].Deactivate();
+				m_rightSide[category - 6].Deactivate();
 			}
 			
 			m_bonusSum.SetText(string.Format(bonusFormat, player.GetScoresheet().GetUpperPoint()));
