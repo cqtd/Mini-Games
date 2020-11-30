@@ -11,7 +11,7 @@ namespace CQ.MiniGames
 			}
 		}
 
-		[SerializeField] PhysicsSetting m_physics = default;
+		[SerializeField] private PhysicsSetting m_physics = default;
 
 		protected override void OnAwake()
 		{

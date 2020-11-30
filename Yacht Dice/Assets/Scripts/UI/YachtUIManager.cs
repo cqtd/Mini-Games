@@ -10,13 +10,16 @@ namespace CQ.MiniGames.UI
 	{
 		[Header("초기 설정")]
 		[Tooltip("이 캔버스가 최초로 열립니다.")]
-		[SerializeField] string initialCanvas = default;
+		[SerializeField]
+		private string initialCanvas = default;
 		
 		[Header("화면 크기 변경 콜백")]
 		[Tooltip("화면 크기 변경 스트림 유지 제한 프레임 수")]
-		[Range(1,10)] [SerializeField] int throttleFrameCount = 5;
+		[Range(1,10)] [SerializeField]
+		private int throttleFrameCount = 5;
 		[Tooltip("화면 크기 변경 최소 감지 수치")]
-		[SerializeField] float tolerance = 0.1f;
+		[SerializeField]
+		private float tolerance = 0.1f;
 		
 		
 		public Vector2 ScreenSize { get; protected set; } 
@@ -24,8 +27,8 @@ namespace CQ.MiniGames.UI
 
 		private static event Action<Vector2> OnScreenSizeChangeCallback;
 		private IDisposable ScreenSizeChangeCallback { get; set; }
-		
-		bool IsScreenSizeChanged
+
+		private bool IsScreenSizeChanged
 		{
 			get
 			{
@@ -60,7 +63,7 @@ namespace CQ.MiniGames.UI
 			OnScreenSizeChangeCallback -= callback;
 		}
 
-		void CreateScreenSizeChangeStream()
+		private void CreateScreenSizeChangeStream()
 		{
 			if (ScreenSizeChangeCallback == null)
 			{
@@ -75,7 +78,7 @@ namespace CQ.MiniGames.UI
 			}
 		}
 
-		void OnScreenSizeChanged(bool changed)
+		private void OnScreenSizeChanged(bool changed)
 		{
 			ScreenSize = new Vector2(Screen.width, Screen.height);
 			Ratio = new Vector2(scaler.referenceResolution.x / ScreenSize.x, scaler.referenceResolution.y / ScreenSize.y);

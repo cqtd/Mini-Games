@@ -9,7 +9,7 @@ namespace CQ.MiniGames
 			
 		}
 
-		MeshRenderer GetOrCreateMesh()
+		private MeshRenderer GetOrCreateMesh()
 		{
 			if (!m_renderer)
 			{

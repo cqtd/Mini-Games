@@ -10,11 +10,11 @@ namespace CQ.MiniGames.UI
 {
 	public class SlideWindow : UIWindow
 	{
-		RectTransform rect = default;
+		private RectTransform rect = default;
 
 		public Image avatar = default;
 
-		const string path = "Assets/Sprites/Mockups/Orono Noguchi 1.png";
+		private const string path = "Assets/Sprites/Mockups/Orono Noguchi 1.png";
 		
 		public override void InitComponent()
 		{

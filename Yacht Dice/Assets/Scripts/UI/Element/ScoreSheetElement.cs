@@ -9,13 +9,13 @@ namespace CQ.MiniGames.UI
 {
 	public class ScoreSheetElement : UIElement
 	{
-		[SerializeField] TextMeshProUGUI m_elementName = default;
-		[SerializeField] TextMeshProUGUI m_filledAmount = default;
+		[SerializeField] private TextMeshProUGUI m_elementName = default;
+		[SerializeField] private TextMeshProUGUI m_filledAmount = default;
 		
-		[SerializeField] Button m_fill = default;
+		[SerializeField] private Button m_fill = default;
 
-		[SerializeField] string m_name = default;
-		bool isFilled;
+		[SerializeField] private string m_name = default;
+		private bool isFilled;
 
 		public void InitComponent()
 		{

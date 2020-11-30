@@ -30,7 +30,7 @@ namespace CQ.MiniGames
 		[Range(-360, 360)] public float minAngular = 0;
 		[Range(-360, 360)] public float maxAnguler = 360;
 
-		PhysicsDice[] dices;
+		private PhysicsDice[] dices;
 
 		public string pathFormat = "Assets/Animations/Dice {0}/recorded_{1}.asset";
 
@@ -38,12 +38,13 @@ namespace CQ.MiniGames
 		public bool rollDices = false;
 		
 		public bool physicsDiceCreated { get; set; }
-		
-		float recordStartTime;
-		float recordEndTime;
+
+		private float recordStartTime;
+		private float recordEndTime;
 
 		[Range(1, 20)] public int animationCount = 10;
-		void Awake()
+
+		private void Awake()
 		{
 			if (createDices)
 			{
@@ -56,7 +57,7 @@ namespace CQ.MiniGames
 			}
 		}
 
-		void CreatePhysicsDice()
+		private void CreatePhysicsDice()
 		{
 			dices = new PhysicsDice[5];
 			for (int i = 0; i < 5; i++)
@@ -70,7 +71,7 @@ namespace CQ.MiniGames
 			physicsDiceCreated = true;
 		}
 
-		Vector3 GetRandomOffset(float min, float max)
+		private Vector3 GetRandomOffset(float min, float max)
 		{
 			return new Vector3(Random.Range(min, max), Random.Range(min, max),Random.Range(min, max));
 		}
@@ -80,7 +81,7 @@ namespace CQ.MiniGames
 			StartCoroutine(CreatingAnimation());
 		}
 
-		IEnumerator CreatingAnimation()
+		private IEnumerator CreatingAnimation()
 		{
 			yield return new WaitForSeconds(1f);
 			
@@ -298,7 +299,7 @@ namespace CQ.MiniGames
 			StartCoroutine(Replaying());
 		}
 
-		IEnumerator Replaying()
+		private IEnumerator Replaying()
 		{
 			float elapsedTime = recordEndTime - recordStartTime;
 			float t = 0.0f;
@@ -319,9 +320,9 @@ namespace CQ.MiniGames
 				}
 			}
 		}
-		
-		
-		void OnLockStateChanged(bool isLocked)
+
+
+		private void OnLockStateChanged(bool isLocked)
 		{
 			
 		}

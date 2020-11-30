@@ -37,7 +37,7 @@ namespace CQ.MiniGames
 			StartCoroutine(PlayAnimation());
 		}
 
-		IEnumerator PlayAnimation()
+		private IEnumerator PlayAnimation()
 		{
 			IsPlaying = true;
 			float elapsedTime = 0f;

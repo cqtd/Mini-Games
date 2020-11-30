@@ -43,14 +43,14 @@ namespace CQ.MiniGames
 			m_replay = GetComponent<ReplayEntity>();
 		}
 
-		void CreateMaterialInstance()
+		private void CreateMaterialInstance()
 		{
 			Material mat = Instantiate(m_renderer.sharedMaterial);
 			mat.color = Color.black;
 			m_renderer.sharedMaterial = mat;
 		}
 
-		void CreateVelocityStream()
+		private void CreateVelocityStream()
 		{
 			positionStream?.Dispose();
 			positionStream = transform
@@ -63,7 +63,7 @@ namespace CQ.MiniGames
 				.Subscribe(OnStateChange);
 		}
 
-		void OnStateChange(bool isStopped)
+		private void OnStateChange(bool isStopped)
 		{
 			IsMoving = !isStopped;
 			RefreshColor();
@@ -122,7 +122,7 @@ namespace CQ.MiniGames
 			m_replay.Replay(t);
 		}
 
-		void ValidateValue()
+		private void ValidateValue()
 		{
 			m_replay.upside = DiceResolver.GetResult(transform, 1.5f);
 			DiceValue = (int) m_replay.upside;
@@ -133,7 +133,7 @@ namespace CQ.MiniGames
 			return m_replay;
 		}
 
-		void OnDrawGizmos()
+		private void OnDrawGizmos()
 		{
 			if (!Application.isPlaying)
 			{
@@ -144,7 +144,7 @@ namespace CQ.MiniGames
 			Gizmos.DrawLine(transform.position, transform.position + m_rigidbody.velocity);
 		}
 
-		void RefreshColor()
+		private void RefreshColor()
 		{
 			if (IsLocked)
 			{
@@ -163,7 +163,7 @@ namespace CQ.MiniGames
 			}
 		}
 
-		void OnMouseDown()
+		private void OnMouseDown()
 		{
 			Debug.Log("OnMouseDown", this.gameObject);
 			IsLocked = !IsLocked;

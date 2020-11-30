@@ -26,7 +26,7 @@ namespace CQ.MiniGames.UI
 		public float blurMax = 0.75f;
 		public float blurDuration = 1.0f;
 
-		[NonSerialized] Button blurButton;
+		[NonSerialized] private Button blurButton;
 
 		[Header("하위 윈도우")] 
 		public TopWindow topWindow = default;
@@ -38,7 +38,7 @@ namespace CQ.MiniGames.UI
 		public Button gameStartButton = default;
 		// public Button slide = default;
 		
-		[NonSerialized] ELobbyState current = ELobbyState.NONE;
+		[NonSerialized] private ELobbyState current = ELobbyState.NONE;
 		[NonSerialized] public Action<ELobbyState> onStateChanged = default;
 		
 		public void EnableBlur()
@@ -83,7 +83,7 @@ namespace CQ.MiniGames.UI
 			topWindow.onSlideBegin.AddListener(OnClick_Slide);
 		}
 
-		void SetState(ELobbyState state)
+		private void SetState(ELobbyState state)
 		{
 			if (this.current != state)
 			{
@@ -116,7 +116,7 @@ namespace CQ.MiniGames.UI
 			SetState(ELobbyState.GAME_SELECT);
 		}
 
-		void OnClick_Slide()
+		private void OnClick_Slide()
 		{
 			if (current == ELobbyState.SLIDE)
 			{

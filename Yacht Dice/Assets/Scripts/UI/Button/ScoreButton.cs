@@ -12,7 +12,7 @@ namespace CQ.MiniGames.UI
 {
 	public class ScoreButton : Button
 	{
-		[SerializeField] TextMeshProUGUI textComponent = default;
+		[SerializeField] private TextMeshProUGUI textComponent = default;
 		
 		#if UNITY_EDITOR
 		protected override void Reset()

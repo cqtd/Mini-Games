@@ -5,7 +5,7 @@ namespace CQ.MiniGames
 {
 	public class Resource : SingletonMono<Resource>
 	{
-		Dictionary<string, Object> map;
+		private Dictionary<string, Object> map;
 
 		protected override void OnAwake()
 		{

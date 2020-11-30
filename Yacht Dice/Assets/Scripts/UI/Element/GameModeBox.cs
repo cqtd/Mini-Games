@@ -8,8 +8,8 @@ namespace CQ.MiniGames.UI
 	{
 		public RectTransform hideTarget = default;
 
-		Vector3 hidePos = default;
-		Vector3 showPos = default;
+		private Vector3 hidePos = default;
+		private Vector3 showPos = default;
 		
 		public void InitComponent()
 		{

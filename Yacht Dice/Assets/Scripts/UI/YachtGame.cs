@@ -9,38 +9,38 @@ namespace CQ.MiniGames.UI
 	
 	public class YachtGame : MonoBehaviour
 	{
-		[SerializeField] DiceButton[] diceButtons = default;
-		[SerializeField] Button rollButton = default;
-		[SerializeField] TextMeshProUGUI buttonText = default;
-		[SerializeField] TextMeshProUGUI chanceText = default;
+		[SerializeField] private DiceButton[] diceButtons = default;
+		[SerializeField] private Button rollButton = default;
+		[SerializeField] private TextMeshProUGUI buttonText = default;
+		[SerializeField] private TextMeshProUGUI chanceText = default;
 
 
 		[NonSerialized] public static Sprite[] sprites = default;
 		
-		[NonSerialized] DiceSet dices = default;
+		[NonSerialized] private DiceSet dices = default;
 		[NonSerialized] public Score player1 = default;
-		
-		const int MAX_CHANCE_TO_ROLL = 3;
-		const int MAX_GAME_ROUND = 12;
 
-		int chanceToRoll = -1;
-		int currentGameRound = -1;
+		private const int MAX_CHANCE_TO_ROLL = 3;
+		private const int MAX_GAME_ROUND = 12;
 
-		const string SPRITE_PATH = "Sprite/Dice";
-		const string GAME_START = "게임 시작";
-		const string GAME_END = "게임 종료";
-		const string ROLL_DICE = "굴리기";
-		const string PICK_SCORE = "점수를 선택하세요.";
-		const string LEFT_MSG = "{0}/{1} Left";
+		private int chanceToRoll = -1;
+		private int currentGameRound = -1;
 
-		void Awake()
+		private const string SPRITE_PATH = "Sprite/Dice";
+		private const string GAME_START = "게임 시작";
+		private const string GAME_END = "게임 종료";
+		private const string ROLL_DICE = "굴리기";
+		private const string PICK_SCORE = "점수를 선택하세요.";
+		private const string LEFT_MSG = "{0}/{1} Left";
+
+		private void Awake()
 		{
 			InitComponent();
 			RegisterEvent();
 			SetInitialValue();
 		}
 
-		void InitComponent()
+		private void InitComponent()
 		{
 			sprites = Resources.LoadAll<Sprite>(SPRITE_PATH);
 			
@@ -54,17 +54,17 @@ namespace CQ.MiniGames.UI
 			}
 		}
 
-		void RegisterEvent()
+		private void RegisterEvent()
 		{
 			rollButton.onClick.AddListener(LaunchGame);
 		}
 
-		void SetInitialValue()
+		private void SetInitialValue()
 		{
 			buttonText.SetText(GAME_START);
 		}
 
-		void LaunchGame()
+		private void LaunchGame()
 		{
 			rollButton.onClick.RemoveAllListeners();
 			rollButton.onClick.AddListener(Roll);
@@ -76,7 +76,7 @@ namespace CQ.MiniGames.UI
 			buttonText.SetText(ROLL_DICE);
 		}
 
-		void Roll()
+		private void Roll()
 		{
 			dices.Roll();
 
@@ -90,7 +90,7 @@ namespace CQ.MiniGames.UI
 			chanceText.SetText(string.Format(LEFT_MSG, chanceToRoll, MAX_CHANCE_TO_ROLL));
 		}
 
-		void OnSelect()
+		private void OnSelect()
 		{
 			for (int i = 0; i < DiceSet.DICE_COUNT; i++)
 			{

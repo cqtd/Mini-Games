@@ -2,9 +2,9 @@
 {
 	public class Dice
 	{
-		readonly System.Random random;
-		
-		int m_value;
+		private readonly System.Random random;
+
+		private int m_value;
 
 		public Dice(int seed)
 		{

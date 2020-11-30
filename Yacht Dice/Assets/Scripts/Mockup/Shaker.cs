@@ -6,7 +6,7 @@ namespace CQ.MiniGames
 {
 	public class Shaker : MonoBehaviour
 	{
-		bool m_shaking;
+		private bool m_shaking;
 
 		public void StopShaking()
 		{
@@ -17,8 +17,8 @@ namespace CQ.MiniGames
 		{
 			StartCoroutine(Start());
 		}
-		
-		IEnumerator Start()
+
+		private IEnumerator Start()
 		{
 			m_shaking = true;
 			

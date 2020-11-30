@@ -10,7 +10,7 @@ namespace CQ.MiniGames.UI
 	{
 		public bool interactable = true;
 
-		bool isPressing = false;
+		private bool isPressing = false;
 		
 		public event Action onPressStart = default;
 		public event Action onPressEnd = default;

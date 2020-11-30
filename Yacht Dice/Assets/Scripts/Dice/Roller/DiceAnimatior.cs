@@ -13,12 +13,12 @@ namespace CQ.MiniGames
 	{
 		[SerializeField] public RecordedRollPack pack = default;
 		[SerializeField] public VisualDice[] diceRoots = default;
-		[SerializeField] List<int> diceValues = default;
+		[SerializeField] private List<int> diceValues = default;
 		
 		public float unitTestTimeScale = 5.0f;
 		public bool pause = true;
 
-		void Awake()
+		private void Awake()
 		{
 			foreach (var diceRoot in diceRoots)
 			{
@@ -117,7 +117,7 @@ namespace CQ.MiniGames
 		}
 
 		[ContextMenu("Play")]
-		void Play()
+		private void Play()
 		{
 			Play(diceValues);
 		}

@@ -13,18 +13,18 @@ namespace CQ.MiniGames
 		public long vibrationDuration = 300L;
 		[Tooltip("진동 인터벌 (단위 : ms)")]
 		public long vibrationInterval = 100L;
-		
-		Dictionary<int, Vector2> touchBeganPositionMap;
-		Dictionary<int, Vector2> touchEndedPositionMap;
 
-		bool m_isMouseDown = false;
-		bool m_isForcingFeedback = false;
+		private Dictionary<int, Vector2> touchBeganPositionMap;
+		private Dictionary<int, Vector2> touchEndedPositionMap;
+
+		private bool m_isMouseDown = false;
+		private bool m_isForcingFeedback = false;
 
 		public event Action<Vector2> onTouchBegan; 
 		public event Action<Vector2> onTouchEnded; 
-		public event Action<Vector2> onTouchStay; 
+		public event Action<Vector2> onTouchStay;
 
-		void Awake()
+		private void Awake()
 		{
 			touchBeganPositionMap = new Dictionary<int, Vector2>();
 			touchEndedPositionMap = new Dictionary<int, Vector2>();
@@ -32,7 +32,7 @@ namespace CQ.MiniGames
 			Vibration.Init();
 		}
 
-		void Update()
+		private void Update()
 		{
 			var touchCount = Input.touchCount;
 			
@@ -94,7 +94,7 @@ namespace CQ.MiniGames
 			}
 		}
 
-		void OnTouchBegan(Touch touch, int index)
+		private void OnTouchBegan(Touch touch, int index)
 		{
 			touchBeganPositionMap[index] = touch.position;
 			
@@ -104,7 +104,7 @@ namespace CQ.MiniGames
 			// Debug.Log($"Touch Began : {touchBeganPositionMap[index].x}, {touchBeganPositionMap[index].y}");
 		}
 
-		void OnTouchEnded(Touch touch, int index)
+		private void OnTouchEnded(Touch touch, int index)
 		{
 			touchEndedPositionMap[index] = touch.position;
 			Vector2 deltaValue = touchEndedPositionMap[index] - touchBeganPositionMap[index];
@@ -116,17 +116,17 @@ namespace CQ.MiniGames
 			// Debug.Log($"Touch Ended : {touchEndedPositionMap[index].x}, {touchEndedPositionMap[index].y}");
 		}
 
-		void OnTouchStay(Touch touch, int index)
-		{
-			// Vibration.VibratePop();
-		}
-		
-		void OnTouchMoved(Touch touch, int index)
+		private void OnTouchStay(Touch touch, int index)
 		{
 			// Vibration.VibratePop();
 		}
 
-		IEnumerator ForceFeedback()
+		private void OnTouchMoved(Touch touch, int index)
+		{
+			// Vibration.VibratePop();
+		}
+
+		private IEnumerator ForceFeedback()
 		{
 			while (m_isForcingFeedback)
 			{

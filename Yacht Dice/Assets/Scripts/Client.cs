@@ -10,19 +10,18 @@ namespace CQ.MiniGames
 {
 	public class Client : MonoBehaviour
 	{
+		private string a => "ABC";
+		private string cmd;
 
-		string a => "ABC";
-		string cmd;
+		private Queue<string> queue;
 
-		Queue<string> queue;
-		
-		
-		void Awake()
+
+		private void Awake()
 		{
 			queue = new Queue<string>();
 		}
 
-		void Start()
+		private void Start()
 		{
 			Task.Run(Connect);
 		}
@@ -32,7 +31,7 @@ namespace CQ.MiniGames
 			queue.Enqueue(msg);
 		}
 
-		void Update()
+		private void Update()
 		{
 			lock (queue)
 			{
@@ -43,7 +42,7 @@ namespace CQ.MiniGames
 			}
 		}
 
-		async Task Connect()
+		private async Task Connect()
 		{
 			Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 			

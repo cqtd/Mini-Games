@@ -6,8 +6,8 @@ namespace CQ.MiniGames.UI
 	
 	public class DiceButton : Toggle
 	{
-		Dice entity = default;
-		bool init = false;
+		private Dice entity = default;
+		private bool init = false;
 
 		
 		
@@ -24,7 +24,7 @@ namespace CQ.MiniGames.UI
 			onValueChanged.AddListener(OnValueChanged);
 		}
 
-		void OnValueChanged(bool value)
+		private void OnValueChanged(bool value)
 		{
 			
 			
@@ -32,7 +32,7 @@ namespace CQ.MiniGames.UI
 
 		}
 
-		void OnDiceRolled(int obj)
+		private void OnDiceRolled(int obj)
 		{
 			if (obj == 0)
 			{
@@ -44,7 +44,7 @@ namespace CQ.MiniGames.UI
 			}
 		}
 
-		void OnDiceLocked(bool locked)
+		private void OnDiceLocked(bool locked)
 		{
 			if (locked == isOn)
 			{

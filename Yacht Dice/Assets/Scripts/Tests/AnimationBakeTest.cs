@@ -14,11 +14,11 @@ namespace CQ.MiniGames.Tests
 	
 	public class AnimationBakeTest
 	{
-		RecordedRollPack pack = default;
-		DiceAnimatior animator = default;
-		Transform[] diceRoots = default;
-		
-		const float unitTestTimeScale = 5.0f;
+		private RecordedRollPack pack = default;
+		private DiceAnimatior animator = default;
+		private Transform[] diceRoots = default;
+
+		private const float unitTestTimeScale = 5.0f;
 		
 		/// <summary>
 		/// 애니메이션 베이킹이 잘 되었는지 확인
@@ -54,7 +54,7 @@ namespace CQ.MiniGames.Tests
 			yield return UnitTests(entries);
 		}
 
-		IEnumerator UnitTests(List<List<int>> cases)
+		private IEnumerator UnitTests(List<List<int>> cases)
 		{
 			Time.timeScale = unitTestTimeScale;
 			yield return new WaitForSeconds(3);

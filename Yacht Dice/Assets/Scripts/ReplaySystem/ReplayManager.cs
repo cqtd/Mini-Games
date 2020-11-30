@@ -37,7 +37,7 @@ namespace CQ.MiniGames.Yacht.ReplaySystem
 		#endregion
 
 
-		void Awake()
+		private void Awake()
 		{
 			if (ReplayManager.Singleton == null)
 			{
@@ -55,7 +55,7 @@ namespace CQ.MiniGames.Yacht.ReplaySystem
 			return Time.time - _startTime;
 		}
 
-		void StartReplay()
+		private void StartReplay()
 		{
 			_endTime = Time.time;
 			_replayCanvas.SetActive(true);
@@ -77,7 +77,7 @@ namespace CQ.MiniGames.Yacht.ReplaySystem
 		}
 
 		// Use this for initialization
-		void Start()
+		private void Start()
 		{
 			// This line call the replay to start after 3 seconds. You can remove this line and call StartReplay when you want.
 			Invoke("StartReplay", 3f);
@@ -133,7 +133,7 @@ namespace CQ.MiniGames.Yacht.ReplaySystem
 
 
 		// Update is called once per frame
-		void Update()
+		private void Update()
 		{
 			if (isPlaying)
 			{
@@ -175,7 +175,7 @@ namespace CQ.MiniGames.Yacht.ReplaySystem
 			}
 		}
 
-		void Swap(GameObject _out, GameObject _in = null, float delay = 0f)
+		private void Swap(GameObject _out, GameObject _in = null, float delay = 0f)
 		{
 			if (_in != null)
 			{
@@ -233,7 +233,7 @@ namespace CQ.MiniGames.Yacht.ReplaySystem
 			}
 		}
 
-		void RefreshTimer()
+		private void RefreshTimer()
 		{
 			float current = _slide.value;
 			float total = (_endTime - _startTime);
@@ -248,7 +248,7 @@ namespace CQ.MiniGames.Yacht.ReplaySystem
 		}
 
 #if UNITY_EDITOR
-		void OnDestroy()
+		private void OnDestroy()
 		{
 			Debug.LogWarning(gameObject.name + " destroyed.");
 		}

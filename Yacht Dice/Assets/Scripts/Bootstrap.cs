@@ -7,16 +7,16 @@ namespace CQ.MiniGames
 	{
 		public ETargetFramerate targetFramerate = ETargetFramerate._60;
 
-		const string USER_INTERFACE_SCENE = "Scenes/UIScene";
+		private const string USER_INTERFACE_SCENE = "Scenes/UIScene";
 
-		void Awake()
+		private void Awake()
 		{
 			Application.targetFrameRate = (int) targetFramerate;
 
 			StartCoroutine(Initialize());
 		}
 
-		IEnumerator Initialize()
+		private IEnumerator Initialize()
 		{
 			yield return InitializeAssetManager();
 			yield return InitializeAtlasManager();
@@ -26,22 +26,22 @@ namespace CQ.MiniGames
 			yield return LoadGooglePlayGameService();
 		}
 
-		IEnumerator LoadUserInterface()
+		private IEnumerator LoadUserInterface()
 		{
 			yield return null;
 		}
 
-		IEnumerator InitializeAssetManager()
+		private IEnumerator InitializeAssetManager()
 		{
 			yield return null;
 		}
 
-		IEnumerator LoadGooglePlayGameService()
+		private IEnumerator LoadGooglePlayGameService()
 		{
 			yield return null;
 		}
 
-		IEnumerator InitializeAtlasManager()
+		private IEnumerator InitializeAtlasManager()
 		{
 			yield return null;
 		}

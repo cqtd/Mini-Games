@@ -36,17 +36,17 @@ namespace CQ.MiniGames.UI
 			StartCoroutine(LoadGameScene());
 		}
 
-		void FadeIn()
+		private void FadeIn()
 		{
 			
 		}
 
-		IEnumerator FadeOut()
+		private IEnumerator FadeOut()
 		{
 			yield return null;
 		}
 
-		IEnumerator LoadGameScene()
+		private IEnumerator LoadGameScene()
 		{
 			var operation = SceneManager.LoadSceneAsync("Scenes/Dices");
 			operation.allowSceneActivation = false;

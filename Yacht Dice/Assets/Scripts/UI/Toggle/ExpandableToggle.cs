@@ -12,14 +12,14 @@ namespace CQ.MiniGames.UI
 		public TextMeshProUGUI openText = default;
 		public Toggle toggle = default;
 		public RectTransform childRoot = default;
-		RectTransform rt = default;
+		private RectTransform rt = default;
 
-		void Reset()
+		private void Reset()
 		{
 			toggle = GetComponent<Toggle>();
 		}
 
-		void Awake()
+		private void Awake()
 		{
 			rt = transform as RectTransform;
 
@@ -28,7 +28,7 @@ namespace CQ.MiniGames.UI
 			toggle.onValueChanged.AddListener(OnValueChanged);
 		}
 
-		void OnValueChanged(bool isOn)
+		private void OnValueChanged(bool isOn)
 		{
 			if (isOn)
 			{

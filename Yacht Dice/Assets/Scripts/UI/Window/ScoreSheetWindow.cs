@@ -8,14 +8,14 @@ namespace CQ.MiniGames.UI
 	
 	public class ScoreSheetWindow : UIWindow
 	{
-		[SerializeField] ScoreSheetElement[] m_leftSide = default;
-		[SerializeField] ScoreSheetElement[] m_rightSide = default;
+		[SerializeField] private ScoreSheetElement[] m_leftSide = default;
+		[SerializeField] private ScoreSheetElement[] m_rightSide = default;
 
-		[SerializeField] TextMeshProUGUI m_bonusSum = default;
-		[SerializeField] TextMeshProUGUI m_bonusEarned = default;
-		[SerializeField] TextMeshProUGUI m_sum = default;
+		[SerializeField] private TextMeshProUGUI m_bonusSum = default;
+		[SerializeField] private TextMeshProUGUI m_bonusEarned = default;
+		[SerializeField] private TextMeshProUGUI m_sum = default;
 
-		[SerializeField] string bonusFormat = $"{{0}}/{Constants.BONUS_GOAL}";
+		[SerializeField] private string bonusFormat = $"{{0}}/{Constants.BONUS_GOAL}";
 
 		public bool CanFill = false;
 		public override void InitComponent()
@@ -35,7 +35,7 @@ namespace CQ.MiniGames.UI
 			m_sum.SetText("0");
 		}
 
-		Player player;
+		private Player player;
 
 		public void Initialize(Player player)
 		{

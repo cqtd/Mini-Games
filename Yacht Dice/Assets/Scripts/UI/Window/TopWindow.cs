@@ -7,9 +7,9 @@ namespace CQ.MiniGames.UI
 {
 	public class TopWindow : UIWindow
 	{
-		[SerializeField] Button shop = default;
-		[SerializeField] Button events = default;
-		[SerializeField] Button notice = default;
+		[SerializeField] private Button shop = default;
+		[SerializeField] private Button events = default;
+		[SerializeField] private Button notice = default;
 		
 		public Button slide = default;
 
@@ -24,7 +24,7 @@ namespace CQ.MiniGames.UI
 			Reference.Use(notice);
 		}
 
-		void OnSlideBegin()
+		private void OnSlideBegin()
 		{
 			onSlideBegin?.Invoke();
 		}

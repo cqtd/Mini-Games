@@ -18,19 +18,21 @@ namespace CQ.MiniGames.UI
 		public float interval2 = 0.4f;
 		public float tweenDuration = 2.0f;
 
-		[FormerlySerializedAs("image")] [SerializeField] Image image1 = default;
-		[FormerlySerializedAs("swap")] [SerializeField] Image image2 = default;
+		[FormerlySerializedAs("image")] [SerializeField]
+		private Image image1 = default;
+		[FormerlySerializedAs("swap")] [SerializeField]
+		private Image image2 = default;
 
-		bool activated = false;
-		IEnumerator loadingCoroutine = default;
+		private bool activated = false;
+		private IEnumerator loadingCoroutine = default;
 
-		void Reset()
+		private void Reset()
 		{
 			image1 = GetComponent<Image>();
 			image2 = transform.GetChild(0).GetComponent<Image>();
 		}
 
-		void Awake()
+		private void Awake()
 		{
 			image1.sprite = sprites[0];
 			image2.sprite = sprites[0];
@@ -62,7 +64,7 @@ namespace CQ.MiniGames.UI
 			activated = false;
 		}
 
-		IEnumerator Loading()
+		private IEnumerator Loading()
 		{
 			while (activated)
 			{

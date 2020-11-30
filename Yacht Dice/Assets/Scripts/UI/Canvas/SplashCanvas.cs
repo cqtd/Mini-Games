@@ -67,7 +67,7 @@ namespace CQ.MiniGames.UI
 			enterButton.onClick.RemoveListener(OpenGameCanvas);
 		}
 
-		void OpenGameCanvas()
+		private void OpenGameCanvas()
 		{
 			LobbyCanvas lobbyCanvas = YachtUIManager.Instance.Open<LobbyCanvas>();
 			lobbyCanvas.canvasGroup.alpha = 0;
@@ -78,8 +78,8 @@ namespace CQ.MiniGames.UI
 				YachtUIManager.Instance.Close<SplashCanvas>();
 			});
 		}
-		
-		IEnumerator UpdateLoadingContext()
+
+		private IEnumerator UpdateLoadingContext()
 		{
 			yield return new WaitForSeconds(startUpInterval);
 			

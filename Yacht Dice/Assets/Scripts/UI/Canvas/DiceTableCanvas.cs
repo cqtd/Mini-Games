@@ -9,15 +9,15 @@ namespace CQ.MiniGames.UI
 {
 	public class DiceTableCanvas : UICanvas
 	{
-		[SerializeField] TouchHandlerVisual touchHandler = default;
-		[SerializeField] ScoreSheetWindow scoreSheet = default;
-		[SerializeField] DiceRollButton m_rollButton = default;
+		[SerializeField] private TouchHandlerVisual touchHandler = default;
+		[SerializeField] private ScoreSheetWindow scoreSheet = default;
+		[SerializeField] private DiceRollButton m_rollButton = default;
 			
-		[SerializeField] Button m_button = default;
-		TextMeshProUGUI m_text = default;
+		[SerializeField] private Button m_button = default;
+		private TextMeshProUGUI m_text = default;
 
-		[SerializeField] Image m_gauge = default;
-		[SerializeField] TextMeshProUGUI m_result = default;
+		[SerializeField] private Image m_gauge = default;
+		[SerializeField] private TextMeshProUGUI m_result = default;
 		
 		
 		protected override void InitComponent()
@@ -38,9 +38,9 @@ namespace CQ.MiniGames.UI
 			
 		}
 
-		Player player;
+		private Player player;
 
-		void GameStart()
+		private void GameStart()
 		{
 			player = new Player();
 			player.Initialize();
@@ -60,9 +60,9 @@ namespace CQ.MiniGames.UI
 			m_rollButton.onPressEnd += OnPressEnd;
 		}
 
-		Coroutine pingpong;
+		private Coroutine pingpong;
 
-		void OnPressStart()
+		private void OnPressStart()
 		{
 			if (pingpong != null)
 			{
@@ -74,27 +74,27 @@ namespace CQ.MiniGames.UI
 			pingpong = StartCoroutine(PingPongValue());
 		}
 
-		void OnPressEnd()
+		private void OnPressEnd()
 		{
 			Roll();
 			m_rollButton.interactable = false;
 		}
 
-		bool readyToRoll = false;
+		private bool readyToRoll = false;
 
-		void Roll()
+		private void Roll()
 		{
 			readyToRoll = true;
 		}
 
-		float value = 0f;
+		private float value = 0f;
 
-		bool isIncremental = true;
+		private bool isIncremental = true;
 
 		public float multiplier = 1.0f;
 		public float corner = 0.05f;
 
-		IEnumerator PingPongValue()
+		private IEnumerator PingPongValue()
 		{
 			while (!readyToRoll)
 			{

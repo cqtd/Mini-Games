@@ -7,31 +7,31 @@ namespace CQ.MiniGames.UI
 {
 	public class TouchHandlerVisual : UIWindow
 	{
-		TouchHandler handler = default;
+		private TouchHandler handler = default;
 		
-		[SerializeField] Image startPosition = default;
-		[SerializeField] Image endedPosition = default;
+		[SerializeField] private Image startPosition = default;
+		[SerializeField] private Image endedPosition = default;
 
-		Vector2 scaler;
+		private Vector2 scaler;
 
-		void Awake()
+		private void Awake()
 		{
 			// handler.onTouchBegan += OnTouchBegan;
 			// handler.onTouchEnded += OnTouchEnded;
 			// handler.onTouchStay += OnTouchStay;
 		}
 
-		void OnTouchBegan(Vector2 position)
+		private void OnTouchBegan(Vector2 position)
 		{
 			startPosition.rectTransform.anchoredPosition = position * scaler;
 		}
-		
-		void OnTouchEnded(Vector2 position)
+
+		private void OnTouchEnded(Vector2 position)
 		{
 			endedPosition.rectTransform.anchoredPosition = position * scaler;
 		}
-		
-		void OnTouchStay(Vector2 position)
+
+		private void OnTouchStay(Vector2 position)
 		{
 			
 		}
@@ -60,7 +60,7 @@ namespace CQ.MiniGames.UI
 			YachtUIManager.RegisterScreenSizeChange(OnScreenSizeChangeCallback);
 		}
 
-		void OnScreenSizeChangeCallback(Vector2 resolution)
+		private void OnScreenSizeChangeCallback(Vector2 resolution)
 		{
 			Debug.Log($"{resolution.x}, {resolution.y}");
 

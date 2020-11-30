@@ -5,7 +5,7 @@ namespace CQ.MiniGames.Yacht
 {
 	public class Scoresheet
 	{
-		readonly Dictionary<Enums.Category, int> m_scores = new Dictionary<Enums.Category, int>(Constants.NUM_SCORES);
+		private readonly Dictionary<Enums.Category, int> m_scores = new Dictionary<Enums.Category, int>(Constants.NUM_SCORES);
 	
 		public bool IsEmpty(Enums.Category category)
 		{

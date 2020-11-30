@@ -9,12 +9,12 @@ namespace CQ.MiniGames.Editor
 	public class PhysicsAnimationBaker : EditorWindow
 	{
 		[MenuItem("Tools/Physics/Animation Baker")]
-		static void CreateWindow()
+		private static void CreateWindow()
 		{
 			CreateWindow<PhysicsAnimationBaker>("Physics Animation Baker");
 		}
 
-		void Create()
+		private void Create()
 		{
 			string path = EditorUtility.SaveFilePanelInProject(
 				"Save at",

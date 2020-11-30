@@ -11,35 +11,35 @@ namespace CQ.MiniGames.UI
 	[DefaultExecutionOrder(1000)]
 	public class UILeaderBoard : MonoBehaviour
 	{
-		[SerializeField] YachtGame game = default;
+		[SerializeField] private YachtGame game = default;
 		
-		[SerializeField] TextMeshProUGUI playerName = default;
+		[SerializeField] private TextMeshProUGUI playerName = default;
 		
-		[SerializeField] ScoreButton aceScore = default;
-		[SerializeField] ScoreButton dueceScore = default;
-		[SerializeField] ScoreButton threeScore = default;
-		[SerializeField] ScoreButton fourScore = default;
-		[SerializeField] ScoreButton fiveScore = default;
-		[SerializeField] ScoreButton sixScore = default;
+		[SerializeField] private ScoreButton aceScore = default;
+		[SerializeField] private ScoreButton dueceScore = default;
+		[SerializeField] private ScoreButton threeScore = default;
+		[SerializeField] private ScoreButton fourScore = default;
+		[SerializeField] private ScoreButton fiveScore = default;
+		[SerializeField] private ScoreButton sixScore = default;
 		
-		[SerializeField] TextMeshProUGUI subTotalScore = default;
-		[SerializeField] TextMeshProUGUI bonusScore = default;
+		[SerializeField] private TextMeshProUGUI subTotalScore = default;
+		[SerializeField] private TextMeshProUGUI bonusScore = default;
 		
-		[SerializeField] ScoreButton choiceScore = default;
+		[SerializeField] private ScoreButton choiceScore = default;
 		
-		[SerializeField] ScoreButton fourCardScore = default;
-		[SerializeField] ScoreButton fullHouseScore = default;
-		[SerializeField] ScoreButton SmallStrScore = default;
-		[SerializeField] ScoreButton LargeStrScore = default;
+		[SerializeField] private ScoreButton fourCardScore = default;
+		[SerializeField] private ScoreButton fullHouseScore = default;
+		[SerializeField] private ScoreButton SmallStrScore = default;
+		[SerializeField] private ScoreButton LargeStrScore = default;
 		
-		[SerializeField] ScoreButton YachtScore = default;
+		[SerializeField] private ScoreButton YachtScore = default;
 		
-		[SerializeField] TextMeshProUGUI totalScore = default;
+		[SerializeField] private TextMeshProUGUI totalScore = default;
 
 		public Color confirmedTextColor;
 		public Color previewTextColor;
-		
-		Dictionary<EScoreSlot, ScoreButton> buttonMap;
+
+		private Dictionary<EScoreSlot, ScoreButton> buttonMap;
 
 		public virtual void Start()
 		{
@@ -83,7 +83,7 @@ namespace CQ.MiniGames.UI
 		/// <summary>
 		/// 기입한 점수표 그리기
 		/// </summary>
-		void Repaint()
+		private void Repaint()
 		{
 			foreach (EScoreSlot type in Enum.GetValues(typeof(EScoreSlot)))
 			{
@@ -105,7 +105,7 @@ namespace CQ.MiniGames.UI
 		/// <summary>
 		/// 현재 주사위가 어떤 점수를 주는지
 		/// </summary>
-		void PreviewScore()
+		private void PreviewScore()
 		{
 			foreach (EScoreSlot type in Enum.GetValues(typeof(EScoreSlot)))
 			{
@@ -118,7 +118,7 @@ namespace CQ.MiniGames.UI
 		}
 		
 		[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-		static void ResetDomain() {
+		private static void ResetDomain() {
 			
 		}
 	}

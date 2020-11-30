@@ -6,11 +6,11 @@ namespace CQ.MiniGames.Yacht
 {
 	public class Player
 	{
-		readonly List<Dice> m_dices;
-		readonly Dictionary<Enums.Category, int> m_scores;
+		private readonly List<Dice> m_dices;
+		private readonly Dictionary<Enums.Category, int> m_scores;
 
-		Scoresheet m_scoresheet;
-		int m_reroll;
+		private Scoresheet m_scoresheet;
+		private int m_reroll;
 
 		public Player()
 		{

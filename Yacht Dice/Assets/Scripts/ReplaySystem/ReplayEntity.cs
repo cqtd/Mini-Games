@@ -8,14 +8,14 @@ namespace CQ.MiniGames.Yacht.ReplaySystem
 	public class ReplayEntity : MonoBehaviour
 	{
 		public RecordData data { get; set; }
-		[SerializeField] float recordTimeout = 10f;
+		[SerializeField] private float recordTimeout = 10f;
 
-		bool m_recording;
-		float startTime;
+		private bool m_recording;
+		private float startTime;
 
-		event Action<bool> onRecordingDone;
-		CoroutineHandle timeOut;
-		Coroutine timeOutHandle;
+		private event Action<bool> onRecordingDone;
+		private CoroutineHandle timeOut;
+		private Coroutine timeOutHandle;
 		
 		public Enums.DiceFace upside { get; set; }
 
@@ -49,8 +49,8 @@ namespace CQ.MiniGames.Yacht.ReplaySystem
 		{
 			data.Set (t, transform);
 		}
-		
-		IEnumerator RecordingClip()
+
+		private IEnumerator RecordingClip()
 		{
 			while (m_recording)
 			{
@@ -64,7 +64,7 @@ namespace CQ.MiniGames.Yacht.ReplaySystem
 			onRecordingDone?.Invoke(true);
 		}
 
-		IEnumerator TimeOut()
+		private IEnumerator TimeOut()
 		{
 			yield return new WaitForSeconds(recordTimeout);
 			
