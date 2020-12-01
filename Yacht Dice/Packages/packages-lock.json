@@ -16,6 +16,13 @@
       },
       "url": "https://packages.unity.com"
     },
+    "com.smkplus.custom-toolbar": {
+      "version": "https://github.com/smkplus/CustomToolbar.git#master",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "af28959048a12cbc3ae54539a6c7e05cd46885b4"
+    },
     "com.trinary.mec": {
       "version": "1.0.0",
       "depth": 0,
