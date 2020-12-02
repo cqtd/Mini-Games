@@ -1,8 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using CQ.MiniGames.Yacht;
 using CQ.UI;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.UI;
 
 namespace CQ.MiniGames.UI
@@ -18,8 +20,21 @@ namespace CQ.MiniGames.UI
 
 		[SerializeField] private Image m_gauge = default;
 		[SerializeField] private TextMeshProUGUI m_result = default;
+
+		[NonSerialized] private DiceAnimatior diceAnimator = default;
+
+		[Header("Rolling Gauge Properties")]
+		[SerializeField] private float m_multiplier = 1.0f;
+		[SerializeField] private float m_corner = 0.05f;
 		
+		private Player player;
+		private Coroutine pingpong;
+
+		private float RollingValue { get; set; } = 0f;
+		private bool IsIncremental { get; set; } = true;
+		private bool ReadyToRoll { get; set; }
 		
+
 		protected override void InitComponent()
 		{
 			touchHandler.InitComponent();
@@ -31,6 +46,9 @@ namespace CQ.MiniGames.UI
 			m_text.SetText("게임 시작");
 			m_rollButton.gameObject.SetActive(false);
 			m_gauge.gameObject.SetActive(false);
+
+			diceAnimator = FindObjectOfType<DiceAnimatior>();
+			Assert.IsNotNull(diceAnimator);
 		}
 
 		public override void Dispose()
@@ -38,7 +56,6 @@ namespace CQ.MiniGames.UI
 			
 		}
 
-		private Player player;
 
 		private void GameStart()
 		{
@@ -56,11 +73,11 @@ namespace CQ.MiniGames.UI
 			m_gauge.gameObject.SetActive(true);
 			
 			m_rollButton.gameObject.SetActive(true);
-			m_rollButton.onPressStart += OnPressStart;
-			m_rollButton.onPressEnd += OnPressEnd;
+			
+			// register callback
+			m_rollButton.onPressStart.AddListener(OnPressStart);
+			m_rollButton.onPressEnd.AddListener(OnPressEnd);
 		}
-
-		private Coroutine pingpong;
 
 		private void OnPressStart()
 		{
@@ -69,8 +86,8 @@ namespace CQ.MiniGames.UI
 				StopCoroutine(pingpong);
 			}
 			
-			value = 0f;
-			readyToRoll = false;
+			RollingValue = 0f;
+			ReadyToRoll = false;
 			pingpong = StartCoroutine(PingPongValue());
 		}
 
@@ -80,48 +97,40 @@ namespace CQ.MiniGames.UI
 			m_rollButton.interactable = false;
 		}
 
-		private bool readyToRoll = false;
 
 		private void Roll()
 		{
-			readyToRoll = true;
+			ReadyToRoll = true;
 		}
-
-		private float value = 0f;
-
-		private bool isIncremental = true;
-
-		public float multiplier = 1.0f;
-		public float corner = 0.05f;
 
 		private IEnumerator PingPongValue()
 		{
-			while (!readyToRoll)
+			while (!ReadyToRoll)
 			{
-				if (isIncremental)
+				if (IsIncremental)
 				{
-					if (value < 1 - corner)
+					if (RollingValue < 1 - m_corner)
 					{
-						value += Time.deltaTime * multiplier;
+						RollingValue += Time.deltaTime * m_multiplier;
 					}
 					else
 					{
-						isIncremental = false;
+						IsIncremental = false;
 					}	
 				}
 				else
 				{
-					if (value > corner)
+					if (RollingValue > m_corner)
 					{
-						value -= Time.deltaTime * multiplier;
+						RollingValue -= Time.deltaTime * m_multiplier;
 					}
 					else
 					{
-						isIncremental = true;
+						IsIncremental = true;
 					}
 				}
 
-				m_gauge.fillAmount = value;
+				m_gauge.fillAmount = RollingValue;
 				yield return null;
 			}
 			
