@@ -14,17 +14,19 @@ namespace CQ.MiniGames.UI
 	public class ChargeableButton : Selectable
 	{
 		[Serializable]
-		public class PressStartEvent : UnityEvent { }
+		public class PressStartEvent : UnityEvent<PointerEventData> { }
 
 		[Serializable]
-		public class PressEndEvent : UnityEvent { }
+		public class PressEndEvent : UnityEvent<PointerEventData> { }
 
 		[Serializable]
 		public class PressStayEvent : UnityEvent { }
+		public class PressCancelEvent : UnityEvent<PointerEventData> { }
 
 		[SerializeField] protected PressStartEvent m_onPressStart = new PressStartEvent();
 		[SerializeField] protected PressEndEvent m_onPressEnd = new PressEndEvent();
 		[SerializeField] protected PressStayEvent m_onPressStay = new PressStayEvent();
+		[SerializeField] protected PressCancelEvent m_onPressCancel = new PressCancelEvent();
 
 		public bool IsPressing { get; protected set; }
 
@@ -49,6 +51,13 @@ namespace CQ.MiniGames.UI
 			}
 		}
 		
+		public PressCancelEvent onPressCancel {
+			get
+			{
+				return m_onPressCancel;
+			}
+		}
+		
 		protected override void Reset()
 		{
 			base.Reset();
@@ -56,24 +65,25 @@ namespace CQ.MiniGames.UI
 			m_onPressStart = new PressStartEvent();
 			m_onPressEnd = new PressEndEvent();
 			m_onPressStay = new PressStayEvent();
+			m_onPressCancel = new PressCancelEvent();
 		}
 
 		public override void OnPointerEnter(PointerEventData eventData)
 		{
 			base.OnPointerEnter(eventData);
+			
+			EventTrigger trigger = null;
 		}
 
 		public override void OnPointerExit(PointerEventData eventData)
 		{
 			base.OnPointerExit(eventData);
 			
-			base.OnPointerExit(eventData);
-			
 			if (!interactable) return;
 			if (!IsPressing) return;
 			
 			IsPressing = false;
-			m_onPressEnd?.Invoke();
+			m_onPressCancel?.Invoke(eventData);
 		}
 
 		public override void OnPointerDown(PointerEventData eventData)
@@ -83,7 +93,7 @@ namespace CQ.MiniGames.UI
 			if (!interactable) return;
 
 			IsPressing = true;
-			m_onPressStart.Invoke();
+			m_onPressStart.Invoke(eventData);
 		}
 
 		public override void OnPointerUp(PointerEventData eventData)
@@ -95,7 +105,7 @@ namespace CQ.MiniGames.UI
 			
 			IsPressing = false;
 			
-			m_onPressEnd?.Invoke();
+			m_onPressEnd?.Invoke(eventData);
 		}
 
 		protected virtual void Update()

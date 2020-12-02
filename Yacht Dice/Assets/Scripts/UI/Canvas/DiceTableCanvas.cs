@@ -5,6 +5,7 @@ using CQ.UI;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace CQ.MiniGames.UI
@@ -77,9 +78,10 @@ namespace CQ.MiniGames.UI
 			// register callback
 			m_rollButton.onPressStart.AddListener(OnPressStart);
 			m_rollButton.onPressEnd.AddListener(OnPressEnd);
+			m_rollButton.onPressCancel.AddListener(OnPressCancel);
 		}
 
-		private void OnPressStart()
+		private void OnPressStart(PointerEventData eventData)
 		{
 			if (pingpong != null)
 			{
@@ -91,7 +93,16 @@ namespace CQ.MiniGames.UI
 			pingpong = StartCoroutine(PingPongValue());
 		}
 
-		private void OnPressEnd()
+		private void OnPressCancel(PointerEventData eventData)
+		{
+			StopCoroutine(pingpong);
+			
+			RollingValue = 0f;
+			ReadyToRoll = false;
+			m_gauge.fillAmount = RollingValue;
+		}
+
+		private void OnPressEnd(PointerEventData eventData)
 		{
 			Roll();
 			m_rollButton.interactable = false;
