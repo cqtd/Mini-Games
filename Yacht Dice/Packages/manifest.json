@@ -1,8 +1,9 @@
 {
   "dependencies": {
-  	"com.smkplus.custom-toolbar": "https://github.com/smkplus/CustomToolbar.git#master",
     "com.coffee.softmask-for-ugui": "https://github.com/mob-sakai/SoftMaskForUGUI.git",
+    "com.cqtd.build-system": "https://github.com/cqtd/cqunity-build-system.git",
     "com.michsky.ui": "2.2.6",
+    "com.smkplus.custom-toolbar": "https://github.com/smkplus/CustomToolbar.git#master",
     "com.trinary.mec": "1.0.0",
     "com.unity.2d.sprite": "1.0.0",
     "com.unity.addressables": "1.8.5",
