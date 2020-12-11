@@ -2,6 +2,9 @@
 <module type="RIDER_MODULE" version="4">
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$/../.." />
+    <content url="file://$USER_HOME$/AppData/Local/Unity/cache/packages/packages.unity.com/com.michsky.ui@2.2.6" />
+    <content url="file://$USER_HOME$/AppData/Local/Unity/cache/packages/packages.unity.com/com.trinary.mec@1.0.0" />
+    <content url="file://$USER_HOME$/AppData/Local/Unity/cache/packages/packages.unity.com/com.unity.demigant.dotween@1.0.0" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
 </module>
