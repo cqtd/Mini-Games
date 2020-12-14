@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using CQ.UI;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace CQ.MiniGames.UI

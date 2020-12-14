@@ -20,6 +20,8 @@ namespace CQ.MiniGames.UI
 		[Tooltip("화면 크기 변경 최소 감지 수치")]
 		[SerializeField]
 		private float tolerance = 0.1f;
+
+		[SerializeField] private Camera m_uiCamera = default;
 		
 		
 		public Vector2 ScreenSize { get; protected set; } 

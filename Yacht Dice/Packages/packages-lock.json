@@ -14,6 +14,15 @@
       "dependencies": {},
       "hash": "9aba95109eb57afd72fa6dc8fc47741d4d811eb6"
     },
+    "com.madumpa.universal.stylized-lit": {
+      "version": "https://github.com/madumpa/URP_StylizedLitShader.git#packageManagerWork",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.unity.render-pipelines.universal": "8.2.0"
+      },
+      "hash": "f44a0ce8133d32c6acf8ea5fb8b7e3a9668786ad"
+    },
     "com.michsky.ui": {
       "version": "file:C:/Users/J-DT/AppData/Local/Unity/cache/packages/packages.unity.com/com.michsky.ui@2.2.6",
       "depth": 0,
@@ -21,6 +30,13 @@
       "dependencies": {
         "com.unity.textmeshpro": "3.0.3"
       }
+    },
+    "com.smkplus.custom-toolbar": {
+      "version": "https://github.com/smkplus/CustomToolbar.git#master",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "883b7b3bb1e2637dafef644cf0507539fc70655f"
     },
     "com.trinary.mec": {
       "version": "file:C:/Users/J-DT/AppData/Local/Unity/cache/packages/packages.unity.com/com.trinary.mec@1.0.0",

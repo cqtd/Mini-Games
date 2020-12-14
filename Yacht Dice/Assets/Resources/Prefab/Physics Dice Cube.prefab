@@ -508,7 +508,7 @@ GameObject:
   - component: {fileID: -4417324273238877377}
   - component: {fileID: -1639046334834233990}
   m_Layer: 0
-  m_Name: Prefab_DiceCube
+  m_Name: Physics Dice Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -561,7 +561,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5e12dc7578f3f4b4f8a654460cbd6894, type: 2}
+  - {fileID: 2100000, guid: a2ffc0b60688d284fb88b6f5ec41af68, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -624,13 +624,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5fcdd33305a4d84aabf0557bdd60cfb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_renderer: {fileID: 5759974479023861680}
   threshold: 0.0001
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 1024
   m_rigidbody: {fileID: 5759974479023861683}
   m_collider: {fileID: 5759974479023861679}
-  m_renderer: {fileID: 5759974479023861680}
   m_replay: {fileID: -1639046334834233990}
 --- !u!114 &-1639046334834233990
 MonoBehaviour:
