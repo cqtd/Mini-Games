@@ -57,11 +57,18 @@ namespace CQ.MiniGames.UI
 				return m_onPressCancel;
 			}
 		}
-		
+
+#if UNITY_EDITOR
 		protected override void Reset()
 		{
 			base.Reset();
 			
+			CreateEvent();
+		}
+#endif
+
+		private void CreateEvent()
+		{
 			m_onPressStart = new PressStartEvent();
 			m_onPressEnd = new PressEndEvent();
 			m_onPressStay = new PressStayEvent();

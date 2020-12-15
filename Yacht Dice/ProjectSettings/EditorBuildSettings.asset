@@ -9,10 +9,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Main.unity
     guid: c8836fea95a46da4480a7619d60e06bd
   - enabled: 1
-    path: Assets/Scenes/Dices.unity
-    guid: 5244d5c0ca951d941816de92e5cf80fd
-  - enabled: 1
-    path: Assets/Scenes/UIScene.unity
-    guid: b11c4ef848bdd7e4bb58f7ecf5be2939
+    path: Assets/Scenes/Singleplay/GameScene.unity
+    guid: 2b047b1f197254d47a1904f0e7ce8dc2
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: bdeb19c74daa7454b8cf9e0f1f4b2185, type: 2}

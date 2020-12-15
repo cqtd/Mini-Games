@@ -44,8 +44,11 @@ namespace CQ.MiniGames.UI
 			base.OnAwake();
 			
 			CreateScreenSizeChangeStream();
-			
-			Instance.Open(initialCanvas);
+
+			if (!string.IsNullOrEmpty(initialCanvas))
+			{
+				Instance.Open(initialCanvas);
+			}
 		}
 
 		public static void RegisterScreenSizeChange(Action<Vector2> callback)
