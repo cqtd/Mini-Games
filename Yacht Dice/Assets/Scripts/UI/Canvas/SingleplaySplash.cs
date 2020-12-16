@@ -2,6 +2,7 @@
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace CQ.MiniGames.UI
@@ -28,6 +29,8 @@ namespace CQ.MiniGames.UI
 			color = background.color;
 			background.color = Color.black;
 			logo.alpha = 0;
+			
+			button.onClick.AddListener(OpenGameScene);
 		}
 
 		private IEnumerator Start()
@@ -72,6 +75,23 @@ namespace CQ.MiniGames.UI
 
 		private IEnumerator Loading()
 		{
+			yield return new WaitForSeconds(1);
+			bIsLoadingComplete = true;
+			yield return null;
+		}
+
+		private void OpenGameScene()
+		{
+			button.onClick.RemoveAllListeners();
+			button.interactable = false;
+			
+			SceneManager.LoadScene(SceneList.Singleplay.SINGLE_PLAY, LoadSceneMode.Single);
+			StartCoroutine(OpenSequence());
+		}
+
+		private IEnumerator OpenSequence()
+		{
+			gameObject.SetActive(false);
 			yield return null;
 		}
 	}
