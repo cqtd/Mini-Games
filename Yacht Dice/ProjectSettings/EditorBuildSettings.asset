@@ -6,9 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/Yacht.unity
+    guid: ec230330b4d88a04cb029464989c84b0
+  - enabled: 0
     path: Assets/Scenes/Singleplay/Bootstrap.unity
     guid: 195cca7c5430932408a8cc81937c586c
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Singleplay/GameScene.unity
     guid: 2b047b1f197254d47a1904f0e7ce8dc2
   m_configObjects:

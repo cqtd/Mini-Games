@@ -1,9 +1,0 @@
-{
-  "name": "com.cqtd.ui",
-  "displayName": "CQ UI",
-  "version": "1.0.1",
-  "description": "CQ UserInterface System",
-  "dependencies": {
-    "com.cqtd.lib": "1.0.0"
-  }
-}
