@@ -3,10 +3,12 @@ using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
 
-namespace CQ.MiniGames
+namespace Yacht.Gameplay.ReplaySystem
 {
-	using Yacht.Gameplay.ReplaySystem;
-	
+	/// <summary>
+	/// 애니메이션 베이킹용
+	/// 이 컴포넌트는 에디터에서만 사용되어야 함
+	/// </summary>
 	[RequireComponent(typeof(Rigidbody))]
 	public class PhysicsDice : DiceBase
 	{

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 using MEC;
 using UnityEngine;
+using Yacht.AssetManagement;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -62,8 +63,9 @@ namespace CQ.MiniGames
 			dices = new PhysicsDice[5];
 			for (int i = 0; i < 5; i++)
 			{
-				dices[i] = Resource.Instantiate<PhysicsDice>(Paths.PHYSICS_DICE, transform);
-				// dices[i] = Instantiate(Resources.Load<PhysicsDice>(Paths.PHYSICS_DICE), transform);
+				PhysicsDice resource = Resources.Load<PhysicsDice>(AssetPath.PHYSICS_DICE);
+				dices[i] = Object.Instantiate<PhysicsDice>(resource, transform);
+				
 				dices[i].onLockStateChanged += OnLockStateChanged;
 				dices[i].name = $"(Instance) Physics Dice {i:00}";
 			}

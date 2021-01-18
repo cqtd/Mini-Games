@@ -1,81 +1,152 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace CQ.MiniGames
+namespace Yacht.Gameplay.ReplaySystem
 {
-	using Yacht.Gameplay;
-	using Yacht.Gameplay.ReplaySystem;
-	
+	using Gameplay;
+	using AssetManagement;
+
 	public class DiceAnimatior : MonoBehaviour
 	{
-		[SerializeField] public RecordedRollPack pack = default;
 		[SerializeField] public VisualDice[] diceRoots = default;
-		[SerializeField] private List<int> diceValues = default;
+
+		private Dictionary<int, List<RollingAnimation>> animationMap;
 		
-		public float unitTestTimeScale = 5.0f;
-		public bool pause = true;
+		private bool isPaused = false;
+		private bool isPlaying = false;
+
+		private bool isAnimationLoaded = false;
+		
+		private Coroutine playCoroutine;
+		private Action onComplete;
 
 		private void Awake()
 		{
-			foreach (var diceRoot in diceRoots)
+			foreach (VisualDice diceRoot in diceRoots)
 			{
 				diceRoot.gameObject.SetActive(false);
 			}
+
+			LoadAnimationAsync();
 		}
 
-		public void Play(List<int> dices)
+		private async void LoadAnimationAsync()
 		{
-			RecordedRoll recorded = null;
+			int elapsedSecond = 0;
+			int count = 0;
 			
-			switch (dices.Count)
+			Debug.Log($"Loading animations has started. ");
+			
+			Task task = Task.Run(() =>
 			{
-				case 1:
+				Stopwatch stopwatch = new Stopwatch();
+				stopwatch.Start();
+
+				animationMap = new Dictionary<int, List<RollingAnimation>>();
+
+				string dir = Application.streamingAssetsPath + Constant.PATCHABLE;
+			
+				byte[] bytes = File.ReadAllBytes(dir + $"/hash.bin");
+				string json = GZipCompress.Unzip(bytes);
+				json = GZipCompress.XORCipher(json, Constant.TEJAVA);
+
+				var deserialized = JsonConvert.DeserializeObject<Dictionary<int, List<string>>>(json);
+
+				foreach (int key in deserialized.Keys)
 				{
-					recorded = pack.dice1[Random.Range(0, pack.dice1.Count - 1)];
-					break;
+					var hashes = deserialized[key];
+					foreach (string hash in hashes)
+					{
+						count++;
+					
+						string path = dir + $"/{hash}.{Constant.DICE_ANIM_EXTENSION}";
+					
+						bytes = File.ReadAllBytes(path);
+						json = GZipCompress.Unzip(bytes);
+						json = GZipCompress.XORCipher(json, Constant.TEJAVA);
+
+						RollingAnimation animObj = JsonConvert.DeserializeObject<RollingAnimation>(json);
+
+						if (!animationMap.TryGetValue(key, out var list))
+						{
+							list = new List<RollingAnimation>();
+						}
+					
+						list.Add(animObj);
+						animationMap[key] = list;
+					}
 				}
+
+				elapsedSecond = stopwatch.Elapsed.Seconds;
+			});
+			
+			await task;
+
+			isAnimationLoaded = true;
+			Debug.Log($"{count} animations were loaded. ({elapsedSecond}s)");
+		}
+
+		public bool IsPlaying()
+		{
+			return isPlaying;
+		}
+
+		public void Play(List<int> dices, Action callback = null)
+		{
+			if (!isAnimationLoaded) return;
+
+			onComplete = callback;
+			
+			var animationPack = animationMap[dices.Count];
+			RollingAnimation recorded = animationPack[Random.Range(0, animationPack.Count - 1)];
+
+			playCoroutine = StartCoroutine(Playing(recorded, dices));
+		}
+
+		public void Pause()
+		{
+			if (!isPlaying)
+			{
+				Debug.LogError($"애니메이션이 재생중이아닙니다.");
+				return;
+			}
+			
+			isPaused = true;
+		}
+
+		public void Stop(bool completeCallback)
+		{
+			if (isPlaying && playCoroutine != null)
+			{
+				StopCoroutine(playCoroutine);
 				
-				case 2:
+				if (completeCallback)
 				{
-					recorded = pack.dice2[Random.Range(0, pack.dice2.Count - 1)];
-					break;
+					onComplete?.Invoke();
 				}
-				
-				case 3:
-				{
-					recorded = pack.dice3[Random.Range(0, pack.dice3.Count - 1)];
-					break;
-				}
-				
-				case 4:
-				{
-					recorded = pack.dice4[Random.Range(0, pack.dice4.Count - 1)];
-					break;
-				}
-				
-				case 5:
-				{
-					recorded = pack.dice5[Random.Range(0, pack.dice5.Count - 1)];
-					break;
-				}
-				
-				default:
-					break;
 			}
 
-			StartCoroutine(Playing(recorded, dices));
+			isPaused = false;
+			isPlaying = false;
+			onComplete = null;
 		}
 
-		public IEnumerator Playing(RecordedRoll recorded, List<int> dices, Action callback = null)
+		private IEnumerator Playing(RollingAnimation rollAnim, List<int> dices)
 		{
+			isPlaying = true;
+			
 			// 다이스 비주얼라이즈 온 오프
 			// 다이스 초기 세팅
 			for (int i = 0; i < Constants.NUM_DICES; i++)
 			{
-				if (i >= recorded.datas.Length)
+				if (i >= rollAnim.datas.Length)
 				{
 					diceRoots[i].gameObject.SetActive(false);
 					diceRoots[i].Hide();
@@ -86,18 +157,18 @@ namespace CQ.MiniGames
 				diceRoots[i].Show();
 
 				diceRoots[i].transform.GetChild(0).localRotation =
-					Quaternion.Euler(recorded.datas[i].upside.GetLocalRotation((Enums.DiceValue) dices[i]));
-					
+					Quaternion.Euler(rollAnim.datas[i].upside.GetLocalRotation((Enums.DiceValue) dices[i]));
 			}
 			
 			// 재생 로직
-			float elapsedTime = recorded.length;
+			float elapsedTime = rollAnim.length;
 			float t = 0.0f;
+			
 			while (true)
 			{
-				for (int i = 0; i < recorded.datas.Length; i++)
+				for (int i = 0; i < rollAnim.datas.Length; i++)
 				{
-					recorded.datas[i].Set(t, diceRoots[i].transform);
+					rollAnim.datas[i].Set(t, diceRoots[i].transform);
 				}
 
 				t += Time.deltaTime * Time.timeScale;
@@ -109,17 +180,44 @@ namespace CQ.MiniGames
 					break;
 				}
 
+				// 일시정지
+				while (isPaused)
+				{
+					yield return null;
+				}
+
 				yield return null;
 			}
 			
 			// 콜백 호출
-			callback?.Invoke();
+			onComplete?.Invoke();
+			
+			// 클린
+			isPlaying = false;
+			onComplete = null;
 		}
+
+#if UNITY_EDITOR
+		
+		[SerializeField] private List<int> diceValues = default;
 
 		[ContextMenu("Play")]
 		private void Play()
 		{
+			if (!Application.isPlaying) return;
+			if (!isAnimationLoaded) return;
+			
 			Play(diceValues);
 		}
+		
+		[ContextMenu("Play",true)]
+		private bool CanEditorPlay()
+		{
+			if (!Application.isPlaying) return false;
+			if (!isAnimationLoaded) return false;
+
+			return true;
+		}
+#endif
 	}
 }

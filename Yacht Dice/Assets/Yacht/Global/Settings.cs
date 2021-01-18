@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+﻿using CQ.MiniGames;
+using UnityEngine;
 
-namespace CQ.MiniGames
+namespace Yacht.Global
 {
 	public class Settings : SingletonMono<Settings>
 	{

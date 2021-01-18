@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace CQ.MiniGames
+namespace Yacht.AssetManagement
 {
 	public class Resource : SingletonMono<Resource>
 	{

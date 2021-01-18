@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace CQ.MiniGames
+namespace Yacht.Global
 {
 	[Serializable]
 	public class PhysicsSetting

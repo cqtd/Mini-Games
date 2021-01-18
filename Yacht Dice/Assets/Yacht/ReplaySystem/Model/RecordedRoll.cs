@@ -12,6 +12,11 @@ namespace Yacht.Gameplay.ReplaySystem
 		{
 			return new RollingAnimation() {datas = datas, length = length};
 		}
+
+		public static implicit operator RollingAnimation(RecordedRoll so)
+		{
+			return so.Convert();
+		}
 	}
 	
 	[Serializable]

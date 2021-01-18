@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections;
-using Yacht.Gameplay.ReplaySystem;
 using UnityEngine;
 
-namespace CQ.MiniGames
+namespace Yacht.Gameplay.ReplaySystem
 {
 	public class DiceVisualizer : MonoBehaviour
 	{
@@ -42,7 +41,7 @@ namespace CQ.MiniGames
 			IsPlaying = true;
 			float elapsedTime = 0f;
 
-			Reference.Use(elapsedTime);
+			// Reference.Use(elapsedTime);
 			
 
 			yield return null;

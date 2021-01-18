@@ -1,7 +1,8 @@
 ﻿using System;
 using UnityEngine;
+using Yacht.Global;
 
-namespace CQ.MiniGames
+namespace Yacht
 {
 	using Yacht.Gameplay;
 	

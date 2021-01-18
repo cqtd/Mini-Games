@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
+using Yacht.AssetManagement;
 
-namespace CQ.MiniGames
+namespace Yacht.Gameplay.ReplaySystem
 {
 	public class VisualDice : DiceBase
 	{
@@ -15,7 +16,8 @@ namespace CQ.MiniGames
 			{
 				if (transform.childCount < 1)
 				{
-					m_renderer = Resource.Instantiate<MeshRenderer>(Paths.VISUAL_DICE, transform);
+					MeshRenderer resource = Resources.Load<MeshRenderer>(AssetPath.VISUAL_DICE);
+					m_renderer = Object.Instantiate<MeshRenderer>(resource, transform);
 				}
 				else
 				{
