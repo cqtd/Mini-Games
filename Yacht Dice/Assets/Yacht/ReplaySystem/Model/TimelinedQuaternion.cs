@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Yacht.Gameplay.ReplaySystem
+namespace Yacht.ReplaySystem
 {
 	[Serializable]
 	public class TimelinedQuaternion

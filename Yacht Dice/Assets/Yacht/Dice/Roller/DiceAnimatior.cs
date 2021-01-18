@@ -3,14 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace Yacht.Gameplay.ReplaySystem
+namespace Yacht.ReplaySystem
 {
-	using Gameplay;
 	using AssetManagement;
 
 	public class DiceAnimatior : MonoBehaviour
@@ -27,70 +27,119 @@ namespace Yacht.Gameplay.ReplaySystem
 		private Coroutine playCoroutine;
 		private Action onComplete;
 
+		private CancellationTokenSource tokenSource2;
+		private CancellationToken ct;
+		private Task loadingTask;
+
+		private int elapsedSecond = 0;
+		private int count = 0;
+
+		
 		private void Awake()
 		{
 			foreach (VisualDice diceRoot in diceRoots)
 			{
 				diceRoot.gameObject.SetActive(false);
 			}
+		}
 
+		private void Start()
+		{
+			
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+			if (loadingTask != null && !loadingTask.IsCompleted)
+			{
+				tokenSource2.Cancel(false);
+			}
+#endif
+			
 			LoadAnimationAsync();
 		}
+		
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+		private void OnDisable()
+		{
+			tokenSource2?.Cancel(false);
+			tokenSource2?.Dispose();
+		}
+#endif
 
 		private async void LoadAnimationAsync()
 		{
-			int elapsedSecond = 0;
-			int count = 0;
-			
 			Debug.Log($"Loading animations has started. ");
 			
-			Task task = Task.Run(() =>
-			{
-				Stopwatch stopwatch = new Stopwatch();
-				stopwatch.Start();
-
-				animationMap = new Dictionary<int, List<RollingAnimation>>();
-
-				string dir = Application.streamingAssetsPath + Constant.PATCHABLE;
+			tokenSource2 = new CancellationTokenSource();
+			ct = tokenSource2.Token;
 			
-				byte[] bytes = File.ReadAllBytes(dir + $"/hash.bin");
-				string json = GZipCompress.Unzip(bytes);
-				json = GZipCompress.XORCipher(json, Constant.TEJAVA);
-
-				var deserialized = JsonConvert.DeserializeObject<Dictionary<int, List<string>>>(json);
-
-				foreach (int key in deserialized.Keys)
-				{
-					var hashes = deserialized[key];
-					foreach (string hash in hashes)
-					{
-						count++;
-					
-						string path = dir + $"/{hash}.{Constant.DICE_ANIM_EXTENSION}";
-					
-						bytes = File.ReadAllBytes(path);
-						json = GZipCompress.Unzip(bytes);
-						json = GZipCompress.XORCipher(json, Constant.TEJAVA);
-
-						RollingAnimation animObj = JsonConvert.DeserializeObject<RollingAnimation>(json);
-
-						if (!animationMap.TryGetValue(key, out var list))
-						{
-							list = new List<RollingAnimation>();
-						}
-					
-						list.Add(animObj);
-						animationMap[key] = list;
-					}
-				}
-
-				elapsedSecond = stopwatch.Elapsed.Seconds;
-			});
-			
-			await task;
+			loadingTask = Task.Run(WorkThreadAsync, ct);
+			await loadingTask;
+			loadingTask = null;
 
 			isAnimationLoaded = true;
+			
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
 			Debug.Log($"{count} animations were loaded. ({elapsedSecond}s)");
+#endif
+		}
+
+		private void WorkThreadAsync()
+		{
+			
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+			Stopwatch stopwatch = new Stopwatch();
+			stopwatch.Start();
+#endif
+
+			animationMap = new Dictionary<int, List<RollingAnimation>>();
+
+			string dir = Application.streamingAssetsPath + Constant.PATCHABLE;
+
+			byte[] bytes = File.ReadAllBytes(dir + $"/hash.bin");
+			string json = GZipCompress.Unzip(bytes);
+			json = GZipCompress.XORCipher(json, Constant.TEJAVA);
+
+			var deserialized = JsonConvert.DeserializeObject<Dictionary<int, List<string>>>(json);
+
+			foreach (int key in deserialized.Keys)
+			{
+				var hashes = deserialized[key];
+				foreach (string hash in hashes)
+				{
+
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+
+					if (ct.IsCancellationRequested)
+					{
+						Debug.Log("WorkThread::Aborted.");
+						return;
+					}
+					
+#endif
+
+					count++;
+
+					string path = dir + $"/{hash}.{Constant.DICE_ANIM_EXTENSION}";
+
+					bytes = File.ReadAllBytes(path);
+					json = GZipCompress.Unzip(bytes);
+					json = GZipCompress.XORCipher(json, Constant.TEJAVA);
+
+					RollingAnimation animObj = JsonConvert.DeserializeObject<RollingAnimation>(json);
+
+					if (!animationMap.TryGetValue(key, out var list))
+					{
+						list = new List<RollingAnimation>();
+					}
+
+					list.Add(animObj);
+					animationMap[key] = list;
+				}
+			}
+			
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+			elapsedSecond = stopwatch.Elapsed.Seconds;
+#endif
+			
 		}
 
 		public bool IsPlaying()

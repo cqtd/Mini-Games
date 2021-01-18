@@ -6,7 +6,7 @@ using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Yacht.AssetManagement;
-using Yacht.Gameplay.ReplaySystem;
+using Yacht.ReplaySystem;
 
 namespace CQ.MiniGames.Editor
 {

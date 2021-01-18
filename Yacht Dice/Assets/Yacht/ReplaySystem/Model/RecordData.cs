@@ -1,7 +1,8 @@
 ﻿using System;
 using UnityEngine;
+using Yacht.Gameplay;
 
-namespace Yacht.Gameplay.ReplaySystem
+namespace Yacht.ReplaySystem
 {
 	[Serializable]
 	public class RecordData

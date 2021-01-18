@@ -10,7 +10,7 @@ using UnityEditor;
 
 namespace CQ.MiniGames
 {
-	using Yacht.Gameplay.ReplaySystem;
+	using Yacht.ReplaySystem;
 	
 	public class PhysicalSimulator : MonoBehaviour
 	{

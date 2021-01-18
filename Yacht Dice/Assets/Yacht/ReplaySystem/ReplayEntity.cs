@@ -2,8 +2,9 @@
 using System.Collections;
 using MEC;
 using UnityEngine;
+using Yacht.Gameplay;
 
-namespace Yacht.Gameplay.ReplaySystem
+namespace Yacht.ReplaySystem
 {
 	public class ReplayEntity : MonoBehaviour
 	{

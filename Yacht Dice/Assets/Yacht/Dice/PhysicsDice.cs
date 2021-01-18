@@ -3,7 +3,7 @@ using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
 
-namespace Yacht.Gameplay.ReplaySystem
+namespace Yacht.ReplaySystem
 {
 	/// <summary>
 	/// 애니메이션 베이킹용

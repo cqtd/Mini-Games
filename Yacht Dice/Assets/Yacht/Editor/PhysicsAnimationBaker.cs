@@ -1,10 +1,10 @@
 ﻿using UnityEditor;
 using UnityEngine;
+using Yacht.ReplaySystem;
 
 namespace CQ.MiniGames.Editor
 {
 	using Yacht.Gameplay;
-	using Yacht.Gameplay.ReplaySystem;
 	
 	public class PhysicsAnimationBaker : EditorWindow
 	{

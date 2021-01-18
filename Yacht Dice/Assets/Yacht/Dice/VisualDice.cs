@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using Yacht.AssetManagement;
 
-namespace Yacht.Gameplay.ReplaySystem
+namespace Yacht.ReplaySystem
 {
 	public class VisualDice : DiceBase
 	{

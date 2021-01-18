@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace CQ.MiniGames.UI
 {
+	using Yacht;
 	using Yacht.Gameplay;
 	
 	public class ScoreSheetWindow : UIWindow
@@ -16,6 +17,7 @@ namespace CQ.MiniGames.UI
 		[SerializeField] private TextMeshProUGUI m_sum = default;
 
 		[SerializeField] private string bonusFormat = $"{{0}}/{Constants.BONUS_GOAL}";
+		private Player player;
 
 		public bool CanFill = false;
 		public override void InitComponent()
@@ -34,8 +36,6 @@ namespace CQ.MiniGames.UI
 			m_bonusEarned.SetText("0");
 			m_sum.SetText("0");
 		}
-
-		private Player player;
 
 		public void Initialize(Player player)
 		{

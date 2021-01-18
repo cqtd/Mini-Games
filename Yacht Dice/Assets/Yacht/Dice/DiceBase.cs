@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Yacht.Gameplay.ReplaySystem
+namespace Yacht.ReplaySystem
 {
 	public abstract class DiceBase : MonoBehaviour
 	{
@@ -26,7 +26,6 @@ namespace Yacht.Gameplay.ReplaySystem
 		}
 
 		private Dictionary<string, SerializedTransform> transformMap;
-
 		private const string defaultKey = "dk";
 
 		public void CacheTransform(string key = defaultKey)

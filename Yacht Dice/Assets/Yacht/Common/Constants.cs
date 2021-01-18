@@ -1,4 +1,4 @@
-﻿namespace Yacht.Gameplay
+﻿namespace Yacht
 {
 	public class Constants
 	{

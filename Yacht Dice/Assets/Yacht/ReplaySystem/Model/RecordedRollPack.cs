@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Yacht.Gameplay.ReplaySystem
+namespace Yacht.ReplaySystem
 {
 	[CreateAssetMenu(menuName = "Replay/Roll Pack", fileName = "RecordedRollPack", order = 50)]
 	public class RecordedRollPack : ScriptableObject

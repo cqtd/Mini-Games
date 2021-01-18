@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine;
 
-namespace Yacht.Gameplay.ReplaySystem
+namespace Yacht.ReplaySystem
 {
 	public class DiceVisualizer : MonoBehaviour
 	{

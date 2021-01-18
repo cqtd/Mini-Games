@@ -7,7 +7,7 @@ using UnityEngine.Assertions;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Yacht.Gameplay;
-using Yacht.Gameplay.ReplaySystem;
+using Yacht.ReplaySystem;
 
 namespace CQ.MiniGames.UI
 {
