@@ -19,6 +19,8 @@ namespace Yacht
 			ScreenManager.Init();
 			Game.Init();
 			
+			Game.Instance.CreateNewGame();
+			
 			yield return Patchable.Instance.CheckUpdates();
 			
 			Patchable.Instance.LoadAnimations(OnAnimationLoad);

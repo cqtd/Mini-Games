@@ -100,6 +100,25 @@ namespace Yacht.UIToolkit
 			// gameObject.SetActive(false);
 			
 			Engine.Log("LoadingUI::FadeInCoroutine::Done");
+
+			yield return new WaitForSeconds(2.0f);
+
+			value = 0f;
+			while (value < 0.95f)
+			{
+				value += Time.deltaTime * fadeSpeed;
+				document.rootVisualElement.style.opacity = (1 - value);
+
+				yield return null;
+			}
+
+			document.rootVisualElement.style.opacity = 0f;
+			document.rootVisualElement.style.display = DisplayStyle.None;
+
+			yield return null;
+			
+			ScreenManager.Instance.ShowTitle();
+			gameObject.SetActive(false);
 		}
 	}
 }

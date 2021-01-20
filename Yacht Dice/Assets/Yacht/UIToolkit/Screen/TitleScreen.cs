@@ -26,7 +26,6 @@ namespace Yacht.UIToolkit
 
 		public void StartGame()
 		{
-			Game.Instance.CreateNewGame();
 		}
 	}
 }

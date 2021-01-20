@@ -16,7 +16,6 @@ namespace Yacht.ReplaySystem
 	public class DiceAnimatior : MonoBehaviour
 	{
 		[SerializeField] public VisualDice[] diceRoots = default;
-		
 
 		private bool isPaused = false;
 		private bool isPlaying = false;
@@ -31,30 +30,20 @@ namespace Yacht.ReplaySystem
 				diceRoot.gameObject.SetActive(false);
 			}
 		}
+		
 
-		private void Update()
+		public List<int> GetUnlockedIndecies()
 		{
-
-#if UNITY_STANDALONE_WINDOW || UNITY_EDITOR
-			if (Input.GetMouseButtonDown(0))
+			var entry = new List<int>();
+			for (int i = 0; i < Constants.NUM_DICES; i++)
 			{
-				PlayRandom();
-			}
-
-#elif UNITY_ANDROID
-			if (Input.touchCount > 0)
-			{
-				for (int i = 0; i < Input.touchCount; i++)
+				if (!diceRoots[i].IsLocked)
 				{
-					Touch touch = Input.GetTouch(i);
-					
-					if (touch.phase == TouchPhase.Began)
-					{
-						PlayRandom();
-					}
+					entry.Add(i);
 				}
 			}
-#endif
+
+			return entry;
 		}
 
 		private void PlayRandom()
@@ -132,6 +121,8 @@ namespace Yacht.ReplaySystem
 		private IEnumerator Playing(RollingAnimation rollAnim, List<int> dices)
 		{
 			isPlaying = true;
+
+			List<int> wildcards = new List<int>();
 			
 			// 다이스 비주얼라이즈 온 오프
 			// 다이스 초기 세팅
@@ -188,6 +179,8 @@ namespace Yacht.ReplaySystem
 			// 클린
 			isPlaying = false;
 			onComplete = null;
+			
+			ViewDice();
 		}
 
 		private void ViewDice()

@@ -18,6 +18,8 @@ namespace Yacht.UIToolkit
 		public static void Init()
 		{
 			instance = FindObjectOfType<ScreenManager>();
+			instance.m_loadingScreen.gameObject.SetActive(true);
+			
 
 			Engine.onLogging += instance.Log;
 		}

@@ -191,14 +191,18 @@ namespace Yacht.Gameplay
 		{
 			int[] values = dices.Select(e => e).ToArray();
 			int[][] entries = new[] {new[] {1, 2, 3, 4}, new[] {2, 3, 4, 5}, new[] {3, 4, 5, 6}};
-			
+
 			foreach (int[] arr in entries)
 			{
 				bool failed = arr.Any(value => !values.Contains(value));
 
 				if (!failed)
 				{
-					return 15;
+					var hash = new HashSet<int>(dices);
+					if (hash.Count >= 4)
+					{
+						return 15;
+					}
 				}
 			}
 
@@ -216,7 +220,11 @@ namespace Yacht.Gameplay
 
 				if (!failed)
 				{
-					return 30;
+					var hash = new HashSet<int>(dices);
+					if (hash.Count >= 5)
+					{
+						return 30;
+					}
 				}
 			}
 

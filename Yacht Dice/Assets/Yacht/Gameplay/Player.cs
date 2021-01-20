@@ -34,6 +34,11 @@ namespace Yacht.Gameplay
 			return m_reroll < Constants.NUM_ROLLS;
 		}
 
+		public int GetChance()
+		{
+			return m_reroll;
+		}
+
 		public Scoresheet GetScoresheet()
 		{
 			return this.m_scoresheet;

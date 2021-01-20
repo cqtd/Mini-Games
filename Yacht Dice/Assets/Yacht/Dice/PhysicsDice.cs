@@ -22,7 +22,6 @@ namespace Yacht.ReplaySystem
 
 		public bool IsMoving { get; set; }
 		public bool IsSimulating { get; set; }
-		public bool IsLocked { get; set; }
 		public Vector3 PlacedPosition { get; set; }
 		public Quaternion PlacedRotation { get; set; }
 

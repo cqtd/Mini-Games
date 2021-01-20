@@ -9,6 +9,7 @@ namespace Yacht.ReplaySystem
 		[SerializeField] protected MeshRenderer m_renderer = default;
 		
 		public int DiceValue { get; set; }
+		public bool IsLocked { get; set; }
 
 		
 		protected virtual void Reset()

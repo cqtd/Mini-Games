@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using Yacht.Gameplay;
 
 namespace Yacht
@@ -24,9 +25,14 @@ namespace Yacht
 
 		public Player Player { get; protected set; }
 
+		public event Action onGameCreate;
+
 		public void CreateNewGame()
 		{
 			Player = new Player();
+			Player.Initialize();
+			
+			onGameCreate?.Invoke();
 		}
 	}
 }
