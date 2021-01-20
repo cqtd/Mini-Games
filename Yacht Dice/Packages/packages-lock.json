@@ -8,11 +8,10 @@
       "hash": "5c54622518b193e917239d66e12fd6e5516db31d"
     },
     "com.cqtd.build-system": {
-      "version": "https://github.com/cqtd/cqunity-build-system.git",
+      "version": "file:C:/Github/Unity Projects/Build System Dev/Packages/com.cqtd.build-system",
       "depth": 0,
-      "source": "git",
-      "dependencies": {},
-      "hash": "9aba95109eb57afd72fa6dc8fc47741d4d811eb6"
+      "source": "local",
+      "dependencies": {}
     },
     "com.michsky.ui": {
       "version": "file:C:/Users/J-DT/AppData/Local/Unity/cache/packages/packages.unity.com/com.michsky.ui@2.2.6",
@@ -66,13 +65,6 @@
       "dependencies": {
         "com.unity.test-framework": "1.1.1"
       },
-      "url": "https://packages.unity.com"
-    },
-    "com.unity.mobile.android-logcat": {
-      "version": "1.2.0",
-      "depth": 0,
-      "source": "registry",
-      "dependencies": {},
       "url": "https://packages.unity.com"
     },
     "com.unity.scriptablebuildpipeline": {

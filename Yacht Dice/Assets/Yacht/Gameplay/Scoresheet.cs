@@ -65,6 +65,67 @@ namespace Yacht.Gameplay
 
 		#region Score Calculation
 
+		public static int GetBest(List<int> dices, out Enums.Category bestFit)
+		{
+			int score = 0;
+			
+			bestFit = Enums.Category.ONES;
+			
+			int current = GetYacht(dices);
+			if (current >= score)
+			{
+				bestFit = Enums.Category.YACHT;
+				score = current;
+			}
+			
+			current = GetLargeStraight(dices);
+			if (current >= score)
+			{
+				bestFit = Enums.Category.LARGE_STRAIGHT;
+				score = current;
+			}
+			
+			current = GetSmallStraight(dices);
+			if (current >= score)
+			{
+				bestFit = Enums.Category.SMALL_STRAIGHT;
+				score = current;
+			}
+			
+			current = GetFullHouse(dices);
+			if (current >= score)
+			{
+				bestFit = Enums.Category.FULL_HOUSE;
+				score = current;
+			}
+			
+			current = GetFourCard(dices);
+			if (current >= score)
+			{
+				bestFit = Enums.Category.FOUR_OF_A_KIND;
+				score = current;
+			}
+			
+			current = GetChoice(dices);
+			if (current >= score)
+			{
+				bestFit = Enums.Category.CHOICE;
+				score = current;
+			}
+
+			for (int i = 6; i > 0; i--)
+			{
+				current = GetNumeric(dices, i);
+				if (current >= score)
+				{
+					bestFit = (Enums.Category) (i - 1);
+					score = current;
+				}
+			}
+
+			return score;
+		}
+
 		public static int GetNumeric(List<int> dices, int i)
 		{
 			return dices.Count(e => e == i) * i;

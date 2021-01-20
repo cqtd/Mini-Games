@@ -17,13 +17,14 @@ namespace Yacht.ReplaySystem
 		[SerializeField] protected Rigidbody m_rigidbody = default;
 		[SerializeField] protected Collider m_collider = default;
 		[SerializeField] protected ReplayEntity m_replay = default;
+		
+		protected IDisposable positionStream;
 
 		public bool IsMoving { get; set; }
 		public bool IsSimulating { get; set; }
 		public bool IsLocked { get; set; }
 		public Vector3 PlacedPosition { get; set; }
 		public Quaternion PlacedRotation { get; set; }
-		public int DiceValue { get; set; }
 
 		public event Action<bool> onLockStateChanged;
 		public event Action onMovementStop;

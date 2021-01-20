@@ -51,12 +51,12 @@ public abstract class SingletonMono<T> : MonoBehaviour where T : SingletonMono<T
 	{
 		if (_inst == null)
 		{
-			_inst = this as T;
+			_inst = (T)this;
 			OnAwake();
 		}
 		else
 		{
-			Debug.LogWarning("There are more than 2 singletons. later one is being destroyed.");
+			Debug.LogWarning($"[{_inst.GetType().Name}]::There are more than 2 singletons. later one is being destroyed.");
 			Destroy(gameObject);
 		}
 

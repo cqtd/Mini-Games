@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
+using CQ.MiniGames;
+using DG.Tweening;
+using MEC;
 using UnityEngine;
+using Yacht.Gameplay;
 using Random = UnityEngine.Random;
+using Debug = UnityEngine.Debug;
 
 namespace Yacht.ReplaySystem
 {
@@ -16,24 +16,13 @@ namespace Yacht.ReplaySystem
 	public class DiceAnimatior : MonoBehaviour
 	{
 		[SerializeField] public VisualDice[] diceRoots = default;
-
-		private Dictionary<int, List<RollingAnimation>> animationMap;
 		
+
 		private bool isPaused = false;
 		private bool isPlaying = false;
 
-		private bool isAnimationLoaded = false;
-		
 		private Coroutine playCoroutine;
 		private Action onComplete;
-
-		private CancellationTokenSource tokenSource2;
-		private CancellationToken ct;
-		private Task loadingTask;
-
-		private int elapsedSecond = 0;
-		private int count = 0;
-
 		
 		private void Awake()
 		{
@@ -43,103 +32,49 @@ namespace Yacht.ReplaySystem
 			}
 		}
 
-		private void Start()
+		private void Update()
 		{
-			
-#if UNITY_EDITOR || DEVELOPMENT_BUILD
-			if (loadingTask != null && !loadingTask.IsCompleted)
+
+#if UNITY_STANDALONE_WINDOW || UNITY_EDITOR
+			if (Input.GetMouseButtonDown(0))
 			{
-				tokenSource2.Cancel(false);
+				PlayRandom();
 			}
-#endif
-			
-			LoadAnimationAsync();
-		}
-		
-#if UNITY_EDITOR || DEVELOPMENT_BUILD
-		private void OnDisable()
-		{
-			tokenSource2?.Cancel(false);
-			tokenSource2?.Dispose();
-		}
-#endif
 
-		private async void LoadAnimationAsync()
-		{
-			Debug.Log($"Loading animations has started. ");
-			
-			tokenSource2 = new CancellationTokenSource();
-			ct = tokenSource2.Token;
-			
-			loadingTask = Task.Run(WorkThreadAsync, ct);
-			await loadingTask;
-			loadingTask = null;
-
-			isAnimationLoaded = true;
-			
-#if UNITY_EDITOR || DEVELOPMENT_BUILD
-			Debug.Log($"{count} animations were loaded. ({elapsedSecond}s)");
-#endif
-		}
-
-		private void WorkThreadAsync()
-		{
-			
-#if UNITY_EDITOR || DEVELOPMENT_BUILD
-			Stopwatch stopwatch = new Stopwatch();
-			stopwatch.Start();
-#endif
-
-			animationMap = new Dictionary<int, List<RollingAnimation>>();
-
-			string dir = Application.streamingAssetsPath + Constant.PATCHABLE;
-
-			byte[] bytes = File.ReadAllBytes(dir + $"/hash.bin");
-			string json = GZipCompress.Unzip(bytes);
-			json = GZipCompress.XORCipher(json, Constant.TEJAVA);
-
-			var deserialized = JsonConvert.DeserializeObject<Dictionary<int, List<string>>>(json);
-
-			foreach (int key in deserialized.Keys)
+#elif UNITY_ANDROID
+			if (Input.touchCount > 0)
 			{
-				var hashes = deserialized[key];
-				foreach (string hash in hashes)
+				for (int i = 0; i < Input.touchCount; i++)
 				{
-
-#if UNITY_EDITOR || DEVELOPMENT_BUILD
-
-					if (ct.IsCancellationRequested)
-					{
-						Debug.Log("WorkThread::Aborted.");
-						return;
-					}
+					Touch touch = Input.GetTouch(i);
 					
-#endif
-
-					count++;
-
-					string path = dir + $"/{hash}.{Constant.DICE_ANIM_EXTENSION}";
-
-					bytes = File.ReadAllBytes(path);
-					json = GZipCompress.Unzip(bytes);
-					json = GZipCompress.XORCipher(json, Constant.TEJAVA);
-
-					RollingAnimation animObj = JsonConvert.DeserializeObject<RollingAnimation>(json);
-
-					if (!animationMap.TryGetValue(key, out var list))
+					if (touch.phase == TouchPhase.Began)
 					{
-						list = new List<RollingAnimation>();
+						PlayRandom();
 					}
-
-					list.Add(animObj);
-					animationMap[key] = list;
 				}
 			}
-			
-#if UNITY_EDITOR || DEVELOPMENT_BUILD
-			elapsedSecond = stopwatch.Elapsed.Seconds;
 #endif
-			
+		}
+
+		private void PlayRandom()
+		{
+			var dices = new List<int>();
+
+			int diceCount = 5;
+			// int diceCount = Random.Range(1, 5);
+			for (int i = 0; i < diceCount; i++)
+			{
+				dices.Add(Random.Range(1, 6));
+			}
+				
+			Play(dices, () =>
+			{
+				int score = Scoresheet.GetBest(dices, out var bestFit);
+				Engine.Log($"{bestFit}! - {score}");
+
+				ViewDice();
+			});
 		}
 
 		public bool IsPlaying()
@@ -149,11 +84,18 @@ namespace Yacht.ReplaySystem
 
 		public void Play(List<int> dices, Action callback = null)
 		{
-			if (!isAnimationLoaded) return;
+			if (!Patchable.Instance.IsAnimationLoaded) return;
+			if (isPlaying)
+			{
+
+				UnityEngine.Debug.Log("재생 중입니다. 애니메이션 종료를 기다려주세요.");
+
+				return;
+			}
 
 			onComplete = callback;
 			
-			var animationPack = animationMap[dices.Count];
+			var animationPack = Patchable.Instance.animationMap[dices.Count];
 			RollingAnimation recorded = animationPack[Random.Range(0, animationPack.Count - 1)];
 
 			playCoroutine = StartCoroutine(Playing(recorded, dices));
@@ -163,7 +105,7 @@ namespace Yacht.ReplaySystem
 		{
 			if (!isPlaying)
 			{
-				Debug.LogError($"애니메이션이 재생중이아닙니다.");
+				UnityEngine.Debug.LogError($"애니메이션이 재생중이아닙니다.");
 				return;
 			}
 			
@@ -207,6 +149,8 @@ namespace Yacht.ReplaySystem
 
 				diceRoots[i].transform.GetChild(0).localRotation =
 					Quaternion.Euler(rollAnim.datas[i].upside.GetLocalRotation((Enums.DiceValue) dices[i]));
+
+				diceRoots[i].DiceValue = dices[i];
 			}
 			
 			// 재생 로직
@@ -246,27 +190,53 @@ namespace Yacht.ReplaySystem
 			onComplete = null;
 		}
 
-#if UNITY_EDITOR
-		
-		[SerializeField] private List<int> diceValues = default;
-
-		[ContextMenu("Play")]
-		private void Play()
+		private void ViewDice()
 		{
-			if (!Application.isPlaying) return;
-			if (!isAnimationLoaded) return;
-			
-			Play(diceValues);
-		}
-		
-		[ContextMenu("Play",true)]
-		private bool CanEditorPlay()
-		{
-			if (!Application.isPlaying) return false;
-			if (!isAnimationLoaded) return false;
+			for (int i = 0; i < diceRoots.Length; i++)
+			{
+				int index = i;
+				
+				DiceBase dice = diceRoots[index];
+				dice.CacheTransform();
 
-			return true;
+				Timing.CallDelayed(i * 0.1f, () =>
+				{
+					Transform prevParent = dice.transform.parent;
+					
+					dice.transform.SetParent(World.ViewPosition[index]);
+					dice.transform.DOLocalMove(Vector3.zero, 0.4f);
+
+					Vector3 rotation = Vector3.zero;
+					switch (dice.GetComponent<DiceBase>().DiceValue)
+					{
+						case 1:
+							rotation = Vector3.up * 180f;
+							break;
+						case 2:
+							rotation = Vector3.right * -90f;
+							break;
+						case 3:
+							rotation = Vector3.up * 90f;
+							break;
+						case 4:
+							rotation = Vector3.up * -90f;
+							break;
+						case 5:
+							rotation = Vector3.right * 90f;
+							break;
+						case 6:
+							break;
+						default:
+							break;
+					}
+
+					Tweener rotater = dice.transform.DOLocalRotate(rotation, 0.4f);
+					rotater.OnComplete(() =>
+					{
+						dice.transform.SetParent(prevParent);
+					});
+				});
+			}
 		}
-#endif
 	}
 }

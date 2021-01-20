@@ -1,5 +1,5 @@
 {
-    "m_SelectedDeviceId": "73466d510903",
+    "m_SelectedDeviceId": "7106dec0",
     "m_SelectedPackage": {
         "deviceId": "",
         "name": "",
@@ -12,6 +12,42 @@
             "deviceId": "73466d510903",
             "name": "com.miui.home",
             "processId": 18171,
+            "exited": false
+        },
+        {
+            "deviceId": "7106dec0",
+            "name": "com.jaybbo.yachtoo",
+            "processId": 22949,
+            "exited": true
+        },
+        {
+            "deviceId": "7106dec0",
+            "name": "com.miui.home",
+            "processId": 12854,
+            "exited": true
+        },
+        {
+            "deviceId": "7106dec0",
+            "name": "com.jaybbo.yachtapp2",
+            "processId": 9521,
+            "exited": true
+        },
+        {
+            "deviceId": "7106dec0",
+            "name": "com.miui.home",
+            "processId": 2436,
+            "exited": true
+        },
+        {
+            "deviceId": "7106dec0",
+            "name": "com.miui.home",
+            "processId": 2426,
+            "exited": true
+        },
+        {
+            "deviceId": "7106dec0",
+            "name": "com.miui.home",
+            "processId": 2515,
             "exited": false
         }
     ],
@@ -44,6 +80,10 @@
             {
                 "m_Name": "CRASH",
                 "m_Selected": false
+            },
+            {
+                "m_Name": "AudioTrack",
+                "m_Selected": false
             }
         ]
     },
@@ -62,7 +102,7 @@
             true,
             true
         ],
-        "MemoryGroup": 1,
+        "MemoryGroup": 0,
         "Behavior": 1
     },
     "m_Filter": "",

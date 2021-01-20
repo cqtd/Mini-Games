@@ -1,0 +1,10 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement name="background" style="opacity: 1; position: absolute; left: 0; top: 0; right: 0; bottom: 0; background-color: rgb(0, 0, 0);" />
+    <ui:VisualElement name="loading" style="left: 0; top: 0; right: 0; bottom: 0; position: absolute;">
+        <ui:VisualElement name="flex" style="flex-grow: 1; flex-shrink: 0;" />
+        <ui:VisualElement name="progress-bar" style="min-height: 1%; flex-shrink: 0;">
+            <ui:VisualElement name="progress-bar-value" style="height: auto; background-color: rgb(255, 219, 8); bottom: 0; top: 0; min-height: 100%; left: 0; right: 0; position: absolute;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:Label text="Label" display-tooltip-when-elided="false" name="loading-text" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; color: rgb(255, 255, 255); padding-left: 8px; padding-right: 8px; padding-top: 8px; padding-bottom: 8px; white-space: normal; font-size: 12%;" />
+</ui:UXML>

@@ -8,7 +8,8 @@ namespace Yacht.ReplaySystem
 	{
 		[SerializeField] protected MeshRenderer m_renderer = default;
 		
-		protected IDisposable positionStream;
+		public int DiceValue { get; set; }
+
 		
 		protected virtual void Reset()
 		{

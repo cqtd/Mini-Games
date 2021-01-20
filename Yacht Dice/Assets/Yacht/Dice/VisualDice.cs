@@ -1,5 +1,7 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using Yacht.AssetManagement;
+using Object = UnityEngine.Object;
 
 namespace Yacht.ReplaySystem
 {
@@ -36,6 +38,11 @@ namespace Yacht.ReplaySystem
 		public void Hide()
 		{
 			GetOrCreateMesh().enabled = false;
+		}
+
+		private void OnMouseDown()
+		{
+			Engine.Log("Visual Dice Clicked", gameObject);
 		}
 	}
 }

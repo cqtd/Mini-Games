@@ -14,11 +14,6 @@ namespace CQ.MiniGames
 	
 	public class PhysicalSimulator : MonoBehaviour
 	{
-		public Transform startPosMarker = default;
-		
-		public Transform[] viewPosition;
-		public Transform[] lockPosition;
-
 		[Header("Random Parameter")]
 		[Range(-10,10)] public float minOffset = -1;
 		[Range(-10,10)] public float maxOffset = 1;
@@ -114,9 +109,9 @@ namespace CQ.MiniGames
 					for (int diceIndex = 0; diceIndex < i; diceIndex++)
 					{
 						
-						Vector3 velocity = startPosMarker.forward * Random.Range(minForce, maxForce);
+						Vector3 velocity = World.StartPosition.forward * Random.Range(minForce, maxForce);
 						Vector3 angular = GetRandomOffset(minAngular, maxAnguler);
-						Vector3 position = startPosMarker.position + GetRandomOffset(minOffset, maxOffset);
+						Vector3 position = World.StartPosition.position + GetRandomOffset(minOffset, maxOffset);
 						
 						dices[diceIndex].SetCollidable(true);
 						dices[diceIndex].SetSimulatable(true);
@@ -211,9 +206,9 @@ namespace CQ.MiniGames
 					continue;
 				}
 				
-				Vector3 velocity = startPosMarker.forward * Random.Range(minForce, maxForce);
+				Vector3 velocity = World.StartPosition.forward * Random.Range(minForce, maxForce);
 				Vector3 angular = GetRandomOffset(minAngular, maxAnguler);
-				Vector3 position = startPosMarker.position + GetRandomOffset(minOffset, maxOffset);
+				Vector3 position = World.StartPosition.position + GetRandomOffset(minOffset, maxOffset);
 
 				dice.SetCollidable(false);
 				Tweener tweener = dice.transform.DOMove(position, 0.4f);
@@ -245,7 +240,7 @@ namespace CQ.MiniGames
 					dice.SetSimulatable(false);
 					dice.Stop();
 					
-					dice.transform.SetParent(viewPosition[index]);
+					dice.transform.SetParent(World.ViewPosition[index]);
 
 					Tweener mover = dice.transform.DOLocalMove(Vector3.zero, 0.4f);
 
