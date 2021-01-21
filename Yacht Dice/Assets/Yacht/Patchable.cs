@@ -53,7 +53,25 @@ namespace Yacht
 			onComplete = callback;
 
 			Debug.Log($"Loading animations has started. ");
+
+#if UNITY_EDITOR
+			LoadAnimationEditor();
+			OnLoadingComplete(true);
+#else
 			StartCoroutine(LoadAnimationCoroutine(OnLoadingComplete));
+#endif
+		}
+
+		private void LoadAnimationEditor()
+		{
+			RecordedRollPack pack = UnityEditor.AssetDatabase.LoadAssetAtPath<RecordedRollPack>("Assets/Animations/RecordedRollPack.asset");
+
+			animationMap = new Dictionary<int, List<RollingAnimation>>();
+			animationMap[1] = pack.dice1.Select(e => e.Convert()).ToList();
+			animationMap[2] = pack.dice2.Select(e => e.Convert()).ToList();
+			animationMap[3] = pack.dice3.Select(e => e.Convert()).ToList();
+			animationMap[4] = pack.dice4.Select(e => e.Convert()).ToList();
+			animationMap[5] = pack.dice5.Select(e => e.Convert()).ToList();
 		}
 
 		private IEnumerator LoadAnimationCoroutine(Action<bool> callback)

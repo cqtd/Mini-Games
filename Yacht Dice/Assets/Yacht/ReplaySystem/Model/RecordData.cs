@@ -40,5 +40,12 @@ namespace Yacht.ReplaySystem
 			_transform.rotation = rotation.Get(_time);
 			_transform.localScale = scale.Get(_time);
 		}
+		
+		public void Set(float _time, Transform _transform, Vector3 rotationOffset)
+		{
+			_transform.position = position.Get(_time);
+			_transform.rotation = rotation.Get(_time) * Quaternion.Euler(rotationOffset);
+			_transform.localScale = scale.Get(_time);
+		}
 	}
 }

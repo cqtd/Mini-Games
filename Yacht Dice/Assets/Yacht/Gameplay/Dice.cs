@@ -31,6 +31,11 @@ namespace Yacht.Gameplay
 		{
 			this.m_value = value;
 		}
+
+		public bool IsLocked()
+		{
+			return locked;
+		}
 		
 		public void Toggle()
 		{

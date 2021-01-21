@@ -7,9 +7,9 @@ namespace Yacht.ReplaySystem
 	public abstract class DiceBase : MonoBehaviour
 	{
 		[SerializeField] protected MeshRenderer m_renderer = default;
-		
-		public int DiceValue { get; set; }
-		public bool IsLocked { get; set; }
+
+		public int diceValue;
+		public bool isLocked;
 
 		
 		protected virtual void Reset()
@@ -25,6 +25,27 @@ namespace Yacht.ReplaySystem
 		protected virtual void Start()
 		{
 			transformMap = new Dictionary<string, SerializedTransform>();
+			
+			CreateMaterialInstance();
+		}
+		
+		protected void CreateMaterialInstance()
+		{
+			Material mat = Instantiate(m_renderer.sharedMaterial);
+			mat.color = Color.black;
+			m_renderer.sharedMaterial = mat;
+		}
+		
+		protected virtual void RefreshColor()
+		{
+			if (isLocked)
+			{
+				m_renderer.sharedMaterial.color = Color.green;
+			}
+			else
+			{
+				m_renderer.sharedMaterial.color = Color.black;
+			}
 		}
 
 		private Dictionary<string, SerializedTransform> transformMap;

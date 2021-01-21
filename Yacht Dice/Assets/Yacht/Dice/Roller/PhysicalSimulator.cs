@@ -201,7 +201,7 @@ namespace CQ.MiniGames
 			
 			foreach (PhysicsDice dice in dices)
 			{
-				if (dice.IsLocked)
+				if (dice.isLocked)
 				{
 					continue;
 				}
@@ -245,7 +245,7 @@ namespace CQ.MiniGames
 					Tweener mover = dice.transform.DOLocalMove(Vector3.zero, 0.4f);
 
 					Vector3 rotation = Vector3.zero;
-					switch (dice.GetComponent<PhysicsDice>().DiceValue)
+					switch (dice.GetComponent<PhysicsDice>().diceValue)
 					{
 						case 1:
 							rotation = Vector3.up * 180f;
@@ -283,7 +283,7 @@ namespace CQ.MiniGames
 			{
 				PhysicsDice dice = dices[i];
 
-				if (dice.IsLocked)
+				if (dice.isLocked)
 					continue;
 
 				dice.transform.DOMove(dice.PlacedPosition, 0.4f);

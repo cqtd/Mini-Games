@@ -39,7 +39,6 @@ namespace Yacht.ReplaySystem
 		private IEnumerator PlayAnimation()
 		{
 			IsPlaying = true;
-			float elapsedTime = 0f;
 
 			// Reference.Use(elapsedTime);
 			

@@ -32,7 +32,6 @@ namespace Yacht.ReplaySystem
 		{
 			base.Start();
 			
-			CreateMaterialInstance();
 			CreateVelocityStream();
 		}
 
@@ -44,14 +43,7 @@ namespace Yacht.ReplaySystem
 			m_collider = GetComponent<Collider>();
 			m_replay = GetComponent<ReplayEntity>();
 		}
-
-		private void CreateMaterialInstance()
-		{
-			Material mat = Instantiate(m_renderer.sharedMaterial);
-			mat.color = Color.black;
-			m_renderer.sharedMaterial = mat;
-		}
-
+		
 		private void CreateVelocityStream()
 		{
 			positionStream?.Dispose();
@@ -127,7 +119,7 @@ namespace Yacht.ReplaySystem
 		private void ValidateValue()
 		{
 			m_replay.upside = DiceResolver.GetResult(transform, 1.5f);
-			DiceValue = (int) m_replay.upside;
+			diceValue = (int) m_replay.upside;
 		}
 		
 		public ReplayEntity GetReplayEntity()
@@ -146,9 +138,9 @@ namespace Yacht.ReplaySystem
 			Gizmos.DrawLine(transform.position, transform.position + m_rigidbody.velocity);
 		}
 
-		private void RefreshColor()
+		protected override void RefreshColor()
 		{
-			if (IsLocked)
+			if (isLocked)
 			{
 				m_renderer.sharedMaterial.color = Color.green;
 			}
@@ -168,9 +160,9 @@ namespace Yacht.ReplaySystem
 		private void OnMouseDown()
 		{
 			Debug.Log("OnMouseDown", this.gameObject);
-			IsLocked = !IsLocked;
+			isLocked = !isLocked;
 			
-			onLockStateChanged?.Invoke(IsLocked);
+			onLockStateChanged?.Invoke(isLocked);
 			RefreshColor();
 		}
 	}

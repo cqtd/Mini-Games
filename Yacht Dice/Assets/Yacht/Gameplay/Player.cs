@@ -71,6 +71,9 @@ namespace Yacht.Gameplay
 			
 			foreach (int index in diceIndices)
 			{
+				if (m_dices[index].IsLocked())
+					continue;
+				
 				m_dices[index].Roll();
 			}
 			

@@ -15,7 +15,7 @@ namespace Yacht.ReplaySystem
 
 	public class DiceAnimatior : MonoBehaviour
 	{
-		[SerializeField] public VisualDice[] diceRoots = default;
+		private VisualDice[] diceEntities = default;
 
 		private bool isPaused = false;
 		private bool isPlaying = false;
@@ -25,19 +25,21 @@ namespace Yacht.ReplaySystem
 		
 		private void Awake()
 		{
-			foreach (VisualDice diceRoot in diceRoots)
+			diceEntities = new VisualDice[Constants.NUM_DICES];
+			
+			for (int i = 0; i < Constants.NUM_DICES; i++)
 			{
-				diceRoot.gameObject.SetActive(false);
+				diceEntities[i] = Instantiate<VisualDice>(Resources.Load<VisualDice>(AssetPath.VISUAL_DICE), transform);
+				diceEntities[i].gameObject.SetActive(false);
 			}
 		}
-		
 
 		public List<int> GetUnlockedIndecies()
 		{
 			var entry = new List<int>();
 			for (int i = 0; i < Constants.NUM_DICES; i++)
 			{
-				if (!diceRoots[i].IsLocked)
+				if (!diceEntities[i].isLocked)
 				{
 					entry.Add(i);
 				}
@@ -46,12 +48,14 @@ namespace Yacht.ReplaySystem
 			return entry;
 		}
 
+		/// <summary>
+		/// 게임 타이틀에서 재생해주기
+		/// </summary>
 		private void PlayRandom()
 		{
 			var dices = new List<int>();
 
 			int diceCount = 5;
-			// int diceCount = Random.Range(1, 5);
 			for (int i = 0; i < diceCount; i++)
 			{
 				dices.Add(Random.Range(1, 6));
@@ -122,26 +126,22 @@ namespace Yacht.ReplaySystem
 		{
 			isPlaying = true;
 
-			List<int> wildcards = new List<int>();
-			
 			// 다이스 비주얼라이즈 온 오프
 			// 다이스 초기 세팅
 			for (int i = 0; i < Constants.NUM_DICES; i++)
 			{
 				if (i >= rollAnim.datas.Length)
 				{
-					diceRoots[i].gameObject.SetActive(false);
-					diceRoots[i].Hide();
+					this.diceEntities[i].gameObject.SetActive(false);
+					// this.dices[i].Hide();
 					continue;
 				}
 				
-				diceRoots[i].gameObject.SetActive(true);
-				diceRoots[i].Show();
+				this.diceEntities[i].gameObject.SetActive(true);
+				// this.dices[i].Show();
 
-				diceRoots[i].transform.GetChild(0).localRotation =
-					Quaternion.Euler(rollAnim.datas[i].upside.GetLocalRotation((Enums.DiceValue) dices[i]));
-
-				diceRoots[i].DiceValue = dices[i];
+				this.diceEntities[i].rotationOffset = rollAnim.datas[i].upside.GetLocalRotation((Enums.DiceValue) dices[i]);
+				this.diceEntities[i].diceValue = dices[i];
 			}
 			
 			// 재생 로직
@@ -152,7 +152,7 @@ namespace Yacht.ReplaySystem
 			{
 				for (int i = 0; i < rollAnim.datas.Length; i++)
 				{
-					rollAnim.datas[i].Set(t, diceRoots[i].transform);
+					rollAnim.datas[i].Set(t, this.diceEntities[i].transform, this.diceEntities[i].rotationOffset);
 				}
 
 				t += Time.deltaTime * Time.timeScale;
@@ -185,11 +185,11 @@ namespace Yacht.ReplaySystem
 
 		private void ViewDice()
 		{
-			for (int i = 0; i < diceRoots.Length; i++)
+			for (int i = 0; i < diceEntities.Length; i++)
 			{
 				int index = i;
 				
-				DiceBase dice = diceRoots[index];
+				DiceBase dice = diceEntities[index];
 				dice.CacheTransform();
 
 				Timing.CallDelayed(i * 0.1f, () =>
@@ -200,7 +200,7 @@ namespace Yacht.ReplaySystem
 					dice.transform.DOLocalMove(Vector3.zero, 0.4f);
 
 					Vector3 rotation = Vector3.zero;
-					switch (dice.GetComponent<DiceBase>().DiceValue)
+					switch (dice.GetComponent<DiceBase>().diceValue)
 					{
 						case 1:
 							rotation = Vector3.up * 180f;

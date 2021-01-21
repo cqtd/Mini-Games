@@ -20,6 +20,8 @@ namespace Yacht
 			Game.Init();
 			
 			Game.Instance.CreateNewGame();
+
+			Physics.queriesHitTriggers = true;
 			
 			yield return Patchable.Instance.CheckUpdates();
 			
