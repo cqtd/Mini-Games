@@ -8,18 +8,19 @@ namespace Yacht.ReplaySystem
 	{
 		[SerializeField] protected MeshRenderer m_renderer = default;
 
-		public int diceValue;
-		public bool isLocked;
+		public virtual int DiceValue {
+			get; 
+			set;
+		}
 
+		public virtual bool IsLocked {
+			get;
+			set;
+		}
 		
 		protected virtual void Reset()
 		{
 			m_renderer = GetComponent<MeshRenderer>();
-		}
-
-		public void SetPosition(Vector3 position)
-		{
-			transform.position = position;
 		}
 
 		protected virtual void Start()
@@ -28,17 +29,28 @@ namespace Yacht.ReplaySystem
 			
 			CreateMaterialInstance();
 		}
+
+		public void SetPosition(Vector3 position)
+		{
+			transform.position = position;
+		}
 		
 		protected void CreateMaterialInstance()
 		{
 			Material mat = Instantiate(m_renderer.sharedMaterial);
+			
 			mat.color = Color.black;
 			m_renderer.sharedMaterial = mat;
 		}
 		
-		protected virtual void RefreshColor()
+		public virtual void RefreshColor()
 		{
-			if (isLocked)
+			ChangeColor(IsLocked);
+		}
+
+		public void ChangeColor(bool locked)
+		{
+			if (locked)
 			{
 				m_renderer.sharedMaterial.color = Color.green;
 			}
@@ -47,6 +59,8 @@ namespace Yacht.ReplaySystem
 				m_renderer.sharedMaterial.color = Color.black;
 			}
 		}
+
+		#region Transform
 
 		private Dictionary<string, SerializedTransform> transformMap;
 		private const string defaultKey = "dk";
@@ -73,6 +87,9 @@ namespace Yacht.ReplaySystem
 			if (!transformMap.TryGetValue(key, out SerializedTransform s)) return Vector3.one;
 			return s.scale;
 		}
+		
+		#endregion
+
 	}
 
 	[Serializable]

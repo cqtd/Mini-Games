@@ -1,6 +1,6 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
+using Yacht.Gameplay;
 using Yacht.ReplaySystem;
 
 namespace Yacht.UIToolkit
@@ -12,51 +12,115 @@ namespace Yacht.UIToolkit
 		public Text rollText;
 		
 		public ScoreCell[] scores = default;
+		
+		public Text upperScore = default;
+		public Text upperBonus = default;
+		public Text totalScore = default;
+		
 		public DiceAnimatior dicer;
 
-		public void Repaint()
+		public void Initialize()
 		{
-			foreach (Enums.Category category in Enum.GetValues(typeof(Enums.Category)))
+			foreach (ScoreCell scoreCell in scores)
 			{
-				if (Game.Instance.Player.GetScoresheet().IsEmpty(category))
-				{
-					scores[(int) category].button.interactable = true;
-					scores[(int) category].text.text = Game.Instance.Player.GetEstimatedScore(category).ToString();
-				}
-				else
-				{
-					scores[(int) category].button.interactable = false;
-					scores[(int) category].text.text =
-						Game.Instance.Player.GetScoresheet().GetScore(category).ToString();
-				}
+				scoreCell.Initialize();
+				scoreCell.Repaint(ScoreCell.EPhase.CANNOT_FILL);
 			}
 
 			rollButton.interactable = Game.Instance.Player.CanRoll();
 			rollText.text = $"Roll ({3-Game.Instance.Player.GetChance()}/3)";
+			
+			upperScore.text = Game.Instance.Player.Scoresheet.GetUpperPoint().ToString();
+			upperBonus.text = $"+{Game.Instance.Player.Scoresheet.GetBonusPoint().ToString()}";
+			totalScore.text = Game.Instance.Player.Scoresheet.GetTotalScore().ToString();
 		}
 
 		private void OnEnable()
 		{
-			rollButton.onClick.AddListener(Roll);
+			rollButton.onClick.AddListener(OnClick_RollButton);
+			
+			Game.Instance.Player.onScoreChange += OnScoreChange;
+			Game.Instance.Player.onSessionComplete += OnSessionComplete;
+
+			dicer.onAnimationBegin += OnAnimationBegin;
+			dicer.onAnimationEnd += OnAnimationEnd;
+
+			foreach (Dice dice in Game.Instance.Player.GetDices())
+			{
+				dice.onDiceLocked += OnDiceLockChanged;
+			}
 		}
 
 		private void OnDisable()
 		{
-			rollButton.onClick.RemoveListener(Roll);
+			rollButton.onClick.RemoveListener(OnClick_RollButton);
+			
+			Game.Instance.Player.onScoreChange -= OnScoreChange;
+			Game.Instance.Player.onSessionComplete -= OnSessionComplete;
+
+			dicer.onAnimationBegin -= OnAnimationBegin;
+			dicer.onAnimationEnd -= OnAnimationEnd;
+			
+			foreach (Dice dice in Game.Instance.Player.GetDices())
+			{
+				dice.onDiceLocked -= OnDiceLockChanged;
+			}
+		}
+		
+		private void OnAnimationBegin()
+		{
+			rollButton.interactable = false;
+
+			foreach (ScoreCell scoreCell in scores)
+			{
+				scoreCell.Repaint(ScoreCell.EPhase.CANNOT_FILL);
+			}
 		}
 
-		public void Roll()
+		private void OnAnimationEnd()
+		{
+			rollButton.interactable = Game.Instance.Player.CanRoll();
+			
+			foreach (ScoreCell scoreCell in scores)
+			{
+				scoreCell.Repaint(ScoreCell.EPhase.CAN_FILL);
+			}
+		}
+
+		private void OnDiceLockChanged(bool hold)
+		{
+			rollButton.interactable = Game.Instance.Player.CanRoll();
+		}
+
+		private void OnScoreChange()
+		{
+			foreach (ScoreCell scoreCell in scores)
+			{
+				scoreCell.Repaint(ScoreCell.EPhase.CANNOT_FILL);
+			}
+
+			rollButton.interactable = Game.Instance.Player.CanRoll();
+			rollText.text = $"Roll ({3 - Game.Instance.Player.GetChance()}/3)";
+
+			upperScore.text = Game.Instance.Player.Scoresheet.GetUpperPoint().ToString();
+			upperBonus.text = $"+{Game.Instance.Player.Scoresheet.GetBonusPoint().ToString()}";
+			totalScore.text = Game.Instance.Player.Scoresheet.GetTotalScore().ToString();
+		}
+
+		private void OnClick_RollButton()
 		{
 			if (Game.Instance.Player.CanRoll())
 			{
-				Game.Instance.Player.RollDices(dicer.GetUnlockedIndecies());
-				dicer.Play(Game.Instance.Player.GetDiceValues());
-			}
-			else
-			{
+				Game.Instance.Player.Roll();
+				dicer.Play(Game.Instance.Player.GetDices());
 			}
 			
-			Repaint();
+			rollText.text = $"Roll ({3-Game.Instance.Player.GetChance()}/3)";
+		}
+		
+		private void OnSessionComplete()
+		{
+			
 		}
 	}
 }

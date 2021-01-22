@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Yacht.UIToolkit
 {
@@ -15,8 +16,15 @@ namespace Yacht.UIToolkit
 			get => instance;
 		}
 
+		private void Awake()
+		{
+			Bootstrap.screen_manager += Init;
+		}
+
 		public static void Init()
 		{
+			Bootstrap.screen_manager -= Init;
+			
 			instance = FindObjectOfType<ScreenManager>();
 			instance.m_loadingScreen.gameObject.SetActive(true);
 			

@@ -62,7 +62,6 @@ namespace CQ.MiniGames.UI
 		private void GameStart()
 		{
 			player = new Player();
-			player.Initialize();
 			
 			scoreSheet.Initialize(player);
 			

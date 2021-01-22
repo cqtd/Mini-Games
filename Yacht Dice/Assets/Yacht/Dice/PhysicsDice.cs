@@ -119,7 +119,7 @@ namespace Yacht.ReplaySystem
 		private void ValidateValue()
 		{
 			m_replay.upside = DiceResolver.GetResult(transform, 1.5f);
-			diceValue = (int) m_replay.upside;
+			DiceValue = (int) m_replay.upside;
 		}
 		
 		public ReplayEntity GetReplayEntity()
@@ -138,9 +138,9 @@ namespace Yacht.ReplaySystem
 			Gizmos.DrawLine(transform.position, transform.position + m_rigidbody.velocity);
 		}
 
-		protected override void RefreshColor()
+		public override void RefreshColor()
 		{
-			if (isLocked)
+			if (IsLocked)
 			{
 				m_renderer.sharedMaterial.color = Color.green;
 			}
@@ -160,9 +160,9 @@ namespace Yacht.ReplaySystem
 		private void OnMouseDown()
 		{
 			Debug.Log("OnMouseDown", this.gameObject);
-			isLocked = !isLocked;
+			IsLocked = !IsLocked;
 			
-			onLockStateChanged?.Invoke(isLocked);
+			onLockStateChanged?.Invoke(IsLocked);
 			RefreshColor();
 		}
 	}

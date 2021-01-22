@@ -17,7 +17,7 @@ public class ScoreValidateTest
             1, 1, 1, 2, 2
         };
 
-        int result = Scoresheet.GetNumeric(dices, 1);
+        int result = Score.GetNumeric(dices, 1);
         Assert.IsTrue(result == 3);
     }
     
@@ -34,7 +34,7 @@ public class ScoreValidateTest
 
         foreach (int[] c in cases)
         {
-            int result = Scoresheet.GetSmallStraight(c.ToList());
+            int result = Score.GetSmallStraight(c.ToList());
             Assert.IsTrue(result == 0);
         }
 
@@ -61,7 +61,7 @@ public class ScoreValidateTest
 
         foreach (int[] c in cases)
         {
-            int result = Scoresheet.GetSmallStraight(c.ToList());
+            int result = Score.GetSmallStraight(c.ToList());
             Assert.IsTrue(result == 15);
         }
     }
@@ -78,7 +78,7 @@ public class ScoreValidateTest
 
         foreach (int[] c in cases)
         {
-            int result = Scoresheet.GetLargeStraight(c.ToList());
+            int result = Score.GetLargeStraight(c.ToList());
             Assert.IsTrue(result == 0);
         }
 
@@ -90,7 +90,7 @@ public class ScoreValidateTest
 
         foreach (int[] c in cases)
         {
-            int result = Scoresheet.GetLargeStraight(c.ToList());
+            int result = Score.GetLargeStraight(c.ToList());
             Assert.IsTrue(result == 30);
         }
     }

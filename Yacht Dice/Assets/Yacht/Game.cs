@@ -30,9 +30,19 @@ namespace Yacht
 		public void CreateNewGame()
 		{
 			Player = new Player();
-			Player.Initialize();
 			
 			onGameCreate?.Invoke();
+		}
+		
+		public enum GameState
+		{
+			NONE,
+			
+			BEFORE_ROUND,
+			ANIMATING,
+			WAIT_FOR_PLAYER,
+			
+			AFTER_GAME,
 		}
 	}
 }

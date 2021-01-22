@@ -1,27 +1,106 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using CQ.MiniGames;
-using DG.Tweening;
+using System.Linq;
 using MEC;
 using UnityEngine;
-using Yacht.Gameplay;
 using Random = UnityEngine.Random;
 using Debug = UnityEngine.Debug;
 
 namespace Yacht.ReplaySystem
 {
 	using AssetManagement;
+	using Gameplay;
 
 	public class DiceAnimatior : MonoBehaviour
 	{
+		/// <summary>
+		/// 롤링 애니메이션이 시작될 때
+		/// </summary>
+		public event Action onAnimationBegin;
+		/// <summary>
+		/// 롤링 애니메이션이 끝날 때
+		/// </summary>
+		public event Action onAnimationEnd;
+		/// <summary>
+		/// 다이스 시뮬레이션 애니메이션이 멈췄을 때
+		/// </summary>
+		public event Action onDiceStopped;
+		
+		[SerializeField] private float m_viewDiceInterval = 1.0f;
+		
 		private VisualDice[] diceEntities = default;
-
+		private Coroutine playCoroutine;
 		private bool isPaused = false;
 		private bool isPlaying = false;
 
-		private Coroutine playCoroutine;
-		private Action onComplete;
+		#region API
+		
+		public void Initialize()
+		{
+			for (int i = 0; i < diceEntities.Length; i++)
+			{
+				diceEntities[i].Initialize(
+					Game.Instance.Player[i],
+					World.ViewPosition[i],
+					World.HoldPosition[i]
+				);
+			}
+
+			Game.Instance.Player.onScoreChange += OnScoreChange;
+		}
+		
+		public bool IsPlaying()
+		{
+			return isPlaying;
+		}
+		
+		public void Play(List<Dice> dices)
+		{
+			if (!Patchable.Instance.IsAnimationLoaded) return;
+			if (isPlaying)
+			{
+
+				Debug.Log("재생 중입니다. 애니메이션 종료를 기다려주세요.");
+
+				return;
+			}
+
+			onAnimationBegin?.Invoke();
+			
+			int lockedCount = dices.Count(e => e.IsHolding());
+
+			List<RollingAnimation> animationPack = Patchable.Instance.animationMap[5 - lockedCount];
+			RollingAnimation anim = animationPack[Random.Range(0, animationPack.Count - 1)];
+
+			playCoroutine = StartCoroutine(PlayCoroutine(anim, dices));
+		}
+
+		public void Pause()
+		{
+			if (!isPlaying)
+			{
+				Debug.LogError($"애니메이션이 재생중이아닙니다.");
+				return;
+			}
+			
+			isPaused = true;
+		}
+
+		public void Stop(bool completeCallback)
+		{
+			if (isPlaying && playCoroutine != null)
+			{
+				StopCoroutine(playCoroutine);
+			}
+
+			isPaused = false;
+			isPlaying = false;
+		}
+		
+		#endregion
+
+		#region INTERNAL
 		
 		private void Awake()
 		{
@@ -34,114 +113,30 @@ namespace Yacht.ReplaySystem
 			}
 		}
 
-		public List<int> GetUnlockedIndecies()
-		{
-			var entry = new List<int>();
-			for (int i = 0; i < Constants.NUM_DICES; i++)
-			{
-				if (!diceEntities[i].isLocked)
-				{
-					entry.Add(i);
-				}
-			}
-
-			return entry;
-		}
-
-		/// <summary>
-		/// 게임 타이틀에서 재생해주기
-		/// </summary>
-		private void PlayRandom()
-		{
-			var dices = new List<int>();
-
-			int diceCount = 5;
-			for (int i = 0; i < diceCount; i++)
-			{
-				dices.Add(Random.Range(1, 6));
-			}
-				
-			Play(dices, () =>
-			{
-				int score = Scoresheet.GetBest(dices, out var bestFit);
-				Engine.Log($"{bestFit}! - {score}");
-
-				ViewDice();
-			});
-		}
-
-		public bool IsPlaying()
-		{
-			return isPlaying;
-		}
-
-		public void Play(List<int> dices, Action callback = null)
-		{
-			if (!Patchable.Instance.IsAnimationLoaded) return;
-			if (isPlaying)
-			{
-
-				UnityEngine.Debug.Log("재생 중입니다. 애니메이션 종료를 기다려주세요.");
-
-				return;
-			}
-
-			onComplete = callback;
-			
-			var animationPack = Patchable.Instance.animationMap[dices.Count];
-			RollingAnimation recorded = animationPack[Random.Range(0, animationPack.Count - 1)];
-
-			playCoroutine = StartCoroutine(Playing(recorded, dices));
-		}
-
-		public void Pause()
-		{
-			if (!isPlaying)
-			{
-				UnityEngine.Debug.LogError($"애니메이션이 재생중이아닙니다.");
-				return;
-			}
-			
-			isPaused = true;
-		}
-
-		public void Stop(bool completeCallback)
-		{
-			if (isPlaying && playCoroutine != null)
-			{
-				StopCoroutine(playCoroutine);
-				
-				if (completeCallback)
-				{
-					onComplete?.Invoke();
-				}
-			}
-
-			isPaused = false;
-			isPlaying = false;
-			onComplete = null;
-		}
-
-		private IEnumerator Playing(RollingAnimation rollAnim, List<int> dices)
+		private IEnumerator PlayCoroutine(RollingAnimation rollAnim, IReadOnlyList<Dice> dices)
 		{
 			isPlaying = true;
 
-			// 다이스 비주얼라이즈 온 오프
-			// 다이스 초기 세팅
+			// 주사위들을 애니메이션 시작 위치로 이동시킵니다.
 			for (int i = 0; i < Constants.NUM_DICES; i++)
 			{
-				if (i >= rollAnim.datas.Length)
-				{
-					this.diceEntities[i].gameObject.SetActive(false);
-					// this.dices[i].Hide();
-					continue;
-				}
+				if (diceEntities[i].IsLocked) continue;
+
+				diceEntities[i].TweenStartPos(0.4f);
+			}
+
+			// 이동 대기
+			yield return new WaitForSeconds(0.5f);
+
+			int animIndex = 0;
+			for (int i = 0; i < Constants.NUM_DICES; i++)
+			{
+				if (diceEntities[i].IsLocked) continue;
 				
 				this.diceEntities[i].gameObject.SetActive(true);
-				// this.dices[i].Show();
 
-				this.diceEntities[i].rotationOffset = rollAnim.datas[i].upside.GetLocalRotation((Enums.DiceValue) dices[i]);
-				this.diceEntities[i].diceValue = dices[i];
+				this.diceEntities[i].rotationOffset = rollAnim.datas[animIndex].upside.GetLocalRotation((Enums.DiceValue) dices[i].GetValue());
+				animIndex++;
 			}
 			
 			// 재생 로직
@@ -150,9 +145,13 @@ namespace Yacht.ReplaySystem
 			
 			while (true)
 			{
-				for (int i = 0; i < rollAnim.datas.Length; i++)
+				int animIndex2 = 0;
+				for (int i = 0; i < Constants.NUM_DICES; i++)
 				{
-					rollAnim.datas[i].Set(t, this.diceEntities[i].transform, this.diceEntities[i].rotationOffset);
+					if (diceEntities[i].IsLocked) continue;
+					
+					rollAnim.datas[animIndex2].Set(t, this.diceEntities[i].transform, this.diceEntities[i].rotationOffset);
+					animIndex2++;
 				}
 
 				t += Time.deltaTime * Time.timeScale;
@@ -160,7 +159,7 @@ namespace Yacht.ReplaySystem
 				// 재생 끝
 				if (t > elapsedTime)
 				{
-					Debug.Log($"리플레이 종료");
+					// Debug.Log($"리플레이 종료");
 					break;
 				}
 
@@ -173,14 +172,36 @@ namespace Yacht.ReplaySystem
 				yield return null;
 			}
 			
-			// 콜백 호출
-			onComplete?.Invoke();
-			
 			// 클린
 			isPlaying = false;
-			onComplete = null;
 			
+			onDiceStopped?.Invoke();
+
+			yield return new WaitForSeconds(m_viewDiceInterval);
 			ViewDice();
+
+			int estimated = 0;
+			int current = 0;
+			
+			for (int i = 0; i < diceEntities.Length; i++)
+			{
+				int index = i;
+
+				if (diceEntities[i].IsLocked) continue;
+
+				estimated++;
+				VisualDice dice = diceEntities[index];
+				dice.CacheTransform();
+				
+				Timing.CallDelayed(index * 0.1f, () =>
+				{
+					dice.TweenView(0.4f, () => current++);
+				});
+			}
+
+			yield return new WaitUntil(() => current == estimated);
+			
+			onAnimationEnd?.Invoke();
 		}
 
 		private void ViewDice()
@@ -189,47 +210,60 @@ namespace Yacht.ReplaySystem
 			{
 				int index = i;
 				
-				DiceBase dice = diceEntities[index];
+				if (diceEntities[i].IsLocked) continue;
+				
+				VisualDice dice = diceEntities[index];
 				dice.CacheTransform();
 
-				Timing.CallDelayed(i * 0.1f, () =>
+				Timing.CallDelayed(index * 0.1f, () =>
 				{
-					Transform prevParent = dice.transform.parent;
-					
-					dice.transform.SetParent(World.ViewPosition[index]);
-					dice.transform.DOLocalMove(Vector3.zero, 0.4f);
-
-					Vector3 rotation = Vector3.zero;
-					switch (dice.GetComponent<DiceBase>().diceValue)
-					{
-						case 1:
-							rotation = Vector3.up * 180f;
-							break;
-						case 2:
-							rotation = Vector3.right * -90f;
-							break;
-						case 3:
-							rotation = Vector3.up * 90f;
-							break;
-						case 4:
-							rotation = Vector3.up * -90f;
-							break;
-						case 5:
-							rotation = Vector3.right * 90f;
-							break;
-						case 6:
-							break;
-						default:
-							break;
-					}
-
-					Tweener rotater = dice.transform.DOLocalRotate(rotation, 0.4f);
-					rotater.OnComplete(() =>
-					{
-						dice.transform.SetParent(prevParent);
-					});
+					dice.TweenView(0.4f);
 				});
 			}
 		}
+
+		private void OnScoreChange()
+		{
+			for (int i = 0; i < diceEntities.Length; i++)
+			{
+				diceEntities[i].TweenStartPos(0.4f);
+				diceEntities[i].ChangeColor(false);
+			}
+		}
+
+		#endregion
+	}
+	
+	public enum EDiceState
+	{
+		NONE,
+			
+		/// <summary>
+		/// 애니메이션 중
+		/// </summary>
+		ANIMATING,
+
+		/// <summary>
+		/// 뷰-홀드-스타팅 트랜지션 중
+		/// </summary>
+		TRANSITION,
+
+		/// <summary>
+		/// 애니메이션 후 테이블 위
+		/// </summary>
+		TABLE,
+		/// <summary>
+		/// 뷰 포지션 고정
+		/// </summary>
+		VIEW,
+		/// <summary>
+		/// 홀드 포지션 고정
+		/// </summary>
+		HOLD,
+			
+		/// <summary>
+		/// 스타팅 포지션 고정
+		/// </summary>
+		STARTING,
 	}
 }

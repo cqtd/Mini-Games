@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Yacht.ReplaySystem
 {
@@ -17,12 +16,5 @@ namespace Yacht.ReplaySystem
 		{
 			return so.Convert();
 		}
-	}
-	
-	[Serializable]
-	public class RollingAnimation
-	{
-		public RecordData[] datas;
-		public float length;
 	}
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 using MEC;
 using UnityEngine;
+using Yacht;
 using Yacht.AssetManagement;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -201,7 +202,7 @@ namespace CQ.MiniGames
 			
 			foreach (PhysicsDice dice in dices)
 			{
-				if (dice.isLocked)
+				if (dice.IsLocked)
 				{
 					continue;
 				}
@@ -245,7 +246,7 @@ namespace CQ.MiniGames
 					Tweener mover = dice.transform.DOLocalMove(Vector3.zero, 0.4f);
 
 					Vector3 rotation = Vector3.zero;
-					switch (dice.GetComponent<PhysicsDice>().diceValue)
+					switch (dice.GetComponent<PhysicsDice>().DiceValue)
 					{
 						case 1:
 							rotation = Vector3.up * 180f;
@@ -283,7 +284,7 @@ namespace CQ.MiniGames
 			{
 				PhysicsDice dice = dices[i];
 
-				if (dice.isLocked)
+				if (dice.IsLocked)
 					continue;
 
 				dice.transform.DOMove(dice.PlacedPosition, 0.4f);

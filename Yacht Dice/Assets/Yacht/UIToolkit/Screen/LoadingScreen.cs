@@ -16,7 +16,7 @@ namespace Yacht.UIToolkit
 
 		private void Awake()
 		{
-			
+			Bootstrap.on_animation_load += FadeIn;
 		}
 		
 		protected override void OnEnable()

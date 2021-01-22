@@ -1,22 +1,24 @@
-﻿using System.Collections;
-using CQ.MiniGames;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 
 namespace Yacht
 {
-	using UIToolkit;
-	
 	[DefaultExecutionOrder(0)]
 	[AddComponentMenu("Yacht/Bootstrap")]
 	public class Bootstrap : MonoBehaviour
 	{
+		public static event Action screen_manager; 
+		public static event Action on_animation_load; 
+		
 		private IEnumerator Start()
 		{
 			Dispatcher.Init();
 			Engine.Init();
 
 			World.Init();
-			ScreenManager.Init();
+			// ScreenManager.Init();
+			screen_manager?.Invoke();
 			Game.Init();
 			
 			Game.Instance.CreateNewGame();
@@ -25,14 +27,7 @@ namespace Yacht
 			
 			yield return Patchable.Instance.CheckUpdates();
 			
-			Patchable.Instance.LoadAnimations(OnAnimationLoad);
-		}
-
-		private void OnAnimationLoad()
-		{
-			Engine.Log("OnAnimationLoad");
-			
-			FindObjectOfType<LoadingScreen>().FadeIn();
+			Patchable.Instance.LoadAnimations(on_animation_load);
 		}
 	}
 }

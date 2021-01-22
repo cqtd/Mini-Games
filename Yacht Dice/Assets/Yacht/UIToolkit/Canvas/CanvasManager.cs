@@ -25,8 +25,10 @@ namespace Yacht.UIToolkit
 		{
 			title.gameObject.SetActive(false);
 			game.gameObject.SetActive(true);
+
+			game.dicer.Initialize();
 			
-			game.Repaint();
+			game.Initialize();
 		}
 	}
 }

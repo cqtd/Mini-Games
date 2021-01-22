@@ -1,7 +1,6 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace CQ.MiniGames
+namespace Yacht
 {
 	public class World : MonoBehaviour
 	{
@@ -22,7 +21,7 @@ namespace CQ.MiniGames
 			get => instance.viewPosition;
 		}
 		
-		public static Transform[] LockPosition {
+		public static Transform[] HoldPosition {
 			get => instance.lockPosition;
 		}
 
@@ -30,9 +29,18 @@ namespace CQ.MiniGames
 			get => instance.startPosition;
 		}
 
-		private Mesh mesh;
-
+		private void DisableColliders()
+		{
+			var colliders = GetComponentsInChildren<Collider>();
+			foreach (Collider col in colliders)
+			{
+				col.enabled = false;
+			}
+		}
+		
 #if UNITY_EDITOR
+		private Mesh mesh;
+		
 		private void OnDrawGizmos()
 		{
 			if (mesh == null)
@@ -57,13 +65,6 @@ namespace CQ.MiniGames
 		}
 #endif
 
-		private void DisableColliders()
-		{
-			var colliders = GetComponentsInChildren<Collider>();
-			foreach (Collider col in colliders)
-			{
-				col.enabled = false;
-			}
-		}
+
 	}
 }

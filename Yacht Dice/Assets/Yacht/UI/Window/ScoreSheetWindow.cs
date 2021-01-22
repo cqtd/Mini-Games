@@ -91,7 +91,7 @@ namespace CQ.MiniGames.UI
 		public void Fill(int category)
 		{
 			player.FillScoreSheet((Enums.Category) category);
-			var score = player.GetScoresheet().GetScore((Enums.Category) category);
+			int score = player.Scoresheet[(Enums.Category) category];
 
 			if (category < 6)
 			{
@@ -104,9 +104,9 @@ namespace CQ.MiniGames.UI
 				m_rightSide[category - 6].Deactivate();
 			}
 			
-			m_bonusSum.SetText(string.Format(bonusFormat, player.GetScoresheet().GetUpperPoint()));
-			m_bonusEarned.SetText(player.GetScoresheet().GetBonusPoint().ToString());
-			m_sum.SetText(player.GetScoresheet().GetTotalScore().ToString());
+			m_bonusSum.SetText(string.Format(bonusFormat, player.Scoresheet.GetUpperPoint()));
+			m_bonusEarned.SetText(player.Scoresheet.GetBonusPoint().ToString());
+			m_sum.SetText(player.Scoresheet.GetTotalScore().ToString());
 
 			CanFill = false;
 		}

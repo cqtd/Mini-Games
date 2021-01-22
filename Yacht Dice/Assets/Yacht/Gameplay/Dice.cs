@@ -4,10 +4,10 @@ namespace Yacht.Gameplay
 {
 	public class Dice
 	{
-		private readonly System.Random random;
+		private readonly System.Random random = default;
 
-		private int m_value;
-		bool locked = false;
+		private int m_value = default;
+		private bool isholding = false;
 
 		public event Action<int> onDiceRolled = default;
 		public event Action<bool> onDiceLocked = default;
@@ -17,9 +17,14 @@ namespace Yacht.Gameplay
 			random = new System.Random(seed);
 		}
 
-		public void Roll()
+		public void Roll(bool withoutCallback = false)
 		{
-			m_value = random.Next(1, 6);
+			m_value = random.Next(1, 7);
+			
+			if (!withoutCallback)
+			{
+				onDiceRolled?.Invoke(m_value);
+			}
 		}
 
 		public int GetValue()
@@ -32,29 +37,29 @@ namespace Yacht.Gameplay
 			this.m_value = value;
 		}
 
-		public bool IsLocked()
+		public bool IsHolding()
 		{
-			return locked;
+			return isholding;
 		}
 		
-		public void Toggle()
+		public void Hold(bool withoutCallback = false)
 		{
-			if (locked) Unlock();
-			else Lock();
-		}
-		
-		public void Lock()
-		{
-			locked = true;
-			
-			onDiceLocked?.Invoke(locked);
+			isholding = true;
+
+			if (!withoutCallback)
+			{
+				onDiceLocked?.Invoke(isholding);
+			}
 		}
 
-		public void Unlock()
+		public void Unhold(bool withoutCallback = false)
 		{
-			locked = false;
+			isholding = false;
 			
-			onDiceLocked?.Invoke(locked);
+			if (!withoutCallback)
+			{
+				onDiceLocked?.Invoke(isholding);
+			}
 		}
 	}
 }
