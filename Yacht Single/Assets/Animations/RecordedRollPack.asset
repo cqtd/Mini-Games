@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c976f406a8c0465eb6b8d2be6e76383a, type: 3}
+  m_Name: RecordedRollPack
+  m_EditorClassIdentifier: 
+  dice1:
+  - {fileID: 11400000, guid: 82ca1d2a6192ff84a8822b8420584120, type: 2}
+  - {fileID: 11400000, guid: 6918523dcb11f8b4294675e3756d30e1, type: 2}
+  - {fileID: 11400000, guid: 36de6a4038fe6344c865f2508c107352, type: 2}
+  - {fileID: 11400000, guid: d0632a21ce7103d43b3f4cf1741ed342, type: 2}
+  - {fileID: 11400000, guid: 9b904eefb048502468488be400c4f171, type: 2}
+  dice2:
+  - {fileID: 11400000, guid: cb552eaf5a593ee4fa03166153e5460d, type: 2}
+  - {fileID: 11400000, guid: 95d6d611453119e42bab7ae8ec9457ba, type: 2}
+  - {fileID: 11400000, guid: 7977c35744e43054590234121643a39f, type: 2}
+  - {fileID: 11400000, guid: 3b429cefaa30f704d97d64f694654794, type: 2}
+  - {fileID: 11400000, guid: 661898fd1d358474991bf9ac36e7eb2b, type: 2}
+  dice3:
+  - {fileID: 11400000, guid: d75147e251c9d694fa8ddc1426ea74ad, type: 2}
+  - {fileID: 11400000, guid: ef9c31e6e48700b4c9a080690a473cf1, type: 2}
+  - {fileID: 11400000, guid: 8c92326e37b55d547a89b0283ed614aa, type: 2}
+  - {fileID: 11400000, guid: f1832bcafc3622747b183d48cba566f5, type: 2}
+  - {fileID: 11400000, guid: b775b56e6e19bda4da456d6b5a83410e, type: 2}
+  dice4:
+  - {fileID: 11400000, guid: 1d1b52097315ebf47ba3f085a72e93b3, type: 2}
+  - {fileID: 11400000, guid: 1751a269d76547440a2504278770c90d, type: 2}
+  - {fileID: 11400000, guid: 7583f148b4303414d9f6f8a2717b8f29, type: 2}
+  - {fileID: 11400000, guid: f8f0bf7d9cbafe74981d64473b98b2c9, type: 2}
+  dice5:
+  - {fileID: 11400000, guid: 20bee4b0f87c0064ebc6ef5379ad8ab4, type: 2}
+  - {fileID: 11400000, guid: ebc91be2c46eb4547ab3f59723131866, type: 2}
+  - {fileID: 11400000, guid: 0cf39e80784c8f441bdd2005c34505ab, type: 2}

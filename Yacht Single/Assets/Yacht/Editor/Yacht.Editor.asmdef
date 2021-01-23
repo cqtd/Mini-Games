@@ -1,0 +1,20 @@
+{
+    "name": "Yacht.Editor",
+    "rootNamespace": "Yacht.Editor",
+    "references": [
+        "GUID:c0eefe116d2cd6741978f2cf6444e15d",
+        "GUID:96bf37edbf96b9c4c95c2feb6fe85c9b",
+        "GUID:ca3f5cc089aaaa244b25b1bcc75442ff"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
