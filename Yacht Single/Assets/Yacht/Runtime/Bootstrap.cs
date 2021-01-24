@@ -13,14 +13,14 @@ namespace Yacht
 		
 		private IEnumerator Start()
 		{
-			Dispatcher.Init();
-			Engine.Init();
-
-			World.Init();
-			// ScreenManager.Init();
-			screen_manager?.Invoke();
-			Game.Init();
+			Dispatcher.Instance.Initialize();
+			Engine.Instance.Initialize();
 			
+			World.Setup();
+			
+			screen_manager?.Invoke();
+			
+			Game.Instance.Initialize();
 			Game.Instance.CreateNewGame();
 
 			Physics.queriesHitTriggers = true;

@@ -1,0 +1,21 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class #SCRIPTNAME# : UnityEditor.EditorWindow
+{
+    [UnityEditor.MenuItem("Editor Window/#SCRIPTNAME#", false)]
+    private static void CreateWindow()
+    {
+        #NOTRIM#
+        #SCRIPTNAME# window = GetWindow<#SCRIPTNAME#>();
+        window.titleContent = new GUIContent("#SCRIPTNAME#");
+        window.Show();
+    }
+
+    // OnGUI is called when GUI needs to be updated.
+    private void OnGUI()
+    {
+        #NOTRIM#
+    }
+}

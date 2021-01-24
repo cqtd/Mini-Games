@@ -1,24 +1,10 @@
 ﻿using System;
-using UnityEngine;
 
 namespace Yacht
 {
-	public class Engine : MonoBehaviour
+	public class Engine : DynamicMonoSingleton<Engine>
 	{
-		private static Engine instance;
 		
-		public static void Init()
-		{
-			if (instance == null)
-			{
-				instance = FindObjectOfType<Engine>();
-				if (instance == null)
-				{
-					instance = new GameObject("[Engine]").AddComponent<Engine>();
-				}
-			}
-		}
-
 		public static event Action<string> onLogging;
 		public static event Action<string, object> onLoggingObject;
 		
@@ -77,6 +63,11 @@ namespace Yacht
 			{
 				Dispatcher.Register(() => { onLoggingObject?.Invoke($"<color=orange>{message}</color>", obj); });
 			}
+		}
+
+		public override void Initialize()
+		{
+			
 		}
 	}
 }

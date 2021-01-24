@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Yacht.Global
 {
-	public class Settings : SingletonMono<Settings>
+	public class Settings : DynamicMonoSingleton<Settings>
 	{
 		public static PhysicsSetting Physics {
 			get

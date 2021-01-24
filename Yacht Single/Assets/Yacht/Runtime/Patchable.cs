@@ -15,7 +15,7 @@ namespace Yacht
 	/// <summary>
 	/// This singleton provides static data which is patchable as streaming assets.
 	/// </summary>
-	public class Patchable : SingletonMono<Patchable>
+	public class Patchable : DynamicMonoSingleton<Patchable>
 	{
 		public IEnumerator CheckUpdates()
 		{
@@ -45,7 +45,7 @@ namespace Yacht
 			onComplete?.Invoke();
 			onComplete = null;
 		}
-		
+
 		public void LoadAnimations(Action callback)
 		{
 			if (isAnimationLoaded) return;
@@ -62,6 +62,7 @@ namespace Yacht
 #endif
 		}
 
+#if UNITY_EDITOR
 		private void LoadAnimationEditor()
 		{
 			RecordedRollPack pack = UnityEditor.AssetDatabase.LoadAssetAtPath<RecordedRollPack>("Assets/Animations/RecordedRollPack.asset");
@@ -73,6 +74,7 @@ namespace Yacht
 			animationMap[4] = pack.dice4.Select(e => e.Convert()).ToList();
 			animationMap[5] = pack.dice5.Select(e => e.Convert()).ToList();
 		}
+#endif
 
 
 		private IEnumerator LoadAnimationCoroutine(Action<bool> callback)

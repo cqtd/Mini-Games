@@ -2,31 +2,28 @@
 
 namespace Yacht
 {
-	public class World : MonoBehaviour
+	public class World : StaticMonoSingleton<World>
 	{
 		public Transform[] viewPosition = default;
 		public Transform[] lockPosition = default;
 
 		public Transform startPosition = default;
 
-		private static World instance = default;
-		
-		public static void Init()
+		public override void Initialize()
 		{
-			instance = FindObjectOfType<World>();
-			instance.DisableColliders();
+			DisableColliders();
 		}
 		
 		public static Transform[] ViewPosition {
-			get => instance.viewPosition;
+			get => Instance.viewPosition;
 		}
 		
 		public static Transform[] HoldPosition {
-			get => instance.lockPosition;
+			get => Instance.lockPosition;
 		}
 
 		public static Transform StartPosition {
-			get => instance.startPosition;
+			get => Instance.startPosition;
 		}
 
 		private void DisableColliders()

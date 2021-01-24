@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Yacht.ReplaySystem
 {
-	[CreateAssetMenu(menuName = "Replay/Roll Pack", fileName = "RecordedRollPack", order = 50)]
+	[CreateAssetMenu(menuName = "Replay/Roll Pack", fileName = "RecordedRollPack", order = 150)]
 	public class RecordedRollPack : ScriptableObject
 	{
 		public List<RecordedRoll> dice1;

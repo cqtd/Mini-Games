@@ -1,28 +1,10 @@
 ﻿using System;
-using UnityEngine;
 using Yacht.Gameplay;
 
 namespace Yacht
 {
-	public class Game : MonoBehaviour
+	public class Game : DynamicMonoSingleton<Game>
 	{
-		public static Game Instance {
-			get => instance;
-		}
-		private static Game instance;
-		
-		public static void Init()
-		{
-			if (instance == null)
-			{
-				instance = FindObjectOfType<Game>();
-				if (instance == null)
-				{
-					instance = new GameObject("[Game]").AddComponent<Game>();
-				}
-			}
-		}
-
 		public Player Player { get; protected set; }
 
 		public event Action onGameCreate;
@@ -33,16 +15,10 @@ namespace Yacht
 			
 			onGameCreate?.Invoke();
 		}
-		
-		public enum GameState
+
+		public override void Initialize()
 		{
-			NONE,
 			
-			BEFORE_ROUND,
-			ANIMATING,
-			WAIT_FOR_PLAYER,
-			
-			AFTER_GAME,
 		}
 	}
 }

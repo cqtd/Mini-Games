@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Yacht.AssetManagement
 {
-	public class Resource : SingletonMono<Resource>
+	public class Resource : DynamicMonoSingleton<Resource>
 	{
 		private Dictionary<string, Object> map;
 

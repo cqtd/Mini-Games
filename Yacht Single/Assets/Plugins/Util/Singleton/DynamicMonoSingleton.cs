@@ -1,9 +1,7 @@
 ﻿using UnityEngine;
 
-public abstract class SingletonMono<T> : MonoBehaviour where T : SingletonMono<T>
+public abstract class DynamicMonoSingleton<T> : MonoBehaviour where T : DynamicMonoSingleton<T>
 {
-	[SerializeField] private bool optionDontDestroy = true;
-
 	private static T instance;
 
 	public static T Instance {
@@ -34,6 +32,11 @@ public abstract class SingletonMono<T> : MonoBehaviour where T : SingletonMono<T
 			throw new System.Exception("새로운 싱글턴 인스턴스가 생성되었음");
 		}
 #endif
+	}
+
+	public virtual void Initialize()
+	{
+		
 	}
 
 	public static bool IsValid {

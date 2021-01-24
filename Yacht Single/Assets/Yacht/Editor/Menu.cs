@@ -18,6 +18,13 @@ namespace CQ.MiniGames.Editor
 			EditorApplication.playModeStateChanged += LogPlayModeState;
 		}
 
+		[MenuItem("Tools/Debug")]
+		private static void Log()
+		{
+			var a = Object.FindObjectOfType<MonoBehaviour>();
+			Debug.Log("Found!", a.gameObject);
+		}
+
 		private static void LogPlayModeState(PlayModeStateChange state)
 		{
 			if (state == PlayModeStateChange.EnteredEditMode && EditorPrefs.HasKey("LastActiveSceneToolbar"))

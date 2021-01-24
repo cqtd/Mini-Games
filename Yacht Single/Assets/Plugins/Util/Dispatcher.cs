@@ -4,9 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [AddComponentMenu("Utility/Dispatcher")]
-public class Dispatcher : MonoBehaviour
+public class Dispatcher : DynamicMonoSingleton<Dispatcher>
 {
-	private static Dispatcher main = null;
 	private readonly Queue<Action> queued = new Queue<Action>();
 
 	private static bool isMainThread = true;
@@ -27,11 +26,6 @@ public class Dispatcher : MonoBehaviour
 		isMainThread = true;
 	}
 
-	private void Awake()
-	{
-		Init();
-	}
-
 	private void Update()
 	{
 		lock (queued)
@@ -43,34 +37,18 @@ public class Dispatcher : MonoBehaviour
 		}
 	}
 
-	public static void Init()
-	{
-		if (main == null)
-		{
-			main = FindObjectOfType<Dispatcher>();
-			if (main == null)
-			{
-				main = new GameObject("[Dispatcher]").AddComponent<Dispatcher>();
-			}
-		}
-
-		DontDestroyOnLoad(main.gameObject);
-	}
-
 	public static void Register(Action action)
 	{
-		main.queued.Enqueue(action);
+		Instance.queued.Enqueue(action);
 	}
 
 	public static void Register(IEnumerator action)
 	{
-		Register(() => main.StartCoroutine(action));
+		Register(() => Instance.StartCoroutine(action));
 	}
 
-	[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
-	private static void ResetDomain()
+	public override void Initialize()
 	{
-		main = null;
-		isMainThread = true;
+		
 	}
 }
