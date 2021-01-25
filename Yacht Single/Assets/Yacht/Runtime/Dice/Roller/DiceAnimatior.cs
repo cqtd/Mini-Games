@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using MEC;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using Random = UnityEngine.Random;
 
 namespace Yacht.ReplaySystem
@@ -33,20 +34,13 @@ namespace Yacht.ReplaySystem
 		private bool isPaused = false;
 		private bool isPlaying = false;
 
+		private bool isReady;
+
 		#region API
 		
 		public void Initialize()
 		{
-			for (int i = 0; i < diceEntities.Length; i++)
-			{
-				diceEntities[i].Initialize(
-					Game.Instance.Player[i],
-					World.ViewPosition[i],
-					World.HoldPosition[i]
-				);
-			}
 
-			Game.Instance.Player.onScoreChange += OnScoreChange;
 		}
 		
 		public bool IsPlaying()
@@ -105,11 +99,37 @@ namespace Yacht.ReplaySystem
 		{
 			diceEntities = new VisualDice[Constants.NUM_DICES];
 			
+			StartCoroutine(LoadDicePrefabCoroutine());
+		}
+
+		private VisualDice dicePrefab = default;
+
+		private IEnumerator LoadDicePrefabCoroutine()
+		{
+			yield return new WaitUntil(() => Patchable.Instance.isAddressableReady);
+			var operation = Addressables.LoadAssetAsync<GameObject>("Assets/Patchable/Dice/Dice_001_A.prefab");
+
+			yield return operation;
+
+			dicePrefab = operation.Result.GetComponent<VisualDice>();
+			isReady = true;
+			
 			for (int i = 0; i < Constants.NUM_DICES; i++)
 			{
-				diceEntities[i] = Instantiate<VisualDice>(Resources.Load<VisualDice>(AssetPath.VISUAL_DICE), transform);
+				diceEntities[i] = Instantiate<VisualDice>(dicePrefab, transform);
 				diceEntities[i].gameObject.SetActive(false);
 			}
+			
+			for (int i = 0; i < diceEntities.Length; i++)
+			{
+				diceEntities[i].Initialize(
+					Game.Instance.Player[i],
+					World.ViewPosition[i],
+					World.HoldPosition[i]
+				);
+			}
+
+			Game.Instance.Player.onScoreChange += OnScoreChange;
 		}
 
 		private IEnumerator PlayCoroutine(RollingAnimation rollAnim, IReadOnlyList<Dice> dices)

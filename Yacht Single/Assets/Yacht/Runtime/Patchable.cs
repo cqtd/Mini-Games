@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.Networking;
 
 namespace Yacht
@@ -17,8 +18,17 @@ namespace Yacht
 	/// </summary>
 	public class Patchable : DynamicMonoSingleton<Patchable>
 	{
+		public bool isAddressableReady;
+		
 		public IEnumerator CheckUpdates()
 		{
+			Engine.Log("Addressable Begin");
+			
+			yield return Addressables.DownloadDependenciesAsync("Assets/Patchable/Dice/Dice_001_A.prefab");
+
+			isAddressableReady = true;
+			Engine.Log("Addressable End");
+			
 			yield return null;
 		}
 

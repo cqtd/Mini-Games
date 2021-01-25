@@ -54,17 +54,20 @@ namespace Yacht.UIToolkit
 		private void OnDisable()
 		{
 			rollButton.onClick.RemoveListener(OnClick_RollButton);
-			
-			Game.Instance.Player.onScoreChange -= OnScoreChange;
-			Game.Instance.Player.onSessionComplete -= OnSessionComplete;
+
+			if (Game.IsValid)
+			{
+				Game.Instance.Player.onScoreChange -= OnScoreChange;
+				Game.Instance.Player.onSessionComplete -= OnSessionComplete;
+				
+				foreach (Dice dice in Game.Instance.Player.GetDices())
+				{
+					dice.onDiceLocked -= OnDiceLockChanged;
+				}
+			}
 
 			dicer.onAnimationBegin -= OnAnimationBegin;
 			dicer.onAnimationEnd -= OnAnimationEnd;
-			
-			foreach (Dice dice in Game.Instance.Player.GetDices())
-			{
-				dice.onDiceLocked -= OnDiceLockChanged;
-			}
 		}
 		
 		private void OnAnimationBegin()
@@ -120,7 +123,10 @@ namespace Yacht.UIToolkit
 		
 		private void OnSessionComplete()
 		{
+			rollButton.interactable = false;
+			fillButton.interactable = false;
 			
+			Debug.Log("게임 오버!");
 		}
 	}
 }
